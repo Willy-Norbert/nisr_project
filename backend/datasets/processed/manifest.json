@@ -1,0 +1,80 @@
+{
+  "generated_at": "2026-10-23T11:02:00+00:00",
+  "crops": [
+    "Banana for beer",
+    "Bush bean",
+    "Cassava",
+    "Climbing bean",
+    "Coffee",
+    "Cooking banana",
+    "Dessert banana",
+    "Eggplant",
+    "Groundnut",
+    "Irish potato",
+    "Maize",
+    "Napia grass for fodder",
+    "Paddy rice",
+    "Pea",
+    "Sorghum",
+    "Soybean",
+    "Sweet potato",
+    "Taro",
+    "Tomato"
+  ],
+  "seasons": [
+    {
+      "year": 2024,
+      "season": "A",
+      "plot_crop_rows": 39330
+    },
+    {
+      "year": 2024,
+      "season": "B",
+      "plot_crop_rows": 35584
+    },
+    {
+      "year": 2024,
+      "season": "C",
+      "plot_crop_rows": 1949
+    },
+    {
+      "year": 2025,
+      "season": "A",
+      "plot_crop_rows": 34369
+    },
+    {
+      "year": 2025,
+      "season": "B",
+      "plot_crop_rows": 32920
+    },
+    {
+      "year": 2025,
+      "season": "C",
+      "plot_crop_rows": 1884
+    }
+  ],
+  "sas_plot_crop_rows": 146036,
+  "ahs_households": 3724,
+  "model": {
+    "r2_log_yield": 0.796,
+    "mape_yield": 0.528,
+    "train_rows": 87779,
+    "test_rows": 21945,
+    "features": [
+      "crop",
+      "district",
+      "season",
+      "gender",
+      "year",
+      "log_area",
+      "large_scale",
+      "anti_erosion",
+      "land_consolidation",
+      "improved_seed",
+      "inorganic_fertilizer",
+      "organic_fertilizer",
+      "irrigated"
+    ],
+    "model": "HistGradientBoostingRegressor on log(yield)"
+  }
+}

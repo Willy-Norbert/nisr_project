@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.env
+*.log
+
+# NISR microdata: do not redistribute raw survey files, link to the NISR portal instead
+backend/datasets/raw/
+
+# Node
+node_modules/
+dist/

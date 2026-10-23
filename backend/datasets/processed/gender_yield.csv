@@ -1,0 +1,2397 @@
+year,season,level,area,province,crop,gender,yield_kg_ha,n
+2024,A,national,Rwanda,,Banana for beer,Female,5106.8,936
+2024,A,national,Rwanda,,Banana for beer,Male,5267.6,1997
+2024,A,district,Bugesera,East,Banana for beer,Female,5818.2,36
+2024,A,district,Bugesera,East,Banana for beer,Male,5399.1,58
+2024,A,district,Burera,North,Banana for beer,Male,4707.9,19
+2024,A,district,Gakenke,North,Banana for beer,Female,5003.7,51
+2024,A,district,Gakenke,North,Banana for beer,Male,5100.1,116
+2024,A,district,Gasabo,Kigali,Banana for beer,Female,6093.5,32
+2024,A,district,Gasabo,Kigali,Banana for beer,Male,5818.0,55
+2024,A,district,Gatsibo,East,Banana for beer,Female,4886.5,31
+2024,A,district,Gatsibo,East,Banana for beer,Male,4857.3,83
+2024,A,district,Gicumbi,North,Banana for beer,Female,5097.5,25
+2024,A,district,Gicumbi,North,Banana for beer,Male,5327.3,60
+2024,A,district,Gisagara,South,Banana for beer,Female,4619.8,40
+2024,A,district,Gisagara,South,Banana for beer,Male,4741.9,73
+2024,A,district,Huye,South,Banana for beer,Female,4607.8,16
+2024,A,district,Huye,South,Banana for beer,Male,4835.6,25
+2024,A,district,Kamonyi,South,Banana for beer,Female,5067.0,58
+2024,A,district,Kamonyi,South,Banana for beer,Male,5081.5,109
+2024,A,district,Karongi,West,Banana for beer,Female,5804.9,54
+2024,A,district,Karongi,West,Banana for beer,Male,6313.3,133
+2024,A,district,Kayonza,East,Banana for beer,Female,4484.4,26
+2024,A,district,Kayonza,East,Banana for beer,Male,4515.6,42
+2024,A,district,Kicukiro,Kigali,Banana for beer,Female,4906.6,21
+2024,A,district,Kicukiro,Kigali,Banana for beer,Male,5687.2,18
+2024,A,district,Kirehe,East,Banana for beer,Female,5390.4,47
+2024,A,district,Kirehe,East,Banana for beer,Male,5188.3,96
+2024,A,district,Muhanga,South,Banana for beer,Female,4961.0,55
+2024,A,district,Muhanga,South,Banana for beer,Male,5469.2,164
+2024,A,district,Musanze,North,Banana for beer,Female,4467.3,15
+2024,A,district,Musanze,North,Banana for beer,Male,5338.1,18
+2024,A,district,Ngoma,East,Banana for beer,Female,5693.0,50
+2024,A,district,Ngoma,East,Banana for beer,Male,5631.7,140
+2024,A,district,Ngororero,West,Banana for beer,Female,4639.2,58
+2024,A,district,Ngororero,West,Banana for beer,Male,4608.7,135
+2024,A,district,Nyabihu,West,Banana for beer,Male,5738.8,18
+2024,A,district,Nyagatare,East,Banana for beer,Female,6179.8,20
+2024,A,district,Nyagatare,East,Banana for beer,Male,5606.6,45
+2024,A,district,Nyamagabe,South,Banana for beer,Female,4705.9,17
+2024,A,district,Nyamagabe,South,Banana for beer,Male,5074.9,49
+2024,A,district,Nyamasheke,West,Banana for beer,Female,4164.8,28
+2024,A,district,Nyamasheke,West,Banana for beer,Male,4291.4,56
+2024,A,district,Nyanza,South,Banana for beer,Female,4872.9,37
+2024,A,district,Nyanza,South,Banana for beer,Male,4814.7,79
+2024,A,district,Nyarugenge,Kigali,Banana for beer,Female,5446.9,17
+2024,A,district,Nyarugenge,Kigali,Banana for beer,Male,5705.7,26
+2024,A,district,Nyaruguru,South,Banana for beer,Female,4905.9,13
+2024,A,district,Nyaruguru,South,Banana for beer,Male,4794.7,26
+2024,A,district,Rubavu,West,Banana for beer,Female,5490.6,12
+2024,A,district,Rubavu,West,Banana for beer,Male,5298.2,13
+2024,A,district,Ruhango,South,Banana for beer,Female,5356.5,51
+2024,A,district,Ruhango,South,Banana for beer,Male,6210.9,104
+2024,A,district,Rulindo,North,Banana for beer,Female,4972.9,39
+2024,A,district,Rulindo,North,Banana for beer,Male,4795.4,60
+2024,A,district,Rusizi,West,Banana for beer,Female,4918.0,13
+2024,A,district,Rusizi,West,Banana for beer,Male,5494.8,53
+2024,A,district,Rutsiro,West,Banana for beer,Female,6341.9,35
+2024,A,district,Rutsiro,West,Banana for beer,Male,6750.1,81
+2024,A,district,Rwamagana,East,Banana for beer,Female,4729.6,28
+2024,A,district,Rwamagana,East,Banana for beer,Male,4683.1,43
+2024,A,national,Rwanda,,Bush bean,Female,603.3,2096
+2024,A,national,Rwanda,,Bush bean,Male,641.8,3605
+2024,A,district,Bugesera,East,Bush bean,Female,479.3,139
+2024,A,district,Bugesera,East,Bush bean,Male,447.5,225
+2024,A,district,Burera,North,Bush bean,Male,552.8,13
+2024,A,district,Gakenke,North,Bush bean,Female,505.7,30
+2024,A,district,Gakenke,North,Bush bean,Male,493.7,47
+2024,A,district,Gasabo,Kigali,Bush bean,Female,603.9,89
+2024,A,district,Gasabo,Kigali,Bush bean,Male,655.8,126
+2024,A,district,Gatsibo,East,Bush bean,Female,643.0,130
+2024,A,district,Gatsibo,East,Bush bean,Male,649.2,300
+2024,A,district,Gicumbi,North,Bush bean,Female,583.1,30
+2024,A,district,Gicumbi,North,Bush bean,Male,658.1,98
+2024,A,district,Gisagara,South,Bush bean,Female,576.4,145
+2024,A,district,Gisagara,South,Bush bean,Male,602.9,221
+2024,A,district,Huye,South,Bush bean,Female,600.3,76
+2024,A,district,Huye,South,Bush bean,Male,612.3,112
+2024,A,district,Kamonyi,South,Bush bean,Female,433.1,124
+2024,A,district,Kamonyi,South,Bush bean,Male,455.2,189
+2024,A,district,Karongi,West,Bush bean,Female,657.2,34
+2024,A,district,Karongi,West,Bush bean,Male,632.9,40
+2024,A,district,Kayonza,East,Bush bean,Female,669.2,133
+2024,A,district,Kayonza,East,Bush bean,Male,678.4,201
+2024,A,district,Kicukiro,Kigali,Bush bean,Female,611.3,67
+2024,A,district,Kicukiro,Kigali,Bush bean,Male,599.3,70
+2024,A,district,Kirehe,East,Bush bean,Female,642.0,126
+2024,A,district,Kirehe,East,Bush bean,Male,755.1,242
+2024,A,district,Muhanga,South,Bush bean,Female,356.2,47
+2024,A,district,Muhanga,South,Bush bean,Male,436.1,91
+2024,A,district,Musanze,North,Bush bean,Male,859.7,13
+2024,A,district,Ngoma,East,Bush bean,Female,707.0,116
+2024,A,district,Ngoma,East,Bush bean,Male,750.2,274
+2024,A,district,Ngororero,West,Bush bean,Female,731.6,19
+2024,A,district,Ngororero,West,Bush bean,Male,617.8,42
+2024,A,district,Nyagatare,East,Bush bean,Female,776.4,129
+2024,A,district,Nyagatare,East,Bush bean,Male,854.5,245
+2024,A,district,Nyamagabe,South,Bush bean,Female,508.6,30
+2024,A,district,Nyamagabe,South,Bush bean,Male,611.1,40
+2024,A,district,Nyamasheke,West,Bush bean,Female,577.2,19
+2024,A,district,Nyamasheke,West,Bush bean,Male,674.4,47
+2024,A,district,Nyanza,South,Bush bean,Female,563.2,123
+2024,A,district,Nyanza,South,Bush bean,Male,532.9,214
+2024,A,district,Nyarugenge,Kigali,Bush bean,Female,486.5,45
+2024,A,district,Nyarugenge,Kigali,Bush bean,Male,459.4,46
+2024,A,district,Nyaruguru,South,Bush bean,Female,632.6,12
+2024,A,district,Nyaruguru,South,Bush bean,Male,607.2,30
+2024,A,district,Rubavu,West,Bush bean,Male,471.4,13
+2024,A,district,Ruhango,South,Bush bean,Female,450.1,94
+2024,A,district,Ruhango,South,Bush bean,Male,445.4,140
+2024,A,district,Rulindo,North,Bush bean,Female,605.5,58
+2024,A,district,Rulindo,North,Bush bean,Male,600.3,81
+2024,A,district,Rusizi,West,Bush bean,Female,712.9,100
+2024,A,district,Rusizi,West,Bush bean,Male,746.5,189
+2024,A,district,Rutsiro,West,Bush bean,Female,667.7,19
+2024,A,district,Rutsiro,West,Bush bean,Male,528.9,17
+2024,A,district,Rwamagana,East,Bush bean,Female,577.7,141
+2024,A,district,Rwamagana,East,Bush bean,Male,649.4,233
+2024,A,national,Rwanda,,Cassava,Female,9144.0,281
+2024,A,national,Rwanda,,Cassava,Male,9690.4,630
+2024,A,district,Bugesera,East,Cassava,Female,6390.4,24
+2024,A,district,Bugesera,East,Cassava,Male,7293.4,68
+2024,A,district,Gakenke,North,Cassava,Female,6959.1,12
+2024,A,district,Gakenke,North,Cassava,Male,6972.5,24
+2024,A,district,Gasabo,Kigali,Cassava,Female,8634.6,13
+2024,A,district,Gasabo,Kigali,Cassava,Male,8734.5,15
+2024,A,district,Gatsibo,East,Cassava,Male,10396.8,11
+2024,A,district,Gicumbi,North,Cassava,Male,7693.6,27
+2024,A,district,Gisagara,South,Cassava,Male,9566.4,20
+2024,A,district,Kamonyi,South,Cassava,Female,7531.3,24
+2024,A,district,Kamonyi,South,Cassava,Male,8447.7,44
+2024,A,district,Kayonza,East,Cassava,Female,10604.9,17
+2024,A,district,Kayonza,East,Cassava,Male,11382.8,38
+2024,A,district,Kirehe,East,Cassava,Female,11746.8,12
+2024,A,district,Kirehe,East,Cassava,Male,11413.8,53
+2024,A,district,Muhanga,South,Cassava,Female,7617.4,35
+2024,A,district,Muhanga,South,Cassava,Male,9492.8,59
+2024,A,district,Ngoma,East,Cassava,Female,10549.0,16
+2024,A,district,Ngoma,East,Cassava,Male,10354.5,54
+2024,A,district,Ngororero,West,Cassava,Male,9059.5,27
+2024,A,district,Nyamasheke,West,Cassava,Male,10071.7,28
+2024,A,district,Nyanza,South,Cassava,Female,11299.5,20
+2024,A,district,Nyanza,South,Cassava,Male,11369.6,44
+2024,A,district,Ruhango,South,Cassava,Female,11483.7,21
+2024,A,district,Ruhango,South,Cassava,Male,12027.2,33
+2024,A,district,Rulindo,North,Cassava,Male,6639.3,27
+2024,A,district,Rwamagana,East,Cassava,Female,8044.0,11
+2024,A,national,Rwanda,,Climbing bean,Female,767.1,1121
+2024,A,national,Rwanda,,Climbing bean,Male,785.6,1992
+2024,A,district,Burera,North,Climbing bean,Female,740.3,76
+2024,A,district,Burera,North,Climbing bean,Male,851.2,136
+2024,A,district,Gakenke,North,Climbing bean,Female,749.2,50
+2024,A,district,Gakenke,North,Climbing bean,Male,748.6,134
+2024,A,district,Gasabo,Kigali,Climbing bean,Male,899.1,15
+2024,A,district,Gatsibo,East,Climbing bean,Female,838.9,16
+2024,A,district,Gatsibo,East,Climbing bean,Male,746.4,34
+2024,A,district,Gicumbi,North,Climbing bean,Female,655.8,57
+2024,A,district,Gicumbi,North,Climbing bean,Male,761.4,195
+2024,A,district,Gisagara,South,Climbing bean,Male,368.7,16
+2024,A,district,Huye,South,Climbing bean,Female,545.0,45
+2024,A,district,Huye,South,Climbing bean,Male,578.8,62
+2024,A,district,Kamonyi,South,Climbing bean,Female,704.7,15
+2024,A,district,Kamonyi,South,Climbing bean,Male,500.3,33
+2024,A,district,Karongi,West,Climbing bean,Female,985.7,68
+2024,A,district,Karongi,West,Climbing bean,Male,960.8,111
+2024,A,district,Kirehe,East,Climbing bean,Female,695.2,25
+2024,A,district,Kirehe,East,Climbing bean,Male,565.8,34
+2024,A,district,Muhanga,South,Climbing bean,Female,625.6,40
+2024,A,district,Muhanga,South,Climbing bean,Male,640.6,96
+2024,A,district,Musanze,North,Climbing bean,Female,904.7,124
+2024,A,district,Musanze,North,Climbing bean,Male,989.1,106
+2024,A,district,Ngoma,East,Climbing bean,Female,774.7,12
+2024,A,district,Ngoma,East,Climbing bean,Male,798.7,37
+2024,A,district,Ngororero,West,Climbing bean,Female,771.1,110
+2024,A,district,Ngororero,West,Climbing bean,Male,775.1,180
+2024,A,district,Nyabihu,West,Climbing bean,Female,872.3,97
+2024,A,district,Nyabihu,West,Climbing bean,Male,980.8,130
+2024,A,district,Nyagatare,East,Climbing bean,Female,882.1,12
+2024,A,district,Nyagatare,East,Climbing bean,Male,1124.5,20
+2024,A,district,Nyamagabe,South,Climbing bean,Female,669.8,52
+2024,A,district,Nyamagabe,South,Climbing bean,Male,639.1,96
+2024,A,district,Nyamasheke,West,Climbing bean,Female,857.9,38
+2024,A,district,Nyamasheke,West,Climbing bean,Male,833.3,89
+2024,A,district,Nyanza,South,Climbing bean,Female,499.6,37
+2024,A,district,Nyanza,South,Climbing bean,Male,552.7,46
+2024,A,district,Nyaruguru,South,Climbing bean,Female,727.7,43
+2024,A,district,Nyaruguru,South,Climbing bean,Male,779.0,94
+2024,A,district,Rubavu,West,Climbing bean,Female,735.1,68
+2024,A,district,Rubavu,West,Climbing bean,Male,723.8,100
+2024,A,district,Ruhango,South,Climbing bean,Female,600.9,21
+2024,A,district,Ruhango,South,Climbing bean,Male,639.3,31
+2024,A,district,Rulindo,North,Climbing bean,Female,810.1,40
+2024,A,district,Rulindo,North,Climbing bean,Male,738.2,84
+2024,A,district,Rusizi,West,Climbing bean,Female,950.9,25
+2024,A,district,Rusizi,West,Climbing bean,Male,862.8,49
+2024,A,district,Rutsiro,West,Climbing bean,Female,765.5,29
+2024,A,district,Rutsiro,West,Climbing bean,Male,991.7,51
+2024,A,national,Rwanda,,Cooking banana,Female,6825.3,821
+2024,A,national,Rwanda,,Cooking banana,Male,7053.3,1698
+2024,A,district,Bugesera,East,Cooking banana,Female,8720.6,27
+2024,A,district,Bugesera,East,Cooking banana,Male,8028.7,57
+2024,A,district,Burera,North,Cooking banana,Female,5302.3,16
+2024,A,district,Burera,North,Cooking banana,Male,6085.6,29
+2024,A,district,Gakenke,North,Cooking banana,Female,6638.8,28
+2024,A,district,Gakenke,North,Cooking banana,Male,6177.1,65
+2024,A,district,Gasabo,Kigali,Cooking banana,Female,5970.4,33
+2024,A,district,Gasabo,Kigali,Cooking banana,Male,5871.5,66
+2024,A,district,Gatsibo,East,Cooking banana,Female,7783.8,59
+2024,A,district,Gatsibo,East,Cooking banana,Male,8111.2,154
+2024,A,district,Gicumbi,North,Cooking banana,Female,7004.8,21
+2024,A,district,Gicumbi,North,Cooking banana,Male,6249.4,87
+2024,A,district,Gisagara,South,Cooking banana,Female,3103.0,32
+2024,A,district,Gisagara,South,Cooking banana,Male,3336.6,46
+2024,A,district,Huye,South,Cooking banana,Female,6726.5,16
+2024,A,district,Huye,South,Cooking banana,Male,5681.2,26
+2024,A,district,Kamonyi,South,Cooking banana,Female,6521.5,26
+2024,A,district,Kamonyi,South,Cooking banana,Male,6752.0,53
+2024,A,district,Karongi,West,Cooking banana,Female,5690.9,31
+2024,A,district,Karongi,West,Cooking banana,Male,5654.6,53
+2024,A,district,Kayonza,East,Cooking banana,Female,7061.6,41
+2024,A,district,Kayonza,East,Cooking banana,Male,7455.8,94
+2024,A,district,Kicukiro,Kigali,Cooking banana,Female,5894.9,14
+2024,A,district,Kicukiro,Kigali,Cooking banana,Male,5306.5,20
+2024,A,district,Kirehe,East,Cooking banana,Female,7125.8,75
+2024,A,district,Kirehe,East,Cooking banana,Male,7521.5,131
+2024,A,district,Muhanga,South,Cooking banana,Female,5926.6,32
+2024,A,district,Muhanga,South,Cooking banana,Male,5588.6,79
+2024,A,district,Musanze,North,Cooking banana,Female,6795.9,11
+2024,A,district,Musanze,North,Cooking banana,Male,6328.7,19
+2024,A,district,Ngoma,East,Cooking banana,Female,7466.4,66
+2024,A,district,Ngoma,East,Cooking banana,Male,7431.0,156
+2024,A,district,Ngororero,West,Cooking banana,Female,3488.9,19
+2024,A,district,Ngororero,West,Cooking banana,Male,4333.5,32
+2024,A,district,Nyagatare,East,Cooking banana,Female,9382.1,40
+2024,A,district,Nyagatare,East,Cooking banana,Male,8991.8,87
+2024,A,district,Nyamagabe,South,Cooking banana,Male,4445.2,23
+2024,A,district,Nyamasheke,West,Cooking banana,Female,5018.7,19
+2024,A,district,Nyamasheke,West,Cooking banana,Male,4790.9,53
+2024,A,district,Nyanza,South,Cooking banana,Female,3400.0,30
+2024,A,district,Nyanza,South,Cooking banana,Male,3630.5,39
+2024,A,district,Nyarugenge,Kigali,Cooking banana,Female,5714.5,15
+2024,A,district,Nyarugenge,Kigali,Cooking banana,Male,5203.2,25
+2024,A,district,Nyaruguru,South,Cooking banana,Female,6293.4,15
+2024,A,district,Nyaruguru,South,Cooking banana,Male,6475.9,26
+2024,A,district,Rubavu,West,Cooking banana,Female,5845.0,11
+2024,A,district,Rubavu,West,Cooking banana,Male,6664.4,21
+2024,A,district,Ruhango,South,Cooking banana,Female,3402.4,18
+2024,A,district,Ruhango,South,Cooking banana,Male,3381.3,21
+2024,A,district,Rulindo,North,Cooking banana,Female,5068.4,34
+2024,A,district,Rulindo,North,Cooking banana,Male,6318.4,45
+2024,A,district,Rusizi,West,Cooking banana,Female,5251.2,15
+2024,A,district,Rusizi,West,Cooking banana,Male,5063.0,39
+2024,A,district,Rutsiro,West,Cooking banana,Female,6000.3,19
+2024,A,district,Rutsiro,West,Cooking banana,Male,5976.6,33
+2024,A,district,Rwamagana,East,Cooking banana,Female,8725.8,45
+2024,A,district,Rwamagana,East,Cooking banana,Male,8719.1,111
+2024,A,national,Rwanda,,Dessert banana,Female,3962.1,694
+2024,A,national,Rwanda,,Dessert banana,Male,4107.4,1563
+2024,A,district,Bugesera,East,Dessert banana,Female,4251.0,24
+2024,A,district,Bugesera,East,Dessert banana,Male,4231.3,47
+2024,A,district,Burera,North,Dessert banana,Male,3423.7,13
+2024,A,district,Gakenke,North,Dessert banana,Female,3572.1,35
+2024,A,district,Gakenke,North,Dessert banana,Male,3502.8,84
+2024,A,district,Gasabo,Kigali,Dessert banana,Female,3117.7,29
+2024,A,district,Gasabo,Kigali,Dessert banana,Male,3686.6,61
+2024,A,district,Gatsibo,East,Dessert banana,Female,4586.2,39
+2024,A,district,Gatsibo,East,Dessert banana,Male,4367.3,94
+2024,A,district,Gicumbi,North,Dessert banana,Female,2469.4,20
+2024,A,district,Gicumbi,North,Dessert banana,Male,2995.2,77
+2024,A,district,Gisagara,South,Dessert banana,Female,4248.5,26
+2024,A,district,Gisagara,South,Dessert banana,Male,4229.6,62
+2024,A,district,Huye,South,Dessert banana,Female,3764.6,20
+2024,A,district,Huye,South,Dessert banana,Male,4109.7,39
+2024,A,district,Kamonyi,South,Dessert banana,Female,3503.5,37
+2024,A,district,Kamonyi,South,Dessert banana,Male,3418.4,67
+2024,A,district,Karongi,West,Dessert banana,Female,5604.9,29
+2024,A,district,Karongi,West,Dessert banana,Male,5511.0,65
+2024,A,district,Kayonza,East,Dessert banana,Female,4661.9,17
+2024,A,district,Kayonza,East,Dessert banana,Male,4836.5,59
+2024,A,district,Kicukiro,Kigali,Dessert banana,Female,4458.2,18
+2024,A,district,Kicukiro,Kigali,Dessert banana,Male,4999.6,18
+2024,A,district,Kirehe,East,Dessert banana,Female,4300.8,26
+2024,A,district,Kirehe,East,Dessert banana,Male,4070.6,74
+2024,A,district,Muhanga,South,Dessert banana,Female,4103.3,41
+2024,A,district,Muhanga,South,Dessert banana,Male,4788.5,110
+2024,A,district,Musanze,North,Dessert banana,Female,3978.6,15
+2024,A,district,Musanze,North,Dessert banana,Male,3834.7,32
+2024,A,district,Ngoma,East,Dessert banana,Female,4286.7,37
+2024,A,district,Ngoma,East,Dessert banana,Male,4535.2,83
+2024,A,district,Ngororero,West,Dessert banana,Female,4101.7,30
+2024,A,district,Ngororero,West,Dessert banana,Male,4497.4,72
+2024,A,district,Nyabihu,West,Dessert banana,Male,3415.0,10
+2024,A,district,Nyagatare,East,Dessert banana,Female,4204.4,27
+2024,A,district,Nyagatare,East,Dessert banana,Male,4486.6,64
+2024,A,district,Nyamagabe,South,Dessert banana,Female,5397.5,12
+2024,A,district,Nyamagabe,South,Dessert banana,Male,3999.0,29
+2024,A,district,Nyamasheke,West,Dessert banana,Female,3800.8,18
+2024,A,district,Nyamasheke,West,Dessert banana,Male,3198.7,47
+2024,A,district,Nyanza,South,Dessert banana,Female,3152.2,30
+2024,A,district,Nyanza,South,Dessert banana,Male,3781.2,44
+2024,A,district,Nyarugenge,Kigali,Dessert banana,Female,4126.4,11
+2024,A,district,Nyarugenge,Kigali,Dessert banana,Male,4225.5,17
+2024,A,district,Nyaruguru,South,Dessert banana,Female,3266.0,13
+2024,A,district,Nyaruguru,South,Dessert banana,Male,4201.0,24
+2024,A,district,Rubavu,West,Dessert banana,Male,3076.1,13
+2024,A,district,Ruhango,South,Dessert banana,Female,3379.6,28
+2024,A,district,Ruhango,South,Dessert banana,Male,3341.4,58
+2024,A,district,Rulindo,North,Dessert banana,Female,3902.4,35
+2024,A,district,Rulindo,North,Dessert banana,Male,3858.7,50
+2024,A,district,Rusizi,West,Dessert banana,Female,4150.1,12
+2024,A,district,Rusizi,West,Dessert banana,Male,4409.3,30
+2024,A,district,Rutsiro,West,Dessert banana,Female,3947.2,25
+2024,A,district,Rutsiro,West,Dessert banana,Male,3800.7,51
+2024,A,district,Rwamagana,East,Dessert banana,Female,4150.3,29
+2024,A,district,Rwamagana,East,Dessert banana,Male,4639.7,69
+2024,A,national,Rwanda,,Eggplant,Female,7583.3,35
+2024,A,national,Rwanda,,Eggplant,Male,7509.0,139
+2024,A,district,Gakenke,North,Eggplant,Male,6779.1,11
+2024,A,district,Huye,South,Eggplant,Male,6032.6,12
+2024,A,district,Nyamasheke,West,Eggplant,Male,5606.4,13
+2024,A,national,Rwanda,,Groundnut,Female,468.6,137
+2024,A,national,Rwanda,,Groundnut,Male,526.7,255
+2024,A,district,Bugesera,East,Groundnut,Female,491.0,27
+2024,A,district,Bugesera,East,Groundnut,Male,517.6,60
+2024,A,district,Gasabo,Kigali,Groundnut,Female,396.8,10
+2024,A,district,Gatsibo,East,Groundnut,Female,784.1,11
+2024,A,district,Gatsibo,East,Groundnut,Male,643.3,17
+2024,A,district,Kamonyi,South,Groundnut,Male,577.2,14
+2024,A,district,Kayonza,East,Groundnut,Male,499.2,12
+2024,A,district,Kirehe,East,Groundnut,Male,452.1,17
+2024,A,district,Ngoma,East,Groundnut,Male,409.2,17
+2024,A,district,Nyagatare,East,Groundnut,Male,760.5,21
+2024,A,district,Nyamasheke,West,Groundnut,Male,523.5,14
+2024,A,district,Rwamagana,East,Groundnut,Female,352.0,16
+2024,A,district,Rwamagana,East,Groundnut,Male,457.9,28
+2024,A,national,Rwanda,,Irish potato,Female,7952.5,429
+2024,A,national,Rwanda,,Irish potato,Male,8893.8,1011
+2024,A,district,Bugesera,East,Irish potato,Male,2895.9,21
+2024,A,district,Burera,North,Irish potato,Female,8696.5,46
+2024,A,district,Burera,North,Irish potato,Male,11010.6,99
+2024,A,district,Gakenke,North,Irish potato,Female,5095.3,19
+2024,A,district,Gakenke,North,Irish potato,Male,6861.0,34
+2024,A,district,Gasabo,Kigali,Irish potato,Male,4854.3,22
+2024,A,district,Gatsibo,East,Irish potato,Male,5868.0,37
+2024,A,district,Gicumbi,North,Irish potato,Female,7437.5,21
+2024,A,district,Gicumbi,North,Irish potato,Male,9515.0,67
+2024,A,district,Kayonza,East,Irish potato,Female,3742.8,19
+2024,A,district,Kayonza,East,Irish potato,Male,3392.8,53
+2024,A,district,Kirehe,East,Irish potato,Female,3758.5,16
+2024,A,district,Kirehe,East,Irish potato,Male,4694.3,41
+2024,A,district,Musanze,North,Irish potato,Female,10380.4,21
+2024,A,district,Musanze,North,Irish potato,Male,12106.3,55
+2024,A,district,Ngoma,East,Irish potato,Female,3643.9,15
+2024,A,district,Ngoma,East,Irish potato,Male,3947.6,45
+2024,A,district,Ngororero,West,Irish potato,Female,3914.0,19
+2024,A,district,Ngororero,West,Irish potato,Male,4925.0,37
+2024,A,district,Nyabihu,West,Irish potato,Female,12463.0,50
+2024,A,district,Nyabihu,West,Irish potato,Male,12994.7,119
+2024,A,district,Nyamagabe,South,Irish potato,Female,7251.3,24
+2024,A,district,Nyamagabe,South,Irish potato,Male,7246.4,47
+2024,A,district,Nyaruguru,South,Irish potato,Female,4288.0,14
+2024,A,district,Nyaruguru,South,Irish potato,Male,5328.2,43
+2024,A,district,Rubavu,West,Irish potato,Female,11982.0,33
+2024,A,district,Rubavu,West,Irish potato,Male,12905.7,111
+2024,A,district,Rulindo,North,Irish potato,Female,5070.4,28
+2024,A,district,Rulindo,North,Irish potato,Male,6283.8,52
+2024,A,district,Rutsiro,West,Irish potato,Female,7510.0,44
+2024,A,district,Rutsiro,West,Irish potato,Male,7542.2,60
+2024,A,district,Rwamagana,East,Irish potato,Male,6016.3,17
+2024,A,national,Rwanda,,Maize,Female,1896.9,2647
+2024,A,national,Rwanda,,Maize,Male,2206.6,4904
+2024,A,district,Bugesera,East,Maize,Female,1386.8,150
+2024,A,district,Bugesera,East,Maize,Male,1607.4,239
+2024,A,district,Burera,North,Maize,Female,1799.4,101
+2024,A,district,Burera,North,Maize,Male,2034.4,193
+2024,A,district,Gakenke,North,Maize,Female,1548.9,76
+2024,A,district,Gakenke,North,Maize,Male,1870.6,142
+2024,A,district,Gasabo,Kigali,Maize,Female,1515.2,85
+2024,A,district,Gasabo,Kigali,Maize,Male,1719.3,132
+2024,A,district,Gatsibo,East,Maize,Female,1687.5,119
+2024,A,district,Gatsibo,East,Maize,Male,2292.6,337
+2024,A,district,Gicumbi,North,Maize,Female,1415.7,51
+2024,A,district,Gicumbi,North,Maize,Male,1707.2,166
+2024,A,district,Gisagara,South,Maize,Female,2404.6,85
+2024,A,district,Gisagara,South,Maize,Male,2164.1,154
+2024,A,district,Huye,South,Maize,Female,1429.9,73
+2024,A,district,Huye,South,Maize,Male,1582.9,125
+2024,A,district,Kamonyi,South,Maize,Female,1665.9,109
+2024,A,district,Kamonyi,South,Maize,Male,1906.7,205
+2024,A,district,Karongi,West,Maize,Female,1481.7,85
+2024,A,district,Karongi,West,Maize,Male,1810.3,136
+2024,A,district,Kayonza,East,Maize,Female,1443.7,138
+2024,A,district,Kayonza,East,Maize,Male,1776.3,247
+2024,A,district,Kicukiro,Kigali,Maize,Female,1681.6,66
+2024,A,district,Kicukiro,Kigali,Maize,Male,1613.2,83
+2024,A,district,Kirehe,East,Maize,Female,2424.8,191
+2024,A,district,Kirehe,East,Maize,Male,2547.4,417
+2024,A,district,Muhanga,South,Maize,Female,1995.9,39
+2024,A,district,Muhanga,South,Maize,Male,1952.0,47
+2024,A,district,Musanze,North,Maize,Female,1871.4,92
+2024,A,district,Musanze,North,Maize,Male,1792.2,87
+2024,A,district,Ngoma,East,Maize,Female,1863.8,134
+2024,A,district,Ngoma,East,Maize,Male,2216.7,318
+2024,A,district,Ngororero,West,Maize,Female,1137.4,62
+2024,A,district,Ngororero,West,Maize,Male,1316.9,123
+2024,A,district,Nyabihu,West,Maize,Female,1804.0,40
+2024,A,district,Nyabihu,West,Maize,Male,1760.0,72
+2024,A,district,Nyagatare,East,Maize,Female,3563.4,131
+2024,A,district,Nyagatare,East,Maize,Male,3719.6,292
+2024,A,district,Nyamagabe,South,Maize,Female,1406.1,51
+2024,A,district,Nyamagabe,South,Maize,Male,1727.6,115
+2024,A,district,Nyamasheke,West,Maize,Female,1625.1,55
+2024,A,district,Nyamasheke,West,Maize,Male,1694.1,108
+2024,A,district,Nyanza,South,Maize,Female,1741.8,114
+2024,A,district,Nyanza,South,Maize,Male,1889.3,188
+2024,A,district,Nyarugenge,Kigali,Maize,Female,1441.0,41
+2024,A,district,Nyarugenge,Kigali,Maize,Male,1295.2,42
+2024,A,district,Nyaruguru,South,Maize,Female,1758.2,34
+2024,A,district,Nyaruguru,South,Maize,Male,1702.4,72
+2024,A,district,Rubavu,West,Maize,Female,1445.7,22
+2024,A,district,Rubavu,West,Maize,Male,2059.8,47
+2024,A,district,Ruhango,South,Maize,Female,1316.5,72
+2024,A,district,Ruhango,South,Maize,Male,1703.3,119
+2024,A,district,Rulindo,North,Maize,Female,1596.3,74
+2024,A,district,Rulindo,North,Maize,Male,2136.5,111
+2024,A,district,Rusizi,West,Maize,Female,1793.4,122
+2024,A,district,Rusizi,West,Maize,Male,1947.8,213
+2024,A,district,Rutsiro,West,Maize,Female,1107.7,86
+2024,A,district,Rutsiro,West,Maize,Male,1252.8,120
+2024,A,district,Rwamagana,East,Maize,Female,1654.6,149
+2024,A,district,Rwamagana,East,Maize,Male,1771.2,254
+2024,A,national,Rwanda,,Napia grass for fodder,Female,15386.0,26
+2024,A,national,Rwanda,,Napia grass for fodder,Male,16391.3,94
+2024,A,district,Burera,North,Napia grass for fodder,Male,21707.4,10
+2024,A,district,Gicumbi,North,Napia grass for fodder,Male,14511.4,11
+2024,A,national,Rwanda,,Paddy rice,Female,3410.6,17
+2024,A,national,Rwanda,,Paddy rice,Male,2307.1,38
+2024,A,district,Nyanza,South,Paddy rice,Male,2524.3,13
+2024,A,national,Rwanda,,Pea,Female,558.0,186
+2024,A,national,Rwanda,,Pea,Male,565.2,296
+2024,A,district,Burera,North,Pea,Female,551.6,21
+2024,A,district,Burera,North,Pea,Male,498.3,47
+2024,A,district,Gakenke,North,Pea,Male,509.3,20
+2024,A,district,Gicumbi,North,Pea,Female,515.1,20
+2024,A,district,Gicumbi,North,Pea,Male,741.5,34
+2024,A,district,Huye,South,Pea,Male,511.0,10
+2024,A,district,Ngororero,West,Pea,Female,537.3,12
+2024,A,district,Ngororero,West,Pea,Male,418.4,10
+2024,A,district,Nyabihu,West,Pea,Female,560.1,26
+2024,A,district,Nyabihu,West,Pea,Male,478.9,25
+2024,A,district,Nyamagabe,South,Pea,Female,306.6,17
+2024,A,district,Nyamagabe,South,Pea,Male,481.6,34
+2024,A,district,Nyaruguru,South,Pea,Male,481.9,12
+2024,A,district,Rubavu,West,Pea,Male,704.9,12
+2024,A,district,Rulindo,North,Pea,Male,415.2,11
+2024,A,district,Rutsiro,West,Pea,Female,599.9,18
+2024,A,district,Rutsiro,West,Pea,Male,476.6,22
+2024,A,national,Rwanda,,Sorghum,Female,1273.5,218
+2024,A,national,Rwanda,,Sorghum,Male,1470.0,416
+2024,A,district,Bugesera,East,Sorghum,Female,1393.9,68
+2024,A,district,Bugesera,East,Sorghum,Male,1465.4,127
+2024,A,district,Gatsibo,East,Sorghum,Female,990.5,20
+2024,A,district,Gatsibo,East,Sorghum,Male,1065.9,61
+2024,A,district,Gisagara,South,Sorghum,Female,1234.7,10
+2024,A,district,Gisagara,South,Sorghum,Male,774.3,19
+2024,A,district,Kayonza,East,Sorghum,Female,857.0,13
+2024,A,district,Kayonza,East,Sorghum,Male,1310.4,33
+2024,A,district,Kirehe,East,Sorghum,Female,884.6,16
+2024,A,district,Kirehe,East,Sorghum,Male,1044.5,37
+2024,A,district,Musanze,North,Sorghum,Female,1459.3,22
+2024,A,district,Musanze,North,Sorghum,Male,1601.6,15
+2024,A,district,Ngoma,East,Sorghum,Male,1182.2,13
+2024,A,district,Nyagatare,East,Sorghum,Female,1514.8,36
+2024,A,district,Nyagatare,East,Sorghum,Male,1871.5,71
+2024,A,district,Nyanza,South,Sorghum,Female,914.2,12
+2024,A,national,Rwanda,,Soybean,Female,469.7,540
+2024,A,national,Rwanda,,Soybean,Male,494.4,743
+2024,A,district,Bugesera,East,Soybean,Female,243.0,18
+2024,A,district,Bugesera,East,Soybean,Male,363.7,21
+2024,A,district,Gakenke,North,Soybean,Female,453.6,15
+2024,A,district,Gakenke,North,Soybean,Male,436.2,23
+2024,A,district,Gasabo,Kigali,Soybean,Female,540.6,19
+2024,A,district,Gasabo,Kigali,Soybean,Male,472.0,30
+2024,A,district,Gatsibo,East,Soybean,Female,343.8,10
+2024,A,district,Gatsibo,East,Soybean,Male,450.4,22
+2024,A,district,Gicumbi,North,Soybean,Male,494.8,12
+2024,A,district,Gisagara,South,Soybean,Female,470.9,35
+2024,A,district,Gisagara,South,Soybean,Male,420.4,35
+2024,A,district,Huye,South,Soybean,Female,537.9,33
+2024,A,district,Huye,South,Soybean,Male,505.5,42
+2024,A,district,Kamonyi,South,Soybean,Female,589.3,45
+2024,A,district,Kamonyi,South,Soybean,Male,546.2,82
+2024,A,district,Karongi,West,Soybean,Female,490.6,23
+2024,A,district,Karongi,West,Soybean,Male,550.0,33
+2024,A,district,Kayonza,East,Soybean,Female,358.5,10
+2024,A,district,Kayonza,East,Soybean,Male,322.2,18
+2024,A,district,Muhanga,South,Soybean,Female,457.9,43
+2024,A,district,Muhanga,South,Soybean,Male,419.3,61
+2024,A,district,Ngoma,East,Soybean,Male,524.1,18
+2024,A,district,Ngororero,West,Soybean,Female,591.6,29
+2024,A,district,Ngororero,West,Soybean,Male,601.5,49
+2024,A,district,Nyagatare,East,Soybean,Female,611.3,14
+2024,A,district,Nyagatare,East,Soybean,Male,433.4,18
+2024,A,district,Nyamagabe,South,Soybean,Female,368.3,20
+2024,A,district,Nyamagabe,South,Soybean,Male,585.7,26
+2024,A,district,Nyamasheke,West,Soybean,Female,740.1,15
+2024,A,district,Nyamasheke,West,Soybean,Male,712.1,18
+2024,A,district,Nyanza,South,Soybean,Female,326.7,46
+2024,A,district,Nyanza,South,Soybean,Male,366.1,45
+2024,A,district,Nyaruguru,South,Soybean,Male,345.1,13
+2024,A,district,Ruhango,South,Soybean,Female,436.2,63
+2024,A,district,Ruhango,South,Soybean,Male,501.0,62
+2024,A,district,Rulindo,North,Soybean,Female,521.9,11
+2024,A,district,Rulindo,North,Soybean,Male,693.1,20
+2024,A,district,Rusizi,West,Soybean,Male,574.3,21
+2024,A,district,Rutsiro,West,Soybean,Female,548.6,15
+2024,A,district,Rutsiro,West,Soybean,Male,510.5,20
+2024,A,district,Rwamagana,East,Soybean,Female,630.2,16
+2024,A,district,Rwamagana,East,Soybean,Male,580.4,24
+2024,A,national,Rwanda,,Sweet potato,Female,7009.9,701
+2024,A,national,Rwanda,,Sweet potato,Male,7427.0,1227
+2024,A,district,Bugesera,East,Sweet potato,Female,6454.6,45
+2024,A,district,Bugesera,East,Sweet potato,Male,7265.3,74
+2024,A,district,Burera,North,Sweet potato,Female,8004.4,42
+2024,A,district,Burera,North,Sweet potato,Male,8365.6,70
+2024,A,district,Gakenke,North,Sweet potato,Female,6688.8,34
+2024,A,district,Gakenke,North,Sweet potato,Male,6769.0,76
+2024,A,district,Gasabo,Kigali,Sweet potato,Female,7516.0,17
+2024,A,district,Gasabo,Kigali,Sweet potato,Male,9194.1,22
+2024,A,district,Gatsibo,East,Sweet potato,Female,7619.4,20
+2024,A,district,Gatsibo,East,Sweet potato,Male,7712.6,26
+2024,A,district,Gicumbi,North,Sweet potato,Female,8523.6,34
+2024,A,district,Gicumbi,North,Sweet potato,Male,9637.0,95
+2024,A,district,Gisagara,South,Sweet potato,Female,6382.5,19
+2024,A,district,Gisagara,South,Sweet potato,Male,7068.0,44
+2024,A,district,Huye,South,Sweet potato,Female,7404.7,25
+2024,A,district,Huye,South,Sweet potato,Male,6746.0,41
+2024,A,district,Kamonyi,South,Sweet potato,Female,5402.7,33
+2024,A,district,Kamonyi,South,Sweet potato,Male,5640.5,43
+2024,A,district,Karongi,West,Sweet potato,Female,7885.8,21
+2024,A,district,Karongi,West,Sweet potato,Male,8724.5,39
+2024,A,district,Kayonza,East,Sweet potato,Male,6545.1,14
+2024,A,district,Kicukiro,Kigali,Sweet potato,Female,7969.6,22
+2024,A,district,Kicukiro,Kigali,Sweet potato,Male,7879.7,18
+2024,A,district,Kirehe,East,Sweet potato,Female,5486.4,17
+2024,A,district,Kirehe,East,Sweet potato,Male,5061.4,31
+2024,A,district,Muhanga,South,Sweet potato,Female,6541.6,17
+2024,A,district,Muhanga,South,Sweet potato,Male,6602.3,39
+2024,A,district,Musanze,North,Sweet potato,Female,7541.8,27
+2024,A,district,Musanze,North,Sweet potato,Male,7594.2,21
+2024,A,district,Ngoma,East,Sweet potato,Female,5842.2,14
+2024,A,district,Ngoma,East,Sweet potato,Male,8199.4,39
+2024,A,district,Ngororero,West,Sweet potato,Female,6090.9,45
+2024,A,district,Ngororero,West,Sweet potato,Male,6438.0,87
+2024,A,district,Nyabihu,West,Sweet potato,Female,7222.4,26
+2024,A,district,Nyabihu,West,Sweet potato,Male,6625.8,28
+2024,A,district,Nyagatare,East,Sweet potato,Female,5117.2,11
+2024,A,district,Nyagatare,East,Sweet potato,Male,5333.8,15
+2024,A,district,Nyamagabe,South,Sweet potato,Female,7410.1,32
+2024,A,district,Nyamagabe,South,Sweet potato,Male,8205.3,53
+2024,A,district,Nyamasheke,West,Sweet potato,Female,5601.1,22
+2024,A,district,Nyamasheke,West,Sweet potato,Male,4825.8,57
+2024,A,district,Nyanza,South,Sweet potato,Female,6019.7,20
+2024,A,district,Nyanza,South,Sweet potato,Male,5211.6,49
+2024,A,district,Nyarugenge,Kigali,Sweet potato,Female,6555.4,16
+2024,A,district,Nyarugenge,Kigali,Sweet potato,Male,6110.4,13
+2024,A,district,Nyaruguru,South,Sweet potato,Female,10205.8,23
+2024,A,district,Nyaruguru,South,Sweet potato,Male,9441.4,71
+2024,A,district,Rubavu,West,Sweet potato,Female,7828.3,12
+2024,A,district,Ruhango,South,Sweet potato,Female,8791.9,18
+2024,A,district,Ruhango,South,Sweet potato,Male,7022.1,10
+2024,A,district,Rulindo,North,Sweet potato,Female,6302.2,28
+2024,A,district,Rulindo,North,Sweet potato,Male,6830.5,61
+2024,A,district,Rusizi,West,Sweet potato,Male,7383.6,17
+2024,A,district,Rutsiro,West,Sweet potato,Female,6962.9,20
+2024,A,district,Rutsiro,West,Sweet potato,Male,8498.2,36
+2024,A,district,Rwamagana,East,Sweet potato,Female,7688.0,23
+2024,A,district,Rwamagana,East,Sweet potato,Male,7836.4,32
+2024,A,national,Rwanda,,Taro,Female,6119.3,73
+2024,A,national,Rwanda,,Taro,Male,5363.7,150
+2024,A,district,Gisagara,South,Taro,Male,2600.1,12
+2024,A,district,Muhanga,South,Taro,Male,8409.5,10
+2024,A,district,Ngoma,East,Taro,Male,5343.6,12
+2024,A,district,Nyanza,South,Taro,Male,4165.2,11
+2024,A,district,Rwamagana,East,Taro,Male,7646.7,11
+2024,A,national,Rwanda,,Tomato,Female,7141.2,18
+2024,A,national,Rwanda,,Tomato,Male,7264.9,81
+2024,A,district,Rwamagana,East,Tomato,Male,8759.7,14
+2024,B,national,Rwanda,,Banana for beer,Female,4696.4,329
+2024,B,national,Rwanda,,Banana for beer,Male,4660.3,848
+2024,B,district,Bugesera,East,Banana for beer,Female,6573.1,14
+2024,B,district,Bugesera,East,Banana for beer,Male,6390.0,25
+2024,B,district,Gakenke,North,Banana for beer,Female,4727.4,11
+2024,B,district,Gakenke,North,Banana for beer,Male,5142.4,39
+2024,B,district,Gasabo,Kigali,Banana for beer,Male,4113.4,16
+2024,B,district,Gatsibo,East,Banana for beer,Male,4521.7,39
+2024,B,district,Gicumbi,North,Banana for beer,Male,5943.7,26
+2024,B,district,Gisagara,South,Banana for beer,Male,3399.1,22
+2024,B,district,Kamonyi,South,Banana for beer,Female,4886.6,21
+2024,B,district,Kamonyi,South,Banana for beer,Male,5256.8,52
+2024,B,district,Karongi,West,Banana for beer,Female,6261.4,25
+2024,B,district,Karongi,West,Banana for beer,Male,6381.6,70
+2024,B,district,Kayonza,East,Banana for beer,Male,3604.4,17
+2024,B,district,Kirehe,East,Banana for beer,Female,3385.0,18
+2024,B,district,Kirehe,East,Banana for beer,Male,3538.5,53
+2024,B,district,Muhanga,South,Banana for beer,Female,4490.7,23
+2024,B,district,Muhanga,South,Banana for beer,Male,4625.3,56
+2024,B,district,Ngoma,East,Banana for beer,Female,5088.8,21
+2024,B,district,Ngoma,East,Banana for beer,Male,4892.2,50
+2024,B,district,Ngororero,West,Banana for beer,Female,4452.5,30
+2024,B,district,Ngororero,West,Banana for beer,Male,4491.0,66
+2024,B,district,Nyagatare,East,Banana for beer,Male,5674.4,23
+2024,B,district,Nyamagabe,South,Banana for beer,Male,3474.5,26
+2024,B,district,Nyamasheke,West,Banana for beer,Female,3738.3,14
+2024,B,district,Nyamasheke,West,Banana for beer,Male,3743.8,29
+2024,B,district,Nyanza,South,Banana for beer,Male,2945.4,23
+2024,B,district,Nyarugenge,Kigali,Banana for beer,Male,5494.8,17
+2024,B,district,Nyaruguru,South,Banana for beer,Male,2880.9,13
+2024,B,district,Ruhango,South,Banana for beer,Female,3831.2,22
+2024,B,district,Ruhango,South,Banana for beer,Male,3995.4,42
+2024,B,district,Rulindo,North,Banana for beer,Female,5683.1,12
+2024,B,district,Rulindo,North,Banana for beer,Male,5356.3,24
+2024,B,district,Rusizi,West,Banana for beer,Male,4108.7,30
+2024,B,district,Rutsiro,West,Banana for beer,Female,5082.5,19
+2024,B,district,Rutsiro,West,Banana for beer,Male,5282.2,38
+2024,B,district,Rwamagana,East,Banana for beer,Male,3363.5,16
+2024,B,national,Rwanda,,Bush bean,Female,621.2,680
+2024,B,national,Rwanda,,Bush bean,Male,686.5,1093
+2024,B,district,Bugesera,East,Bush bean,Female,621.0,77
+2024,B,district,Bugesera,East,Bush bean,Male,725.9,125
+2024,B,district,Gasabo,Kigali,Bush bean,Female,715.5,19
+2024,B,district,Gasabo,Kigali,Bush bean,Male,537.3,23
+2024,B,district,Gatsibo,East,Bush bean,Female,578.2,42
+2024,B,district,Gatsibo,East,Bush bean,Male,631.7,94
+2024,B,district,Gicumbi,North,Bush bean,Male,743.0,22
+2024,B,district,Gisagara,South,Bush bean,Female,590.9,45
+2024,B,district,Gisagara,South,Bush bean,Male,623.7,64
+2024,B,district,Huye,South,Bush bean,Female,588.5,21
+2024,B,district,Huye,South,Bush bean,Male,630.2,34
+2024,B,district,Kamonyi,South,Bush bean,Female,455.5,34
+2024,B,district,Kamonyi,South,Bush bean,Male,524.8,60
+2024,B,district,Karongi,West,Bush bean,Female,528.9,10
+2024,B,district,Karongi,West,Bush bean,Male,901.2,12
+2024,B,district,Kayonza,East,Bush bean,Female,669.7,29
+2024,B,district,Kayonza,East,Bush bean,Male,728.4,66
+2024,B,district,Kicukiro,Kigali,Bush bean,Female,740.5,17
+2024,B,district,Kicukiro,Kigali,Bush bean,Male,681.8,19
+2024,B,district,Kirehe,East,Bush bean,Female,619.5,49
+2024,B,district,Kirehe,East,Bush bean,Male,635.0,85
+2024,B,district,Muhanga,South,Bush bean,Male,529.9,17
+2024,B,district,Ngoma,East,Bush bean,Female,746.2,42
+2024,B,district,Ngoma,East,Bush bean,Male,790.5,95
+2024,B,district,Nyagatare,East,Bush bean,Female,670.6,71
+2024,B,district,Nyagatare,East,Bush bean,Male,845.9,99
+2024,B,district,Nyanza,South,Bush bean,Female,527.6,30
+2024,B,district,Nyanza,South,Bush bean,Male,483.8,65
+2024,B,district,Nyarugenge,Kigali,Bush bean,Female,597.9,19
+2024,B,district,Nyarugenge,Kigali,Bush bean,Male,560.2,10
+2024,B,district,Rubavu,West,Bush bean,Male,418.5,10
+2024,B,district,Ruhango,South,Bush bean,Female,632.8,41
+2024,B,district,Ruhango,South,Bush bean,Male,654.3,32
+2024,B,district,Rulindo,North,Bush bean,Female,611.7,14
+2024,B,district,Rulindo,North,Bush bean,Male,780.3,11
+2024,B,district,Rusizi,West,Bush bean,Female,667.0,34
+2024,B,district,Rusizi,West,Bush bean,Male,688.9,73
+2024,B,district,Rwamagana,East,Bush bean,Female,586.7,40
+2024,B,district,Rwamagana,East,Bush bean,Male,648.1,41
+2024,B,national,Rwanda,,Cassava,Female,9581.6,424
+2024,B,national,Rwanda,,Cassava,Male,10119.5,743
+2024,B,district,Bugesera,East,Cassava,Female,6555.3,23
+2024,B,district,Bugesera,East,Cassava,Male,6364.5,40
+2024,B,district,Gakenke,North,Cassava,Female,11646.1,12
+2024,B,district,Gakenke,North,Cassava,Male,10371.8,14
+2024,B,district,Gasabo,Kigali,Cassava,Female,6934.5,17
+2024,B,district,Gasabo,Kigali,Cassava,Male,7181.0,18
+2024,B,district,Gatsibo,East,Cassava,Male,10218.1,17
+2024,B,district,Gicumbi,North,Cassava,Male,8001.6,13
+2024,B,district,Gisagara,South,Cassava,Female,12772.3,27
+2024,B,district,Gisagara,South,Cassava,Male,14072.1,52
+2024,B,district,Huye,South,Cassava,Male,12239.4,23
+2024,B,district,Kamonyi,South,Cassava,Female,6408.1,18
+2024,B,district,Kamonyi,South,Cassava,Male,7759.1,27
+2024,B,district,Karongi,West,Cassava,Female,13308.9,13
+2024,B,district,Karongi,West,Cassava,Male,12221.3,22
+2024,B,district,Kayonza,East,Cassava,Female,9845.1,18
+2024,B,district,Kayonza,East,Cassava,Male,13226.8,29
+2024,B,district,Kicukiro,Kigali,Cassava,Male,8287.3,12
+2024,B,district,Kirehe,East,Cassava,Female,8939.7,11
+2024,B,district,Kirehe,East,Cassava,Male,10760.6,25
+2024,B,district,Muhanga,South,Cassava,Female,12008.6,19
+2024,B,district,Muhanga,South,Cassava,Male,11741.7,22
+2024,B,district,Ngoma,East,Cassava,Female,7868.4,22
+2024,B,district,Ngoma,East,Cassava,Male,7832.3,59
+2024,B,district,Ngororero,West,Cassava,Female,6746.3,11
+2024,B,district,Ngororero,West,Cassava,Male,7204.9,14
+2024,B,district,Nyamasheke,West,Cassava,Female,8001.5,45
+2024,B,district,Nyamasheke,West,Cassava,Male,9291.3,48
+2024,B,district,Nyanza,South,Cassava,Female,11720.3,21
+2024,B,district,Nyanza,South,Cassava,Male,10173.5,42
+2024,B,district,Nyarugenge,Kigali,Cassava,Female,7639.2,13
+2024,B,district,Nyarugenge,Kigali,Cassava,Male,7541.5,14
+2024,B,district,Nyaruguru,South,Cassava,Male,8497.4,22
+2024,B,district,Ruhango,South,Cassava,Female,14761.9,24
+2024,B,district,Ruhango,South,Cassava,Male,14552.5,37
+2024,B,district,Rulindo,North,Cassava,Male,10927.6,11
+2024,B,district,Rusizi,West,Cassava,Female,7619.0,58
+2024,B,district,Rusizi,West,Cassava,Male,8029.5,121
+2024,B,district,Rutsiro,West,Cassava,Female,9058.7,11
+2024,B,district,Rutsiro,West,Cassava,Male,9567.1,20
+2024,B,district,Rwamagana,East,Cassava,Female,7488.9,10
+2024,B,district,Rwamagana,East,Cassava,Male,9341.1,24
+2024,B,national,Rwanda,,Climbing bean,Female,853.6,566
+2024,B,national,Rwanda,,Climbing bean,Male,891.4,1018
+2024,B,district,Burera,North,Climbing bean,Female,988.1,47
+2024,B,district,Burera,North,Climbing bean,Male,1137.4,71
+2024,B,district,Gakenke,North,Climbing bean,Female,790.6,40
+2024,B,district,Gakenke,North,Climbing bean,Male,918.3,76
+2024,B,district,Gatsibo,East,Climbing bean,Male,991.8,32
+2024,B,district,Gicumbi,North,Climbing bean,Female,922.8,30
+2024,B,district,Gicumbi,North,Climbing bean,Male,888.5,75
+2024,B,district,Gisagara,South,Climbing bean,Female,734.6,11
+2024,B,district,Gisagara,South,Climbing bean,Male,843.2,13
+2024,B,district,Huye,South,Climbing bean,Female,584.7,26
+2024,B,district,Huye,South,Climbing bean,Male,786.3,39
+2024,B,district,Kamonyi,South,Climbing bean,Male,571.0,21
+2024,B,district,Karongi,West,Climbing bean,Female,1038.8,20
+2024,B,district,Karongi,West,Climbing bean,Male,1147.7,57
+2024,B,district,Kirehe,East,Climbing bean,Female,822.0,38
+2024,B,district,Kirehe,East,Climbing bean,Male,831.3,95
+2024,B,district,Muhanga,South,Climbing bean,Female,762.1,14
+2024,B,district,Muhanga,South,Climbing bean,Male,628.5,22
+2024,B,district,Musanze,North,Climbing bean,Female,1102.7,71
+2024,B,district,Musanze,North,Climbing bean,Male,1141.0,59
+2024,B,district,Ngoma,East,Climbing bean,Male,882.4,21
+2024,B,district,Ngororero,West,Climbing bean,Female,997.5,21
+2024,B,district,Ngororero,West,Climbing bean,Male,927.5,53
+2024,B,district,Nyabihu,West,Climbing bean,Female,934.1,17
+2024,B,district,Nyabihu,West,Climbing bean,Male,1005.4,31
+2024,B,district,Nyagatare,East,Climbing bean,Male,902.9,10
+2024,B,district,Nyamagabe,South,Climbing bean,Female,572.7,29
+2024,B,district,Nyamagabe,South,Climbing bean,Male,656.1,67
+2024,B,district,Nyamasheke,West,Climbing bean,Female,874.8,24
+2024,B,district,Nyamasheke,West,Climbing bean,Male,782.0,52
+2024,B,district,Nyanza,South,Climbing bean,Female,545.2,14
+2024,B,district,Nyanza,South,Climbing bean,Male,501.6,16
+2024,B,district,Nyaruguru,South,Climbing bean,Female,536.1,17
+2024,B,district,Nyaruguru,South,Climbing bean,Male,823.8,55
+2024,B,district,Rubavu,West,Climbing bean,Female,776.0,44
+2024,B,district,Rubavu,West,Climbing bean,Male,759.3,46
+2024,B,district,Ruhango,South,Climbing bean,Female,651.7,16
+2024,B,district,Ruhango,South,Climbing bean,Male,529.2,17
+2024,B,district,Rulindo,North,Climbing bean,Female,893.5,24
+2024,B,district,Rulindo,North,Climbing bean,Male,974.8,31
+2024,B,district,Rusizi,West,Climbing bean,Female,952.2,13
+2024,B,district,Rusizi,West,Climbing bean,Male,982.4,13
+2024,B,district,Rutsiro,West,Climbing bean,Female,653.0,17
+2024,B,district,Rutsiro,West,Climbing bean,Male,759.3,40
+2024,B,national,Rwanda,,Coffee,Female,1077.9,82
+2024,B,national,Rwanda,,Coffee,Male,1202.0,220
+2024,B,district,Gakenke,North,Coffee,Male,1156.4,10
+2024,B,district,Kamonyi,South,Coffee,Male,669.3,14
+2024,B,district,Kirehe,East,Coffee,Male,1030.5,17
+2024,B,district,Ngoma,East,Coffee,Male,1159.0,12
+2024,B,district,Nyamagabe,South,Coffee,Male,942.7,15
+2024,B,district,Nyamasheke,West,Coffee,Female,1107.6,11
+2024,B,district,Nyamasheke,West,Coffee,Male,1394.2,28
+2024,B,district,Rusizi,West,Coffee,Male,1475.5,33
+2024,B,district,Rutsiro,West,Coffee,Male,1477.6,10
+2024,B,national,Rwanda,,Cooking banana,Female,7251.1,249
+2024,B,national,Rwanda,,Cooking banana,Male,7325.1,587
+2024,B,district,Bugesera,East,Cooking banana,Female,7675.1,12
+2024,B,district,Bugesera,East,Cooking banana,Male,9213.4,22
+2024,B,district,Burera,North,Cooking banana,Male,7924.2,16
+2024,B,district,Gakenke,North,Cooking banana,Male,7939.8,30
+2024,B,district,Gasabo,Kigali,Cooking banana,Male,7377.0,13
+2024,B,district,Gatsibo,East,Cooking banana,Female,5485.9,19
+2024,B,district,Gatsibo,East,Cooking banana,Male,5967.3,71
+2024,B,district,Gicumbi,North,Cooking banana,Male,7168.7,17
+2024,B,district,Karongi,West,Cooking banana,Male,9437.3,13
+2024,B,district,Kayonza,East,Cooking banana,Female,7370.2,13
+2024,B,district,Kayonza,East,Cooking banana,Male,7329.8,37
+2024,B,district,Kicukiro,Kigali,Cooking banana,Male,7073.6,12
+2024,B,district,Kirehe,East,Cooking banana,Female,6781.0,22
+2024,B,district,Kirehe,East,Cooking banana,Male,6697.9,61
+2024,B,district,Muhanga,South,Cooking banana,Male,6704.0,23
+2024,B,district,Ngoma,East,Cooking banana,Female,8529.0,21
+2024,B,district,Ngoma,East,Cooking banana,Male,9658.6,50
+2024,B,district,Nyagatare,East,Cooking banana,Female,7884.6,17
+2024,B,district,Nyagatare,East,Cooking banana,Male,8110.2,24
+2024,B,district,Nyamagabe,South,Cooking banana,Male,4394.6,10
+2024,B,district,Nyamasheke,West,Cooking banana,Male,7636.7,11
+2024,B,district,Nyarugenge,Kigali,Cooking banana,Male,6023.1,13
+2024,B,district,Ruhango,South,Cooking banana,Male,6567.7,13
+2024,B,district,Rulindo,North,Cooking banana,Male,7383.3,18
+2024,B,district,Rusizi,West,Cooking banana,Male,8387.8,13
+2024,B,district,Rutsiro,West,Cooking banana,Male,7289.7,19
+2024,B,district,Rwamagana,East,Cooking banana,Female,8431.6,24
+2024,B,district,Rwamagana,East,Cooking banana,Male,8495.4,40
+2024,B,national,Rwanda,,Dessert banana,Female,4565.5,215
+2024,B,national,Rwanda,,Dessert banana,Male,4977.1,504
+2024,B,district,Bugesera,East,Dessert banana,Male,5833.8,19
+2024,B,district,Gakenke,North,Dessert banana,Female,6840.4,12
+2024,B,district,Gakenke,North,Dessert banana,Male,9279.9,30
+2024,B,district,Gasabo,Kigali,Dessert banana,Female,5738.1,14
+2024,B,district,Gasabo,Kigali,Dessert banana,Male,5835.1,22
+2024,B,district,Gatsibo,East,Dessert banana,Female,5308.6,11
+2024,B,district,Gatsibo,East,Dessert banana,Male,5316.8,32
+2024,B,district,Gicumbi,North,Dessert banana,Male,4265.4,29
+2024,B,district,Gisagara,South,Dessert banana,Male,4015.3,19
+2024,B,district,Huye,South,Dessert banana,Male,3895.1,16
+2024,B,district,Kamonyi,South,Dessert banana,Female,4331.1,11
+2024,B,district,Kamonyi,South,Dessert banana,Male,4589.4,15
+2024,B,district,Karongi,West,Dessert banana,Male,4672.8,22
+2024,B,district,Kayonza,East,Dessert banana,Male,4118.6,23
+2024,B,district,Kirehe,East,Dessert banana,Female,4516.5,11
+2024,B,district,Kirehe,East,Dessert banana,Male,4133.4,31
+2024,B,district,Muhanga,South,Dessert banana,Male,4827.1,22
+2024,B,district,Musanze,North,Dessert banana,Male,3386.6,10
+2024,B,district,Ngoma,East,Dessert banana,Female,3901.7,12
+2024,B,district,Ngoma,East,Dessert banana,Male,3901.5,19
+2024,B,district,Ngororero,West,Dessert banana,Female,4172.4,11
+2024,B,district,Ngororero,West,Dessert banana,Male,4123.9,21
+2024,B,district,Nyagatare,East,Dessert banana,Male,4077.5,22
+2024,B,district,Nyamasheke,West,Dessert banana,Male,4393.7,14
+2024,B,district,Nyanza,South,Dessert banana,Male,3461.5,18
+2024,B,district,Ruhango,South,Dessert banana,Male,4205.9,19
+2024,B,district,Rulindo,North,Dessert banana,Female,5204.1,13
+2024,B,district,Rulindo,North,Dessert banana,Male,5124.1,16
+2024,B,district,Rutsiro,West,Dessert banana,Male,7646.3,18
+2024,B,district,Rwamagana,East,Dessert banana,Female,3512.6,11
+2024,B,district,Rwamagana,East,Dessert banana,Male,4446.5,27
+2024,B,national,Rwanda,,Eggplant,Female,9005.5,13
+2024,B,national,Rwanda,,Eggplant,Male,10357.4,53
+2024,B,national,Rwanda,,Groundnut,Female,454.0,81
+2024,B,national,Rwanda,,Groundnut,Male,446.3,195
+2024,B,district,Bugesera,East,Groundnut,Female,471.6,21
+2024,B,district,Bugesera,East,Groundnut,Male,589.7,44
+2024,B,district,Gatsibo,East,Groundnut,Female,401.3,12
+2024,B,district,Gatsibo,East,Groundnut,Male,373.2,19
+2024,B,district,Kamonyi,South,Groundnut,Male,404.9,12
+2024,B,district,Kirehe,East,Groundnut,Male,314.5,13
+2024,B,district,Ngoma,East,Groundnut,Male,571.1,15
+2024,B,district,Nyagatare,East,Groundnut,Male,543.5,14
+2024,B,district,Ruhango,South,Groundnut,Male,441.8,17
+2024,B,district,Rwamagana,East,Groundnut,Male,433.5,17
+2024,B,national,Rwanda,,Irish potato,Female,6894.2,194
+2024,B,national,Rwanda,,Irish potato,Male,7856.1,434
+2024,B,district,Bugesera,East,Irish potato,Male,2545.0,12
+2024,B,district,Burera,North,Irish potato,Female,6491.7,21
+2024,B,district,Burera,North,Irish potato,Male,8748.1,46
+2024,B,district,Gakenke,North,Irish potato,Male,6202.4,14
+2024,B,district,Gatsibo,East,Irish potato,Male,4401.6,14
+2024,B,district,Gicumbi,North,Irish potato,Male,6925.3,23
+2024,B,district,Kayonza,East,Irish potato,Male,4949.9,10
+2024,B,district,Kirehe,East,Irish potato,Male,4258.7,21
+2024,B,district,Musanze,North,Irish potato,Female,8511.5,17
+2024,B,district,Musanze,North,Irish potato,Male,7599.8,28
+2024,B,district,Ngororero,West,Irish potato,Female,5101.1,14
+2024,B,district,Nyabihu,West,Irish potato,Female,10036.7,26
+2024,B,district,Nyabihu,West,Irish potato,Male,10692.1,76
+2024,B,district,Nyamagabe,South,Irish potato,Male,8202.4,11
+2024,B,district,Nyaruguru,South,Irish potato,Male,7594.6,15
+2024,B,district,Rubavu,West,Irish potato,Female,8693.7,18
+2024,B,district,Rubavu,West,Irish potato,Male,10593.0,71
+2024,B,district,Rutsiro,West,Irish potato,Female,4780.7,23
+2024,B,district,Rutsiro,West,Irish potato,Male,4893.3,39
+2024,B,district,Rwamagana,East,Irish potato,Male,3745.9,10
+2024,B,national,Rwanda,,Maize,Female,1301.7,453
+2024,B,national,Rwanda,,Maize,Male,1681.5,841
+2024,B,district,Bugesera,East,Maize,Female,1062.4,50
+2024,B,district,Bugesera,East,Maize,Male,1020.6,83
+2024,B,district,Burera,North,Maize,Female,1529.7,15
+2024,B,district,Burera,North,Maize,Male,1192.7,26
+2024,B,district,Gakenke,North,Maize,Male,1042.4,15
+2024,B,district,Gasabo,Kigali,Maize,Female,931.1,12
+2024,B,district,Gasabo,Kigali,Maize,Male,1873.3,27
+2024,B,district,Gatsibo,East,Maize,Female,1121.6,25
+2024,B,district,Gatsibo,East,Maize,Male,1865.4,66
+2024,B,district,Gicumbi,North,Maize,Male,1282.8,41
+2024,B,district,Gisagara,South,Maize,Female,715.9,17
+2024,B,district,Gisagara,South,Maize,Male,1069.0,29
+2024,B,district,Huye,South,Maize,Male,955.7,10
+2024,B,district,Kamonyi,South,Maize,Female,1006.2,23
+2024,B,district,Kamonyi,South,Maize,Male,1676.4,27
+2024,B,district,Kayonza,East,Maize,Female,1289.1,20
+2024,B,district,Kayonza,East,Maize,Male,1169.8,35
+2024,B,district,Kicukiro,Kigali,Maize,Male,832.9,17
+2024,B,district,Kirehe,East,Maize,Male,873.4,19
+2024,B,district,Muhanga,South,Maize,Male,914.8,14
+2024,B,district,Musanze,North,Maize,Female,1390.2,21
+2024,B,district,Musanze,North,Maize,Male,1409.6,28
+2024,B,district,Ngoma,East,Maize,Male,914.6,31
+2024,B,district,Ngororero,West,Maize,Female,1226.2,19
+2024,B,district,Ngororero,West,Maize,Male,1245.9,40
+2024,B,district,Nyabihu,West,Maize,Female,1497.2,36
+2024,B,district,Nyabihu,West,Maize,Male,1056.3,40
+2024,B,district,Nyagatare,East,Maize,Female,1666.3,70
+2024,B,district,Nyagatare,East,Maize,Male,2471.0,141
+2024,B,district,Nyanza,South,Maize,Female,1144.3,21
+2024,B,district,Nyanza,South,Maize,Male,1709.9,33
+2024,B,district,Rubavu,West,Maize,Female,869.6,10
+2024,B,district,Rubavu,West,Maize,Male,1904.5,23
+2024,B,district,Ruhango,South,Maize,Male,1002.4,10
+2024,B,district,Rulindo,North,Maize,Male,1229.6,12
+2024,B,district,Rutsiro,West,Maize,Female,1233.7,10
+2024,B,district,Rutsiro,West,Maize,Male,824.8,11
+2024,B,district,Rwamagana,East,Maize,Female,901.8,24
+2024,B,district,Rwamagana,East,Maize,Male,1027.1,29
+2024,B,national,Rwanda,,Napia grass for fodder,Female,6925.8,25
+2024,B,national,Rwanda,,Napia grass for fodder,Male,14431.7,111
+2024,B,district,Gicumbi,North,Napia grass for fodder,Male,16115.6,12
+2024,B,district,Karongi,West,Napia grass for fodder,Male,12344.6,12
+2024,B,district,Rwamagana,East,Napia grass for fodder,Male,12649.4,11
+2024,B,national,Rwanda,,Paddy rice,Female,2446.5,15
+2024,B,national,Rwanda,,Paddy rice,Male,3150.4,46
+2024,B,district,Nyanza,South,Paddy rice,Male,2859.2,18
+2024,B,national,Rwanda,,Pea,Female,499.4,59
+2024,B,national,Rwanda,,Pea,Male,507.7,84
+2024,B,district,Burera,North,Pea,Female,366.0,10
+2024,B,district,Burera,North,Pea,Male,503.2,12
+2024,B,district,Nyamagabe,South,Pea,Male,556.2,11
+2024,B,district,Rubavu,West,Pea,Male,445.6,13
+2024,B,national,Rwanda,,Sorghum,Female,1137.5,545
+2024,B,national,Rwanda,,Sorghum,Male,1276.3,872
+2024,B,district,Bugesera,East,Sorghum,Female,977.7,22
+2024,B,district,Bugesera,East,Sorghum,Male,942.8,36
+2024,B,district,Burera,North,Sorghum,Female,1351.5,32
+2024,B,district,Burera,North,Sorghum,Male,1640.3,57
+2024,B,district,Gasabo,Kigali,Sorghum,Female,1136.6,27
+2024,B,district,Gasabo,Kigali,Sorghum,Male,1208.2,33
+2024,B,district,Gatsibo,East,Sorghum,Female,1276.6,36
+2024,B,district,Gatsibo,East,Sorghum,Male,1409.9,71
+2024,B,district,Gicumbi,North,Sorghum,Female,1316.3,36
+2024,B,district,Gicumbi,North,Sorghum,Male,1594.4,87
+2024,B,district,Gisagara,South,Sorghum,Female,934.8,15
+2024,B,district,Gisagara,South,Sorghum,Male,930.0,21
+2024,B,district,Huye,South,Sorghum,Female,922.9,28
+2024,B,district,Huye,South,Sorghum,Male,1131.5,39
+2024,B,district,Kamonyi,South,Sorghum,Female,1021.5,22
+2024,B,district,Kamonyi,South,Sorghum,Male,1419.9,26
+2024,B,district,Karongi,West,Sorghum,Male,1068.3,23
+2024,B,district,Kayonza,East,Sorghum,Female,1269.8,50
+2024,B,district,Kayonza,East,Sorghum,Male,1270.6,80
+2024,B,district,Kicukiro,Kigali,Sorghum,Female,1195.0,12
+2024,B,district,Kirehe,East,Sorghum,Female,1081.4,36
+2024,B,district,Kirehe,East,Sorghum,Male,1263.2,50
+2024,B,district,Musanze,North,Sorghum,Female,1303.0,31
+2024,B,district,Musanze,North,Sorghum,Male,1504.0,22
+2024,B,district,Ngoma,East,Sorghum,Female,998.8,18
+2024,B,district,Ngoma,East,Sorghum,Male,1303.6,56
+2024,B,district,Nyagatare,East,Sorghum,Female,1366.5,11
+2024,B,district,Nyagatare,East,Sorghum,Male,1626.0,29
+2024,B,district,Nyamagabe,South,Sorghum,Female,933.6,29
+2024,B,district,Nyamagabe,South,Sorghum,Male,844.9,45
+2024,B,district,Nyanza,South,Sorghum,Female,1268.1,35
+2024,B,district,Nyanza,South,Sorghum,Male,1008.3,41
+2024,B,district,Nyaruguru,South,Sorghum,Male,695.0,32
+2024,B,district,Ruhango,South,Sorghum,Female,965.0,23
+2024,B,district,Ruhango,South,Sorghum,Male,939.9,24
+2024,B,district,Rulindo,North,Sorghum,Female,924.1,12
+2024,B,district,Rulindo,North,Sorghum,Male,1277.5,27
+2024,B,district,Rwamagana,East,Sorghum,Female,1074.6,39
+2024,B,district,Rwamagana,East,Sorghum,Male,1152.9,57
+2024,B,national,Rwanda,,Soybean,Female,406.3,146
+2024,B,national,Rwanda,,Soybean,Male,408.4,192
+2024,B,district,Gisagara,South,Soybean,Female,436.9,11
+2024,B,district,Gisagara,South,Soybean,Male,391.2,13
+2024,B,district,Huye,South,Soybean,Female,320.1,13
+2024,B,district,Huye,South,Soybean,Male,368.1,14
+2024,B,district,Kamonyi,South,Soybean,Female,474.0,18
+2024,B,district,Kamonyi,South,Soybean,Male,339.4,15
+2024,B,district,Karongi,West,Soybean,Male,429.7,15
+2024,B,district,Muhanga,South,Soybean,Male,272.5,11
+2024,B,district,Ngororero,West,Soybean,Male,557.5,12
+2024,B,district,Nyanza,South,Soybean,Male,471.4,14
+2024,B,district,Ruhango,South,Soybean,Female,463.9,15
+2024,B,district,Ruhango,South,Soybean,Male,379.3,18
+2024,B,national,Rwanda,,Sweet potato,Female,7572.2,612
+2024,B,national,Rwanda,,Sweet potato,Male,7588.0,962
+2024,B,district,Burera,North,Sweet potato,Female,7968.8,43
+2024,B,district,Burera,North,Sweet potato,Male,8866.4,57
+2024,B,district,Gakenke,North,Sweet potato,Female,9783.6,33
+2024,B,district,Gakenke,North,Sweet potato,Male,9443.6,45
+2024,B,district,Gasabo,Kigali,Sweet potato,Female,7008.9,21
+2024,B,district,Gasabo,Kigali,Sweet potato,Male,5779.9,10
+2024,B,district,Gatsibo,East,Sweet potato,Female,8412.1,15
+2024,B,district,Gatsibo,East,Sweet potato,Male,9535.2,27
+2024,B,district,Gicumbi,North,Sweet potato,Female,7503.8,23
+2024,B,district,Gicumbi,North,Sweet potato,Male,7933.7,65
+2024,B,district,Gisagara,South,Sweet potato,Female,7661.5,13
+2024,B,district,Gisagara,South,Sweet potato,Male,6272.0,34
+2024,B,district,Huye,South,Sweet potato,Female,6715.6,21
+2024,B,district,Huye,South,Sweet potato,Male,6578.8,42
+2024,B,district,Kamonyi,South,Sweet potato,Female,5864.4,25
+2024,B,district,Kamonyi,South,Sweet potato,Male,5982.3,40
+2024,B,district,Karongi,West,Sweet potato,Female,8806.5,31
+2024,B,district,Karongi,West,Sweet potato,Male,8010.1,40
+2024,B,district,Kayonza,East,Sweet potato,Male,6904.8,12
+2024,B,district,Kirehe,East,Sweet potato,Male,6064.4,13
+2024,B,district,Muhanga,South,Sweet potato,Female,7865.7,26
+2024,B,district,Muhanga,South,Sweet potato,Male,6669.6,51
+2024,B,district,Musanze,North,Sweet potato,Female,8041.3,33
+2024,B,district,Musanze,North,Sweet potato,Male,11313.4,23
+2024,B,district,Ngoma,East,Sweet potato,Female,6229.3,11
+2024,B,district,Ngoma,East,Sweet potato,Male,8459.4,13
+2024,B,district,Ngororero,West,Sweet potato,Female,6484.0,45
+2024,B,district,Ngororero,West,Sweet potato,Male,6187.2,77
+2024,B,district,Nyabihu,West,Sweet potato,Female,7182.3,27
+2024,B,district,Nyabihu,West,Sweet potato,Male,5979.5,40
+2024,B,district,Nyagatare,East,Sweet potato,Female,5384.1,16
+2024,B,district,Nyagatare,East,Sweet potato,Male,5817.9,13
+2024,B,district,Nyamagabe,South,Sweet potato,Female,7111.8,37
+2024,B,district,Nyamagabe,South,Sweet potato,Male,7808.9,57
+2024,B,district,Nyamasheke,West,Sweet potato,Female,7884.3,33
+2024,B,district,Nyamasheke,West,Sweet potato,Male,7833.1,43
+2024,B,district,Nyanza,South,Sweet potato,Female,10310.7,14
+2024,B,district,Nyanza,South,Sweet potato,Male,5889.0,19
+2024,B,district,Nyaruguru,South,Sweet potato,Female,10637.3,21
+2024,B,district,Nyaruguru,South,Sweet potato,Male,9361.1,60
+2024,B,district,Rubavu,West,Sweet potato,Female,7639.8,17
+2024,B,district,Rubavu,West,Sweet potato,Male,7952.2,17
+2024,B,district,Ruhango,South,Sweet potato,Female,6320.6,26
+2024,B,district,Ruhango,South,Sweet potato,Male,5362.2,33
+2024,B,district,Rulindo,North,Sweet potato,Female,8706.8,14
+2024,B,district,Rulindo,North,Sweet potato,Male,8705.5,33
+2024,B,district,Rusizi,West,Sweet potato,Female,7589.2,11
+2024,B,district,Rusizi,West,Sweet potato,Male,7480.8,23
+2024,B,district,Rutsiro,West,Sweet potato,Female,6588.6,17
+2024,B,district,Rutsiro,West,Sweet potato,Male,7654.5,31
+2024,B,district,Rwamagana,East,Sweet potato,Female,7083.0,14
+2024,B,district,Rwamagana,East,Sweet potato,Male,6849.3,27
+2024,B,national,Rwanda,,Taro,Female,7197.0,104
+2024,B,national,Rwanda,,Taro,Male,6694.7,183
+2024,B,district,Gisagara,South,Taro,Male,8804.1,11
+2024,B,district,Karongi,West,Taro,Male,8323.1,12
+2024,B,district,Kirehe,East,Taro,Male,3150.4,15
+2024,B,district,Muhanga,South,Taro,Female,8987.0,13
+2024,B,district,Muhanga,South,Taro,Male,6131.6,23
+2024,B,district,Ngororero,West,Taro,Female,7009.1,11
+2024,B,district,Ngororero,West,Taro,Male,7267.2,11
+2024,B,district,Nyamasheke,West,Taro,Male,4872.5,10
+2024,B,district,Nyanza,South,Taro,Female,4712.4,15
+2024,B,district,Nyanza,South,Taro,Male,6385.1,12
+2024,B,district,Ruhango,South,Taro,Male,7253.2,12
+2024,B,district,Rusizi,West,Taro,Male,7661.2,10
+2024,B,national,Rwanda,,Tomato,Male,8130.2,42
+2024,C,national,Rwanda,,Bush bean,Female,906.7,91
+2024,C,national,Rwanda,,Bush bean,Male,984.6,169
+2024,C,district,Bugesera,East,Bush bean,Male,941.8,26
+2024,C,district,Gicumbi,North,Bush bean,Male,1137.5,10
+2024,C,district,Gisagara,South,Bush bean,Female,695.0,11
+2024,C,district,Gisagara,South,Bush bean,Male,865.4,33
+2024,C,district,Huye,South,Bush bean,Male,1019.0,13
+2024,C,district,Kamonyi,South,Bush bean,Male,978.7,10
+2024,C,district,Nyaruguru,South,Bush bean,Male,935.0,12
+2024,C,district,Rusizi,West,Bush bean,Female,888.4,12
+2024,C,national,Rwanda,,Eggplant,Female,6842.5,19
+2024,C,national,Rwanda,,Eggplant,Male,7599.2,69
+2024,C,district,Gisagara,South,Eggplant,Male,9625.5,12
+2024,C,national,Rwanda,,Irish potato,Female,8818.0,94
+2024,C,national,Rwanda,,Irish potato,Male,8776.6,254
+2024,C,district,Burera,North,Irish potato,Female,9096.3,20
+2024,C,district,Burera,North,Irish potato,Male,8989.8,77
+2024,C,district,Musanze,North,Irish potato,Female,10392.9,15
+2024,C,district,Musanze,North,Irish potato,Male,9812.8,41
+2024,C,district,Nyabihu,West,Irish potato,Female,8715.8,21
+2024,C,district,Nyabihu,West,Irish potato,Male,8372.1,57
+2024,C,district,Nyamagabe,South,Irish potato,Male,9407.7,12
+2024,C,national,Rwanda,,Pea,Female,923.9,22
+2024,C,national,Rwanda,,Pea,Male,979.9,38
+2024,C,district,Nyanza,South,Pea,Female,968.1,10
+2024,C,district,Nyanza,South,Pea,Male,1243.4,15
+2024,C,national,Rwanda,,Soybean,Female,685.1,22
+2024,C,national,Rwanda,,Soybean,Male,941.4,42
+2024,C,district,Bugesera,East,Soybean,Male,723.2,11
+2024,C,national,Rwanda,,Sweet potato,Female,8146.0,207
+2024,C,national,Rwanda,,Sweet potato,Male,8341.6,407
+2024,C,district,Bugesera,East,Sweet potato,Male,8791.9,10
+2024,C,district,Gakenke,North,Sweet potato,Male,7851.2,21
+2024,C,district,Gatsibo,East,Sweet potato,Female,9229.3,11
+2024,C,district,Gatsibo,East,Sweet potato,Male,9712.9,21
+2024,C,district,Gicumbi,North,Sweet potato,Male,13845.5,14
+2024,C,district,Gisagara,South,Sweet potato,Male,8476.0,31
+2024,C,district,Huye,South,Sweet potato,Female,8003.6,14
+2024,C,district,Huye,South,Sweet potato,Male,8535.6,28
+2024,C,district,Kamonyi,South,Sweet potato,Male,6948.6,18
+2024,C,district,Kayonza,East,Sweet potato,Male,9146.0,11
+2024,C,district,Kicukiro,Kigali,Sweet potato,Male,5750.7,11
+2024,C,district,Kirehe,East,Sweet potato,Male,10812.1,14
+2024,C,district,Muhanga,South,Sweet potato,Female,7938.4,11
+2024,C,district,Muhanga,South,Sweet potato,Male,7838.1,26
+2024,C,district,Musanze,North,Sweet potato,Male,10726.7,11
+2024,C,district,Ngororero,West,Sweet potato,Male,8961.7,13
+2024,C,district,Nyamagabe,South,Sweet potato,Female,5346.3,12
+2024,C,district,Nyamagabe,South,Sweet potato,Male,5976.3,26
+2024,C,district,Nyanza,South,Sweet potato,Male,5699.0,14
+2024,C,district,Nyaruguru,South,Sweet potato,Female,9952.9,12
+2024,C,district,Nyaruguru,South,Sweet potato,Male,8003.2,21
+2024,C,district,Ruhango,South,Sweet potato,Female,6785.9,15
+2024,C,district,Ruhango,South,Sweet potato,Male,9356.0,29
+2024,C,district,Rulindo,North,Sweet potato,Female,6136.1,13
+2024,C,district,Rulindo,North,Sweet potato,Male,7959.0,11
+2024,C,district,Rusizi,West,Sweet potato,Male,7546.8,10
+2024,C,national,Rwanda,,Tomato,Female,12558.9,23
+2024,C,national,Rwanda,,Tomato,Male,15257.3,119
+2024,C,district,Kirehe,East,Tomato,Male,15896.5,12
+2024,C,district,Nyanza,South,Tomato,Male,17093.5,11
+2025,A,national,Rwanda,,Banana for beer,Female,5035.5,881
+2025,A,national,Rwanda,,Banana for beer,Male,5188.8,1899
+2025,A,district,Bugesera,East,Banana for beer,Female,4876.6,37
+2025,A,district,Bugesera,East,Banana for beer,Male,5175.6,61
+2025,A,district,Burera,North,Banana for beer,Male,4035.9,16
+2025,A,district,Gakenke,North,Banana for beer,Female,4983.8,44
+2025,A,district,Gakenke,North,Banana for beer,Male,5147.4,109
+2025,A,district,Gasabo,Kigali,Banana for beer,Female,6105.8,28
+2025,A,district,Gasabo,Kigali,Banana for beer,Male,5932.2,49
+2025,A,district,Gatsibo,East,Banana for beer,Female,4766.9,48
+2025,A,district,Gatsibo,East,Banana for beer,Male,4854.6,84
+2025,A,district,Gicumbi,North,Banana for beer,Female,5499.1,23
+2025,A,district,Gicumbi,North,Banana for beer,Male,5590.9,73
+2025,A,district,Gisagara,South,Banana for beer,Female,4577.0,35
+2025,A,district,Gisagara,South,Banana for beer,Male,4649.1,54
+2025,A,district,Huye,South,Banana for beer,Female,4829.6,20
+2025,A,district,Huye,South,Banana for beer,Male,4645.2,18
+2025,A,district,Kamonyi,South,Banana for beer,Female,5203.8,63
+2025,A,district,Kamonyi,South,Banana for beer,Male,4810.0,115
+2025,A,district,Karongi,West,Banana for beer,Female,6610.8,53
+2025,A,district,Karongi,West,Banana for beer,Male,6297.8,126
+2025,A,district,Kayonza,East,Banana for beer,Female,4420.6,21
+2025,A,district,Kayonza,East,Banana for beer,Male,4498.4,35
+2025,A,district,Kicukiro,Kigali,Banana for beer,Female,5535.9,24
+2025,A,district,Kicukiro,Kigali,Banana for beer,Male,5452.4,20
+2025,A,district,Kirehe,East,Banana for beer,Female,5528.4,42
+2025,A,district,Kirehe,East,Banana for beer,Male,5329.1,131
+2025,A,district,Muhanga,South,Banana for beer,Female,5065.2,35
+2025,A,district,Muhanga,South,Banana for beer,Male,5154.8,140
+2025,A,district,Musanze,North,Banana for beer,Female,5017.3,13
+2025,A,district,Musanze,North,Banana for beer,Male,6391.6,22
+2025,A,district,Ngoma,East,Banana for beer,Female,5235.1,41
+2025,A,district,Ngoma,East,Banana for beer,Male,5525.4,82
+2025,A,district,Ngororero,West,Banana for beer,Female,4080.6,42
+2025,A,district,Ngororero,West,Banana for beer,Male,4267.6,122
+2025,A,district,Nyabihu,West,Banana for beer,Female,5285.6,11
+2025,A,district,Nyabihu,West,Banana for beer,Male,5740.7,19
+2025,A,district,Nyagatare,East,Banana for beer,Female,5597.1,23
+2025,A,district,Nyagatare,East,Banana for beer,Male,5684.5,47
+2025,A,district,Nyamagabe,South,Banana for beer,Female,4703.5,20
+2025,A,district,Nyamagabe,South,Banana for beer,Male,4841.2,61
+2025,A,district,Nyamasheke,West,Banana for beer,Female,4110.0,31
+2025,A,district,Nyamasheke,West,Banana for beer,Male,4106.6,50
+2025,A,district,Nyanza,South,Banana for beer,Female,4183.2,31
+2025,A,district,Nyanza,South,Banana for beer,Male,4489.7,65
+2025,A,district,Nyarugenge,Kigali,Banana for beer,Female,5157.6,16
+2025,A,district,Nyarugenge,Kigali,Banana for beer,Male,5890.8,37
+2025,A,district,Nyaruguru,South,Banana for beer,Male,4554.4,22
+2025,A,district,Rubavu,West,Banana for beer,Male,5122.5,12
+2025,A,district,Ruhango,South,Banana for beer,Female,5707.5,41
+2025,A,district,Ruhango,South,Banana for beer,Male,6378.9,92
+2025,A,district,Rulindo,North,Banana for beer,Female,5218.3,38
+2025,A,district,Rulindo,North,Banana for beer,Male,5518.2,69
+2025,A,district,Rusizi,West,Banana for beer,Female,5116.3,15
+2025,A,district,Rusizi,West,Banana for beer,Male,5363.9,48
+2025,A,district,Rutsiro,West,Banana for beer,Female,5819.8,38
+2025,A,district,Rutsiro,West,Banana for beer,Male,6552.4,71
+2025,A,district,Rwamagana,East,Banana for beer,Female,4655.7,31
+2025,A,district,Rwamagana,East,Banana for beer,Male,5131.2,49
+2025,A,national,Rwanda,,Bush bean,Female,591.4,1939
+2025,A,national,Rwanda,,Bush bean,Male,629.7,2990
+2025,A,district,Bugesera,East,Bush bean,Female,433.0,128
+2025,A,district,Bugesera,East,Bush bean,Male,424.4,184
+2025,A,district,Burera,North,Bush bean,Male,747.2,11
+2025,A,district,Gakenke,North,Bush bean,Female,525.9,26
+2025,A,district,Gakenke,North,Bush bean,Male,588.1,33
+2025,A,district,Gasabo,Kigali,Bush bean,Female,594.0,93
+2025,A,district,Gasabo,Kigali,Bush bean,Male,641.5,95
+2025,A,district,Gatsibo,East,Bush bean,Female,656.5,128
+2025,A,district,Gatsibo,East,Bush bean,Male,710.5,249
+2025,A,district,Gicumbi,North,Bush bean,Female,589.2,32
+2025,A,district,Gicumbi,North,Bush bean,Male,630.6,77
+2025,A,district,Gisagara,South,Bush bean,Female,594.6,141
+2025,A,district,Gisagara,South,Bush bean,Male,596.0,203
+2025,A,district,Huye,South,Bush bean,Female,585.5,83
+2025,A,district,Huye,South,Bush bean,Male,662.5,114
+2025,A,district,Kamonyi,South,Bush bean,Female,426.0,121
+2025,A,district,Kamonyi,South,Bush bean,Male,419.6,160
+2025,A,district,Karongi,West,Bush bean,Female,692.6,36
+2025,A,district,Karongi,West,Bush bean,Male,598.8,45
+2025,A,district,Kayonza,East,Bush bean,Female,662.0,81
+2025,A,district,Kayonza,East,Bush bean,Male,647.0,156
+2025,A,district,Kicukiro,Kigali,Bush bean,Female,509.5,70
+2025,A,district,Kicukiro,Kigali,Bush bean,Male,480.9,50
+2025,A,district,Kirehe,East,Bush bean,Female,611.7,104
+2025,A,district,Kirehe,East,Bush bean,Male,685.0,229
+2025,A,district,Muhanga,South,Bush bean,Female,417.4,33
+2025,A,district,Muhanga,South,Bush bean,Male,436.0,87
+2025,A,district,Ngoma,East,Bush bean,Female,661.9,145
+2025,A,district,Ngoma,East,Bush bean,Male,688.1,201
+2025,A,district,Ngororero,West,Bush bean,Female,521.7,15
+2025,A,district,Ngororero,West,Bush bean,Male,630.0,23
+2025,A,district,Nyagatare,East,Bush bean,Female,742.4,76
+2025,A,district,Nyagatare,East,Bush bean,Male,905.1,156
+2025,A,district,Nyamagabe,South,Bush bean,Female,735.6,19
+2025,A,district,Nyamagabe,South,Bush bean,Male,497.6,40
+2025,A,district,Nyamasheke,West,Bush bean,Female,571.8,16
+2025,A,district,Nyamasheke,West,Bush bean,Male,581.3,45
+2025,A,district,Nyanza,South,Bush bean,Female,541.7,118
+2025,A,district,Nyanza,South,Bush bean,Male,589.9,200
+2025,A,district,Nyarugenge,Kigali,Bush bean,Female,603.1,38
+2025,A,district,Nyarugenge,Kigali,Bush bean,Male,641.2,39
+2025,A,district,Nyaruguru,South,Bush bean,Female,592.0,14
+2025,A,district,Nyaruguru,South,Bush bean,Male,705.9,25
+2025,A,district,Rubavu,West,Bush bean,Female,459.4,14
+2025,A,district,Rubavu,West,Bush bean,Male,504.7,29
+2025,A,district,Ruhango,South,Bush bean,Female,434.3,89
+2025,A,district,Ruhango,South,Bush bean,Male,434.4,105
+2025,A,district,Rulindo,North,Bush bean,Female,524.9,52
+2025,A,district,Rulindo,North,Bush bean,Male,587.6,62
+2025,A,district,Rusizi,West,Bush bean,Female,758.8,107
+2025,A,district,Rusizi,West,Bush bean,Male,772.7,165
+2025,A,district,Rutsiro,West,Bush bean,Female,598.4,12
+2025,A,district,Rutsiro,West,Bush bean,Male,631.8,17
+2025,A,district,Rwamagana,East,Bush bean,Female,620.1,131
+2025,A,district,Rwamagana,East,Bush bean,Male,659.3,181
+2025,A,national,Rwanda,,Cassava,Female,9508.0,359
+2025,A,national,Rwanda,,Cassava,Male,9630.9,677
+2025,A,district,Bugesera,East,Cassava,Female,5240.1,73
+2025,A,district,Bugesera,East,Cassava,Male,5352.4,96
+2025,A,district,Gakenke,North,Cassava,Male,7739.5,18
+2025,A,district,Gasabo,Kigali,Cassava,Female,8998.3,13
+2025,A,district,Gasabo,Kigali,Cassava,Male,9232.6,22
+2025,A,district,Gatsibo,East,Cassava,Male,10439.4,11
+2025,A,district,Gicumbi,North,Cassava,Male,8066.3,31
+2025,A,district,Gisagara,South,Cassava,Female,9755.1,14
+2025,A,district,Gisagara,South,Cassava,Male,10308.5,35
+2025,A,district,Huye,South,Cassava,Female,8924.7,10
+2025,A,district,Huye,South,Cassava,Male,9060.8,24
+2025,A,district,Kamonyi,South,Cassava,Female,9350.3,48
+2025,A,district,Kamonyi,South,Cassava,Male,9686.5,55
+2025,A,district,Karongi,West,Cassava,Male,5489.4,19
+2025,A,district,Kirehe,East,Cassava,Female,11557.4,23
+2025,A,district,Kirehe,East,Cassava,Male,11612.3,54
+2025,A,district,Muhanga,South,Cassava,Female,10727.5,14
+2025,A,district,Muhanga,South,Cassava,Male,10399.0,30
+2025,A,district,Ngoma,East,Cassava,Female,10609.1,14
+2025,A,district,Ngoma,East,Cassava,Male,10169.2,29
+2025,A,district,Nyagatare,East,Cassava,Male,11587.5,10
+2025,A,district,Nyamasheke,West,Cassava,Female,9652.4,21
+2025,A,district,Nyamasheke,West,Cassava,Male,9832.8,33
+2025,A,district,Nyanza,South,Cassava,Female,11981.6,21
+2025,A,district,Nyanza,South,Cassava,Male,11551.3,44
+2025,A,district,Nyarugenge,Kigali,Cassava,Male,8488.0,10
+2025,A,district,Nyaruguru,South,Cassava,Male,8834.1,20
+2025,A,district,Ruhango,South,Cassava,Female,13284.1,27
+2025,A,district,Ruhango,South,Cassava,Male,13434.0,45
+2025,A,district,Rulindo,North,Cassava,Male,6461.3,21
+2025,A,district,Rusizi,West,Cassava,Male,9738.5,15
+2025,A,district,Rutsiro,West,Cassava,Male,7950.4,10
+2025,A,district,Rwamagana,East,Cassava,Female,9004.3,10
+2025,A,district,Rwamagana,East,Cassava,Male,9303.1,14
+2025,A,national,Rwanda,,Climbing bean,Female,764.4,1078
+2025,A,national,Rwanda,,Climbing bean,Male,810.2,1768
+2025,A,district,Burera,North,Climbing bean,Female,853.9,75
+2025,A,district,Burera,North,Climbing bean,Male,1059.3,114
+2025,A,district,Gakenke,North,Climbing bean,Female,786.7,59
+2025,A,district,Gakenke,North,Climbing bean,Male,783.5,112
+2025,A,district,Gatsibo,East,Climbing bean,Female,708.5,15
+2025,A,district,Gatsibo,East,Climbing bean,Male,860.3,43
+2025,A,district,Gicumbi,North,Climbing bean,Female,615.6,70
+2025,A,district,Gicumbi,North,Climbing bean,Male,829.3,160
+2025,A,district,Gisagara,South,Climbing bean,Female,505.5,15
+2025,A,district,Gisagara,South,Climbing bean,Male,527.1,33
+2025,A,district,Huye,South,Climbing bean,Female,844.8,44
+2025,A,district,Huye,South,Climbing bean,Male,580.8,58
+2025,A,district,Kamonyi,South,Climbing bean,Female,529.2,22
+2025,A,district,Kamonyi,South,Climbing bean,Male,517.3,22
+2025,A,district,Karongi,West,Climbing bean,Female,936.2,61
+2025,A,district,Karongi,West,Climbing bean,Male,967.2,80
+2025,A,district,Kirehe,East,Climbing bean,Female,743.9,10
+2025,A,district,Kirehe,East,Climbing bean,Male,648.8,26
+2025,A,district,Muhanga,South,Climbing bean,Female,636.8,21
+2025,A,district,Muhanga,South,Climbing bean,Male,554.9,65
+2025,A,district,Musanze,North,Climbing bean,Female,1001.0,123
+2025,A,district,Musanze,North,Climbing bean,Male,1104.2,116
+2025,A,district,Ngoma,East,Climbing bean,Female,919.5,10
+2025,A,district,Ngoma,East,Climbing bean,Male,787.6,19
+2025,A,district,Ngororero,West,Climbing bean,Female,812.1,107
+2025,A,district,Ngororero,West,Climbing bean,Male,858.3,154
+2025,A,district,Nyabihu,West,Climbing bean,Female,965.4,88
+2025,A,district,Nyabihu,West,Climbing bean,Male,1062.9,148
+2025,A,district,Nyagatare,East,Climbing bean,Male,1006.5,14
+2025,A,district,Nyamagabe,South,Climbing bean,Female,474.7,41
+2025,A,district,Nyamagabe,South,Climbing bean,Male,507.4,97
+2025,A,district,Nyamasheke,West,Climbing bean,Female,756.8,36
+2025,A,district,Nyamasheke,West,Climbing bean,Male,871.6,79
+2025,A,district,Nyanza,South,Climbing bean,Female,549.6,17
+2025,A,district,Nyanza,South,Climbing bean,Male,589.2,30
+2025,A,district,Nyaruguru,South,Climbing bean,Female,694.9,43
+2025,A,district,Nyaruguru,South,Climbing bean,Male,701.4,77
+2025,A,district,Rubavu,West,Climbing bean,Female,649.1,73
+2025,A,district,Rubavu,West,Climbing bean,Male,650.6,99
+2025,A,district,Ruhango,South,Climbing bean,Female,578.6,20
+2025,A,district,Ruhango,South,Climbing bean,Male,527.2,33
+2025,A,district,Rulindo,North,Climbing bean,Female,616.0,34
+2025,A,district,Rulindo,North,Climbing bean,Male,807.4,69
+2025,A,district,Rusizi,West,Climbing bean,Female,634.1,24
+2025,A,district,Rusizi,West,Climbing bean,Male,878.7,28
+2025,A,district,Rutsiro,West,Climbing bean,Female,768.7,45
+2025,A,district,Rutsiro,West,Climbing bean,Male,859.7,72
+2025,A,national,Rwanda,,Cooking banana,Female,6606.4,723
+2025,A,national,Rwanda,,Cooking banana,Male,6846.7,1420
+2025,A,district,Bugesera,East,Cooking banana,Female,7839.1,32
+2025,A,district,Bugesera,East,Cooking banana,Male,7911.4,45
+2025,A,district,Burera,North,Cooking banana,Male,5901.7,22
+2025,A,district,Gakenke,North,Cooking banana,Female,5778.4,26
+2025,A,district,Gakenke,North,Cooking banana,Male,6058.7,49
+2025,A,district,Gasabo,Kigali,Cooking banana,Female,5756.4,40
+2025,A,district,Gasabo,Kigali,Cooking banana,Male,5856.9,53
+2025,A,district,Gatsibo,East,Cooking banana,Female,7561.0,70
+2025,A,district,Gatsibo,East,Cooking banana,Male,7933.4,148
+2025,A,district,Gicumbi,North,Cooking banana,Female,6399.4,21
+2025,A,district,Gicumbi,North,Cooking banana,Male,6510.4,82
+2025,A,district,Gisagara,South,Cooking banana,Female,2866.6,24
+2025,A,district,Gisagara,South,Cooking banana,Male,3123.9,38
+2025,A,district,Huye,South,Cooking banana,Female,5960.0,16
+2025,A,district,Huye,South,Cooking banana,Male,5909.7,19
+2025,A,district,Kamonyi,South,Cooking banana,Female,5874.6,27
+2025,A,district,Kamonyi,South,Cooking banana,Male,6046.6,35
+2025,A,district,Karongi,West,Cooking banana,Female,5185.8,23
+2025,A,district,Karongi,West,Cooking banana,Male,5508.9,34
+2025,A,district,Kayonza,East,Cooking banana,Female,7339.9,39
+2025,A,district,Kayonza,East,Cooking banana,Male,7418.6,90
+2025,A,district,Kicukiro,Kigali,Cooking banana,Female,5476.4,23
+2025,A,district,Kicukiro,Kigali,Cooking banana,Male,4447.3,20
+2025,A,district,Kirehe,East,Cooking banana,Female,6985.5,60
+2025,A,district,Kirehe,East,Cooking banana,Male,7216.6,142
+2025,A,district,Muhanga,South,Cooking banana,Male,5826.6,62
+2025,A,district,Musanze,North,Cooking banana,Male,5978.4,17
+2025,A,district,Ngoma,East,Cooking banana,Female,6617.7,73
+2025,A,district,Ngoma,East,Cooking banana,Male,6902.9,109
+2025,A,district,Ngororero,West,Cooking banana,Female,3506.1,10
+2025,A,district,Ngororero,West,Cooking banana,Male,3573.1,27
+2025,A,district,Nyagatare,East,Cooking banana,Female,8986.4,36
+2025,A,district,Nyagatare,East,Cooking banana,Male,9321.0,77
+2025,A,district,Nyamagabe,South,Cooking banana,Male,3769.1,20
+2025,A,district,Nyamasheke,West,Cooking banana,Female,5105.0,16
+2025,A,district,Nyamasheke,West,Cooking banana,Male,5027.5,47
+2025,A,district,Nyanza,South,Cooking banana,Female,3523.8,25
+2025,A,district,Nyanza,South,Cooking banana,Male,3583.3,32
+2025,A,district,Nyarugenge,Kigali,Cooking banana,Female,5328.9,16
+2025,A,district,Nyarugenge,Kigali,Cooking banana,Male,5373.8,25
+2025,A,district,Nyaruguru,South,Cooking banana,Male,6260.2,18
+2025,A,district,Rubavu,West,Cooking banana,Female,5652.9,11
+2025,A,district,Rubavu,West,Cooking banana,Male,6057.0,14
+2025,A,district,Ruhango,South,Cooking banana,Male,5048.7,12
+2025,A,district,Rulindo,North,Cooking banana,Female,5136.7,22
+2025,A,district,Rulindo,North,Cooking banana,Male,5250.4,26
+2025,A,district,Rusizi,West,Cooking banana,Female,5435.8,10
+2025,A,district,Rusizi,West,Cooking banana,Male,5163.6,31
+2025,A,district,Rutsiro,West,Cooking banana,Female,6063.7,10
+2025,A,district,Rutsiro,West,Cooking banana,Male,5984.7,18
+2025,A,district,Rwamagana,East,Cooking banana,Female,8209.5,43
+2025,A,district,Rwamagana,East,Cooking banana,Male,8515.5,102
+2025,A,national,Rwanda,,Dessert banana,Female,3616.7,644
+2025,A,national,Rwanda,,Dessert banana,Male,3884.1,1463
+2025,A,district,Bugesera,East,Dessert banana,Female,3227.9,27
+2025,A,district,Bugesera,East,Dessert banana,Male,4296.9,45
+2025,A,district,Burera,North,Dessert banana,Male,3229.0,13
+2025,A,district,Gakenke,North,Dessert banana,Female,3455.1,28
+2025,A,district,Gakenke,North,Dessert banana,Male,3272.8,67
+2025,A,district,Gasabo,Kigali,Dessert banana,Female,3231.7,32
+2025,A,district,Gasabo,Kigali,Dessert banana,Male,3043.9,60
+2025,A,district,Gatsibo,East,Dessert banana,Female,3893.3,48
+2025,A,district,Gatsibo,East,Dessert banana,Male,4093.9,115
+2025,A,district,Gicumbi,North,Dessert banana,Female,2095.3,23
+2025,A,district,Gicumbi,North,Dessert banana,Male,2471.4,79
+2025,A,district,Gisagara,South,Dessert banana,Female,3005.6,24
+2025,A,district,Gisagara,South,Dessert banana,Male,3368.4,42
+2025,A,district,Huye,South,Dessert banana,Female,3973.9,15
+2025,A,district,Huye,South,Dessert banana,Male,4153.4,39
+2025,A,district,Kamonyi,South,Dessert banana,Female,2823.1,32
+2025,A,district,Kamonyi,South,Dessert banana,Male,2806.7,49
+2025,A,district,Karongi,West,Dessert banana,Female,5819.9,33
+2025,A,district,Karongi,West,Dessert banana,Male,5170.9,47
+2025,A,district,Kayonza,East,Dessert banana,Female,5419.8,17
+2025,A,district,Kayonza,East,Dessert banana,Male,5668.4,63
+2025,A,district,Kicukiro,Kigali,Dessert banana,Female,5191.0,24
+2025,A,district,Kicukiro,Kigali,Dessert banana,Male,5466.8,21
+2025,A,district,Kirehe,East,Dessert banana,Female,4069.1,35
+2025,A,district,Kirehe,East,Dessert banana,Male,4209.5,100
+2025,A,district,Muhanga,South,Dessert banana,Female,3402.6,25
+2025,A,district,Muhanga,South,Dessert banana,Male,3949.2,75
+2025,A,district,Musanze,North,Dessert banana,Male,3466.6,33
+2025,A,district,Ngoma,East,Dessert banana,Female,4152.4,30
+2025,A,district,Ngoma,East,Dessert banana,Male,4384.7,67
+2025,A,district,Ngororero,West,Dessert banana,Female,3192.5,22
+2025,A,district,Ngororero,West,Dessert banana,Male,3565.6,61
+2025,A,district,Nyabihu,West,Dessert banana,Male,3079.5,13
+2025,A,district,Nyagatare,East,Dessert banana,Female,4272.9,29
+2025,A,district,Nyagatare,East,Dessert banana,Male,4391.7,66
+2025,A,district,Nyamagabe,South,Dessert banana,Female,3350.5,11
+2025,A,district,Nyamagabe,South,Dessert banana,Male,3988.3,30
+2025,A,district,Nyamasheke,West,Dessert banana,Female,3217.0,13
+2025,A,district,Nyamasheke,West,Dessert banana,Male,3277.2,47
+2025,A,district,Nyanza,South,Dessert banana,Female,2636.3,22
+2025,A,district,Nyanza,South,Dessert banana,Male,3314.1,44
+2025,A,district,Nyarugenge,Kigali,Dessert banana,Female,5389.3,12
+2025,A,district,Nyarugenge,Kigali,Dessert banana,Male,4810.6,28
+2025,A,district,Nyaruguru,South,Dessert banana,Male,4727.4,22
+2025,A,district,Rubavu,West,Dessert banana,Male,3284.0,10
+2025,A,district,Ruhango,South,Dessert banana,Female,2813.2,19
+2025,A,district,Ruhango,South,Dessert banana,Male,3297.1,29
+2025,A,district,Rulindo,North,Dessert banana,Female,3679.5,32
+2025,A,district,Rulindo,North,Dessert banana,Male,4098.9,49
+2025,A,district,Rusizi,West,Dessert banana,Female,3611.3,12
+2025,A,district,Rusizi,West,Dessert banana,Male,3952.3,21
+2025,A,district,Rutsiro,West,Dessert banana,Female,3123.7,13
+2025,A,district,Rutsiro,West,Dessert banana,Male,3697.1,40
+2025,A,district,Rwamagana,East,Dessert banana,Female,3788.2,34
+2025,A,district,Rwamagana,East,Dessert banana,Male,4375.8,88
+2025,A,national,Rwanda,,Eggplant,Female,6787.6,26
+2025,A,national,Rwanda,,Eggplant,Male,7851.6,103
+2025,A,national,Rwanda,,Groundnut,Female,395.0,119
+2025,A,national,Rwanda,,Groundnut,Male,416.6,190
+2025,A,district,Bugesera,East,Groundnut,Female,376.9,34
+2025,A,district,Bugesera,East,Groundnut,Male,391.7,41
+2025,A,district,Gatsibo,East,Groundnut,Male,481.6,11
+2025,A,district,Kamonyi,South,Groundnut,Male,451.2,11
+2025,A,district,Kirehe,East,Groundnut,Male,278.4,14
+2025,A,district,Ngoma,East,Groundnut,Female,310.8,13
+2025,A,district,Ngoma,East,Groundnut,Male,423.5,15
+2025,A,district,Nyanza,South,Groundnut,Male,319.0,14
+2025,A,district,Rwamagana,East,Groundnut,Female,446.8,12
+2025,A,district,Rwamagana,East,Groundnut,Male,408.0,22
+2025,A,national,Rwanda,,Irish potato,Female,8238.4,448
+2025,A,national,Rwanda,,Irish potato,Male,9273.2,974
+2025,A,district,Bugesera,East,Irish potato,Male,3560.5,17
+2025,A,district,Burera,North,Irish potato,Female,10390.3,32
+2025,A,district,Burera,North,Irish potato,Male,10833.6,72
+2025,A,district,Gakenke,North,Irish potato,Female,6527.1,11
+2025,A,district,Gakenke,North,Irish potato,Male,4552.9,17
+2025,A,district,Gasabo,Kigali,Irish potato,Female,5100.2,11
+2025,A,district,Gasabo,Kigali,Irish potato,Male,5589.4,23
+2025,A,district,Gatsibo,East,Irish potato,Female,5659.2,20
+2025,A,district,Gatsibo,East,Irish potato,Male,5644.7,50
+2025,A,district,Gicumbi,North,Irish potato,Female,8455.4,22
+2025,A,district,Gicumbi,North,Irish potato,Male,9200.6,65
+2025,A,district,Gisagara,South,Irish potato,Female,3281.7,10
+2025,A,district,Huye,South,Irish potato,Male,3923.0,11
+2025,A,district,Karongi,West,Irish potato,Male,6142.6,16
+2025,A,district,Kayonza,East,Irish potato,Female,2904.2,33
+2025,A,district,Kayonza,East,Irish potato,Male,4224.8,46
+2025,A,district,Kirehe,East,Irish potato,Female,4511.9,34
+2025,A,district,Kirehe,East,Irish potato,Male,4762.0,66
+2025,A,district,Musanze,North,Irish potato,Female,10948.7,32
+2025,A,district,Musanze,North,Irish potato,Male,12018.3,75
+2025,A,district,Ngoma,East,Irish potato,Female,4115.9,29
+2025,A,district,Ngoma,East,Irish potato,Male,4547.2,58
+2025,A,district,Ngororero,West,Irish potato,Male,7599.5,13
+2025,A,district,Nyabihu,West,Irish potato,Female,12204.9,44
+2025,A,district,Nyabihu,West,Irish potato,Male,13611.7,110
+2025,A,district,Nyagatare,East,Irish potato,Male,6684.6,11
+2025,A,district,Nyamagabe,South,Irish potato,Female,6507.6,17
+2025,A,district,Nyamagabe,South,Irish potato,Male,9015.2,42
+2025,A,district,Nyaruguru,South,Irish potato,Female,4960.6,12
+2025,A,district,Nyaruguru,South,Irish potato,Male,6663.5,37
+2025,A,district,Rubavu,West,Irish potato,Female,13365.0,24
+2025,A,district,Rubavu,West,Irish potato,Male,14354.7,78
+2025,A,district,Rulindo,North,Irish potato,Female,6081.1,23
+2025,A,district,Rulindo,North,Irish potato,Male,5374.9,43
+2025,A,district,Rusizi,West,Irish potato,Male,4757.8,11
+2025,A,district,Rutsiro,West,Irish potato,Female,7343.5,33
+2025,A,district,Rutsiro,West,Irish potato,Male,9048.8,56
+2025,A,district,Rwamagana,East,Irish potato,Female,6044.2,13
+2025,A,district,Rwamagana,East,Irish potato,Male,7707.5,22
+2025,A,national,Rwanda,,Maize,Female,1772.8,2448
+2025,A,national,Rwanda,,Maize,Male,2078.2,4050
+2025,A,district,Bugesera,East,Maize,Female,1492.6,133
+2025,A,district,Bugesera,East,Maize,Male,1886.0,195
+2025,A,district,Burera,North,Maize,Female,1919.0,88
+2025,A,district,Burera,North,Maize,Male,2227.4,143
+2025,A,district,Gakenke,North,Maize,Female,1457.2,68
+2025,A,district,Gakenke,North,Maize,Male,1733.4,97
+2025,A,district,Gasabo,Kigali,Maize,Female,1478.6,82
+2025,A,district,Gasabo,Kigali,Maize,Male,1523.5,81
+2025,A,district,Gatsibo,East,Maize,Female,1810.4,140
+2025,A,district,Gatsibo,East,Maize,Male,2123.4,293
+2025,A,district,Gicumbi,North,Maize,Female,1346.9,61
+2025,A,district,Gicumbi,North,Maize,Male,1519.6,142
+2025,A,district,Gisagara,South,Maize,Female,1391.3,118
+2025,A,district,Gisagara,South,Maize,Male,1876.8,167
+2025,A,district,Huye,South,Maize,Female,1314.2,70
+2025,A,district,Huye,South,Maize,Male,1707.4,107
+2025,A,district,Kamonyi,South,Maize,Female,1305.3,109
+2025,A,district,Kamonyi,South,Maize,Male,1351.0,148
+2025,A,district,Karongi,West,Maize,Female,1403.2,80
+2025,A,district,Karongi,West,Maize,Male,1724.4,130
+2025,A,district,Kayonza,East,Maize,Female,1357.0,98
+2025,A,district,Kayonza,East,Maize,Male,1758.3,203
+2025,A,district,Kicukiro,Kigali,Maize,Female,1257.0,62
+2025,A,district,Kicukiro,Kigali,Maize,Male,1466.1,57
+2025,A,district,Kirehe,East,Maize,Female,2527.2,147
+2025,A,district,Kirehe,East,Maize,Male,2566.0,352
+2025,A,district,Muhanga,South,Maize,Female,2252.5,33
+2025,A,district,Muhanga,South,Maize,Male,1754.1,62
+2025,A,district,Musanze,North,Maize,Female,1842.8,87
+2025,A,district,Musanze,North,Maize,Male,1675.3,103
+2025,A,district,Ngoma,East,Maize,Female,2118.8,156
+2025,A,district,Ngoma,East,Maize,Male,2379.1,245
+2025,A,district,Ngororero,West,Maize,Female,1104.2,44
+2025,A,district,Ngororero,West,Maize,Male,1264.7,60
+2025,A,district,Nyabihu,West,Maize,Female,1449.4,39
+2025,A,district,Nyabihu,West,Maize,Male,1480.1,65
+2025,A,district,Nyagatare,East,Maize,Female,2741.0,132
+2025,A,district,Nyagatare,East,Maize,Male,3168.0,280
+2025,A,district,Nyamagabe,South,Maize,Female,1315.8,39
+2025,A,district,Nyamagabe,South,Maize,Male,1376.6,79
+2025,A,district,Nyamasheke,West,Maize,Female,1524.9,57
+2025,A,district,Nyamasheke,West,Maize,Male,1547.2,110
+2025,A,district,Nyanza,South,Maize,Female,1591.7,95
+2025,A,district,Nyanza,South,Maize,Male,1869.7,162
+2025,A,district,Nyarugenge,Kigali,Maize,Female,1425.6,26
+2025,A,district,Nyarugenge,Kigali,Maize,Male,1102.4,24
+2025,A,district,Nyaruguru,South,Maize,Female,1497.0,26
+2025,A,district,Nyaruguru,South,Maize,Male,1637.0,56
+2025,A,district,Rubavu,West,Maize,Female,1770.6,26
+2025,A,district,Rubavu,West,Maize,Male,1496.1,58
+2025,A,district,Ruhango,South,Maize,Female,1519.7,48
+2025,A,district,Ruhango,South,Maize,Male,1162.7,74
+2025,A,district,Rulindo,North,Maize,Female,1578.4,50
+2025,A,district,Rulindo,North,Maize,Male,2067.5,70
+2025,A,district,Rusizi,West,Maize,Female,1883.9,118
+2025,A,district,Rusizi,West,Maize,Male,1958.1,186
+2025,A,district,Rutsiro,West,Maize,Female,1183.3,80
+2025,A,district,Rutsiro,West,Maize,Male,1421.6,98
+2025,A,district,Rwamagana,East,Maize,Female,1526.2,136
+2025,A,district,Rwamagana,East,Maize,Male,1704.1,203
+2025,A,national,Rwanda,,Napia grass for fodder,Female,15206.7,25
+2025,A,national,Rwanda,,Napia grass for fodder,Male,16693.7,85
+2025,A,national,Rwanda,,Paddy rice,Female,2343.7,14
+2025,A,national,Rwanda,,Paddy rice,Male,2679.8,37
+2025,A,district,Nyanza,South,Paddy rice,Male,2431.3,10
+2025,A,national,Rwanda,,Pea,Female,543.1,134
+2025,A,national,Rwanda,,Pea,Male,550.0,224
+2025,A,district,Burera,North,Pea,Female,657.1,12
+2025,A,district,Burera,North,Pea,Male,722.6,22
+2025,A,district,Gatsibo,East,Pea,Male,760.2,11
+2025,A,district,Gicumbi,North,Pea,Female,448.0,23
+2025,A,district,Gicumbi,North,Pea,Male,566.8,39
+2025,A,district,Huye,South,Pea,Male,771.3,11
+2025,A,district,Nyabihu,West,Pea,Female,509.7,15
+2025,A,district,Nyabihu,West,Pea,Male,441.5,16
+2025,A,district,Nyamagabe,South,Pea,Female,483.7,14
+2025,A,district,Nyamagabe,South,Pea,Male,373.9,17
+2025,A,district,Nyanza,South,Pea,Male,812.3,11
+2025,A,district,Rubavu,West,Pea,Male,325.1,11
+2025,A,district,Rulindo,North,Pea,Male,447.5,10
+2025,A,district,Rutsiro,West,Pea,Female,439.4,10
+2025,A,district,Rutsiro,West,Pea,Male,491.6,17
+2025,A,national,Rwanda,,Sorghum,Female,1248.1,205
+2025,A,national,Rwanda,,Sorghum,Male,1459.1,365
+2025,A,district,Bugesera,East,Sorghum,Female,967.3,32
+2025,A,district,Bugesera,East,Sorghum,Male,1078.4,69
+2025,A,district,Burera,North,Sorghum,Male,1838.8,13
+2025,A,district,Gatsibo,East,Sorghum,Female,932.1,21
+2025,A,district,Gatsibo,East,Sorghum,Male,1103.1,48
+2025,A,district,Gicumbi,North,Sorghum,Male,1231.0,10
+2025,A,district,Gisagara,South,Sorghum,Female,680.7,11
+2025,A,district,Gisagara,South,Sorghum,Male,766.6,15
+2025,A,district,Kayonza,East,Sorghum,Female,1184.3,22
+2025,A,district,Kayonza,East,Sorghum,Male,1363.4,31
+2025,A,district,Kirehe,East,Sorghum,Female,1137.3,24
+2025,A,district,Kirehe,East,Sorghum,Male,1090.0,32
+2025,A,district,Musanze,North,Sorghum,Female,1555.3,22
+2025,A,district,Ngoma,East,Sorghum,Male,1314.9,13
+2025,A,district,Nyagatare,East,Sorghum,Female,1459.8,38
+2025,A,district,Nyagatare,East,Sorghum,Male,1802.6,101
+2025,A,district,Nyanza,South,Sorghum,Male,831.9,10
+2025,A,national,Rwanda,,Soybean,Female,461.3,333
+2025,A,national,Rwanda,,Soybean,Male,475.5,468
+2025,A,district,Gakenke,North,Soybean,Male,431.4,11
+2025,A,district,Gatsibo,East,Soybean,Male,326.9,17
+2025,A,district,Gicumbi,North,Soybean,Male,408.7,11
+2025,A,district,Gisagara,South,Soybean,Female,418.1,26
+2025,A,district,Gisagara,South,Soybean,Male,498.2,28
+2025,A,district,Huye,South,Soybean,Female,482.3,28
+2025,A,district,Huye,South,Soybean,Male,534.2,42
+2025,A,district,Kamonyi,South,Soybean,Female,505.3,34
+2025,A,district,Kamonyi,South,Soybean,Male,507.4,50
+2025,A,district,Karongi,West,Soybean,Female,574.6,23
+2025,A,district,Karongi,West,Soybean,Male,605.3,35
+2025,A,district,Muhanga,South,Soybean,Female,454.8,25
+2025,A,district,Muhanga,South,Soybean,Male,425.7,34
+2025,A,district,Ngororero,West,Soybean,Female,450.9,19
+2025,A,district,Ngororero,West,Soybean,Male,500.6,33
+2025,A,district,Nyagatare,East,Soybean,Female,566.7,16
+2025,A,district,Nyagatare,East,Soybean,Male,546.4,27
+2025,A,district,Nyamagabe,South,Soybean,Male,358.9,16
+2025,A,district,Nyamasheke,West,Soybean,Female,516.3,16
+2025,A,district,Nyamasheke,West,Soybean,Male,679.8,19
+2025,A,district,Nyanza,South,Soybean,Female,287.8,15
+2025,A,district,Nyanza,South,Soybean,Male,441.0,24
+2025,A,district,Ruhango,South,Soybean,Female,463.8,29
+2025,A,district,Ruhango,South,Soybean,Male,446.5,27
+2025,A,district,Rusizi,West,Soybean,Male,595.0,10
+2025,A,district,Rutsiro,West,Soybean,Female,567.0,13
+2025,A,district,Rutsiro,West,Soybean,Male,614.6,15
+2025,A,national,Rwanda,,Sweet potato,Female,7947.8,426
+2025,A,national,Rwanda,,Sweet potato,Male,8065.1,665
+2025,A,district,Bugesera,East,Sweet potato,Female,6888.9,15
+2025,A,district,Bugesera,East,Sweet potato,Male,8533.8,26
+2025,A,district,Burera,North,Sweet potato,Female,8635.0,33
+2025,A,district,Burera,North,Sweet potato,Male,9550.9,53
+2025,A,district,Gakenke,North,Sweet potato,Female,8381.7,29
+2025,A,district,Gakenke,North,Sweet potato,Male,8220.3,48
+2025,A,district,Gasabo,Kigali,Sweet potato,Male,8929.5,14
+2025,A,district,Gatsibo,East,Sweet potato,Female,10043.6,10
+2025,A,district,Gatsibo,East,Sweet potato,Male,7072.3,16
+2025,A,district,Gicumbi,North,Sweet potato,Female,9838.2,23
+2025,A,district,Gicumbi,North,Sweet potato,Male,9610.7,51
+2025,A,district,Gisagara,South,Sweet potato,Female,8448.4,16
+2025,A,district,Gisagara,South,Sweet potato,Male,5603.6,28
+2025,A,district,Huye,South,Sweet potato,Male,8602.4,19
+2025,A,district,Kamonyi,South,Sweet potato,Female,5077.8,14
+2025,A,district,Kamonyi,South,Sweet potato,Male,6611.2,19
+2025,A,district,Karongi,West,Sweet potato,Female,8835.8,18
+2025,A,district,Karongi,West,Sweet potato,Male,9910.5,25
+2025,A,district,Kayonza,East,Sweet potato,Male,7899.4,12
+2025,A,district,Kicukiro,Kigali,Sweet potato,Female,6712.8,16
+2025,A,district,Kicukiro,Kigali,Sweet potato,Male,7460.2,13
+2025,A,district,Kirehe,East,Sweet potato,Male,6629.7,12
+2025,A,district,Muhanga,South,Sweet potato,Female,7475.5,14
+2025,A,district,Muhanga,South,Sweet potato,Male,6801.4,28
+2025,A,district,Musanze,North,Sweet potato,Female,8888.3,14
+2025,A,district,Musanze,North,Sweet potato,Male,8100.2,19
+2025,A,district,Ngoma,East,Sweet potato,Male,6214.3,11
+2025,A,district,Ngororero,West,Sweet potato,Female,7665.5,27
+2025,A,district,Ngororero,West,Sweet potato,Male,7935.5,32
+2025,A,district,Nyabihu,West,Sweet potato,Female,9005.8,24
+2025,A,district,Nyabihu,West,Sweet potato,Male,9005.7,25
+2025,A,district,Nyagatare,East,Sweet potato,Female,5912.7,10
+2025,A,district,Nyagatare,East,Sweet potato,Male,4658.7,12
+2025,A,district,Nyamagabe,South,Sweet potato,Female,8771.4,17
+2025,A,district,Nyamagabe,South,Sweet potato,Male,9893.9,32
+2025,A,district,Nyamasheke,West,Sweet potato,Female,5661.9,17
+2025,A,district,Nyamasheke,West,Sweet potato,Male,5130.7,25
+2025,A,district,Nyanza,South,Sweet potato,Female,6036.1,10
+2025,A,district,Nyanza,South,Sweet potato,Male,7168.5,18
+2025,A,district,Nyarugenge,Kigali,Sweet potato,Female,6302.7,10
+2025,A,district,Nyaruguru,South,Sweet potato,Female,10156.2,12
+2025,A,district,Nyaruguru,South,Sweet potato,Male,9323.9,34
+2025,A,district,Ruhango,South,Sweet potato,Female,7316.2,11
+2025,A,district,Ruhango,South,Sweet potato,Male,6811.7,12
+2025,A,district,Rulindo,North,Sweet potato,Female,7009.1,17
+2025,A,district,Rulindo,North,Sweet potato,Male,6846.8,28
+2025,A,district,Rutsiro,West,Sweet potato,Female,8600.6,13
+2025,A,district,Rutsiro,West,Sweet potato,Male,10006.5,15
+2025,A,district,Rwamagana,East,Sweet potato,Male,7992.9,20
+2025,A,national,Rwanda,,Taro,Female,4700.0,33
+2025,A,national,Rwanda,,Taro,Male,6689.8,92
+2025,A,district,Gakenke,North,Taro,Male,5569.4,10
+2025,A,national,Rwanda,,Tomato,Female,4006.1,20
+2025,A,national,Rwanda,,Tomato,Male,8816.3,112
+2025,A,district,Gatsibo,East,Tomato,Male,8537.4,11
+2025,A,district,Kamonyi,South,Tomato,Male,12029.0,10
+2025,A,district,Rwamagana,East,Tomato,Male,13326.0,10
+2025,B,national,Rwanda,,Banana for beer,Female,4423.0,1009
+2025,B,national,Rwanda,,Banana for beer,Male,4538.4,2114
+2025,B,district,Bugesera,East,Banana for beer,Female,6063.2,35
+2025,B,district,Bugesera,East,Banana for beer,Male,6150.2,76
+2025,B,district,Burera,North,Banana for beer,Male,3462.8,21
+2025,B,district,Gakenke,North,Banana for beer,Female,3984.1,50
+2025,B,district,Gakenke,North,Banana for beer,Male,4262.9,122
+2025,B,district,Gasabo,Kigali,Banana for beer,Female,3662.4,32
+2025,B,district,Gasabo,Kigali,Banana for beer,Male,3768.2,43
+2025,B,district,Gatsibo,East,Banana for beer,Female,4020.1,59
+2025,B,district,Gatsibo,East,Banana for beer,Male,4181.3,111
+2025,B,district,Gicumbi,North,Banana for beer,Female,5416.5,28
+2025,B,district,Gicumbi,North,Banana for beer,Male,5444.6,75
+2025,B,district,Gisagara,South,Banana for beer,Female,2835.3,46
+2025,B,district,Gisagara,South,Banana for beer,Male,2660.3,73
+2025,B,district,Huye,South,Banana for beer,Female,3132.6,16
+2025,B,district,Huye,South,Banana for beer,Male,2889.8,33
+2025,B,district,Kamonyi,South,Banana for beer,Female,4857.7,65
+2025,B,district,Kamonyi,South,Banana for beer,Male,4734.2,126
+2025,B,district,Karongi,West,Banana for beer,Female,6235.5,51
+2025,B,district,Karongi,West,Banana for beer,Male,5823.7,137
+2025,B,district,Kayonza,East,Banana for beer,Female,3698.7,27
+2025,B,district,Kayonza,East,Banana for beer,Male,3543.3,36
+2025,B,district,Kicukiro,Kigali,Banana for beer,Female,3768.9,27
+2025,B,district,Kicukiro,Kigali,Banana for beer,Male,4134.5,26
+2025,B,district,Kirehe,East,Banana for beer,Female,3460.6,49
+2025,B,district,Kirehe,East,Banana for beer,Male,3724.2,137
+2025,B,district,Muhanga,South,Banana for beer,Female,5241.4,55
+2025,B,district,Muhanga,South,Banana for beer,Male,5123.3,142
+2025,B,district,Musanze,North,Banana for beer,Female,2831.3,13
+2025,B,district,Musanze,North,Banana for beer,Male,3252.4,21
+2025,B,district,Ngoma,East,Banana for beer,Female,5780.3,64
+2025,B,district,Ngoma,East,Banana for beer,Male,5198.2,112
+2025,B,district,Ngororero,West,Banana for beer,Female,4512.6,54
+2025,B,district,Ngororero,West,Banana for beer,Male,6006.6,110
+2025,B,district,Nyabihu,West,Banana for beer,Male,3056.2,21
+2025,B,district,Nyagatare,East,Banana for beer,Female,5405.4,27
+2025,B,district,Nyagatare,East,Banana for beer,Male,5619.0,61
+2025,B,district,Nyamagabe,South,Banana for beer,Female,2535.7,26
+2025,B,district,Nyamagabe,South,Banana for beer,Male,2650.7,66
+2025,B,district,Nyamasheke,West,Banana for beer,Female,3272.1,21
+2025,B,district,Nyamasheke,West,Banana for beer,Male,3606.1,50
+2025,B,district,Nyanza,South,Banana for beer,Female,3048.0,43
+2025,B,district,Nyanza,South,Banana for beer,Male,3122.3,76
+2025,B,district,Nyarugenge,Kigali,Banana for beer,Female,5001.1,18
+2025,B,district,Nyarugenge,Kigali,Banana for beer,Male,5247.9,40
+2025,B,district,Nyaruguru,South,Banana for beer,Female,2994.7,11
+2025,B,district,Nyaruguru,South,Banana for beer,Male,3265.4,25
+2025,B,district,Rubavu,West,Banana for beer,Female,5477.6,12
+2025,B,district,Rubavu,West,Banana for beer,Male,5372.0,13
+2025,B,district,Ruhango,South,Banana for beer,Female,3277.6,40
+2025,B,district,Ruhango,South,Banana for beer,Male,3898.9,101
+2025,B,district,Rulindo,North,Banana for beer,Female,4813.0,38
+2025,B,district,Rulindo,North,Banana for beer,Male,5362.9,67
+2025,B,district,Rusizi,West,Banana for beer,Female,3840.8,14
+2025,B,district,Rusizi,West,Banana for beer,Male,3827.4,58
+2025,B,district,Rutsiro,West,Banana for beer,Female,4781.5,37
+2025,B,district,Rutsiro,West,Banana for beer,Male,4764.4,80
+2025,B,district,Rwamagana,East,Banana for beer,Female,3257.9,40
+2025,B,district,Rwamagana,East,Banana for beer,Male,3542.1,55
+2025,B,national,Rwanda,,Bush bean,Female,551.3,1974
+2025,B,national,Rwanda,,Bush bean,Male,610.8,3037
+2025,B,district,Bugesera,East,Bush bean,Female,574.5,220
+2025,B,district,Bugesera,East,Bush bean,Male,600.2,333
+2025,B,district,Burera,North,Bush bean,Male,555.9,11
+2025,B,district,Gakenke,North,Bush bean,Female,688.8,20
+2025,B,district,Gakenke,North,Bush bean,Male,664.9,27
+2025,B,district,Gasabo,Kigali,Bush bean,Female,582.8,75
+2025,B,district,Gasabo,Kigali,Bush bean,Male,581.7,74
+2025,B,district,Gatsibo,East,Bush bean,Female,574.6,156
+2025,B,district,Gatsibo,East,Bush bean,Male,629.7,253
+2025,B,district,Gicumbi,North,Bush bean,Female,553.3,31
+2025,B,district,Gicumbi,North,Bush bean,Male,607.5,69
+2025,B,district,Gisagara,South,Bush bean,Female,494.6,114
+2025,B,district,Gisagara,South,Bush bean,Male,542.1,175
+2025,B,district,Huye,South,Bush bean,Female,512.7,62
+2025,B,district,Huye,South,Bush bean,Male,479.7,78
+2025,B,district,Kamonyi,South,Bush bean,Female,508.0,118
+2025,B,district,Kamonyi,South,Bush bean,Male,548.1,172
+2025,B,district,Karongi,West,Bush bean,Female,578.8,21
+2025,B,district,Karongi,West,Bush bean,Male,673.5,31
+2025,B,district,Kayonza,East,Bush bean,Female,486.6,121
+2025,B,district,Kayonza,East,Bush bean,Male,560.4,200
+2025,B,district,Kicukiro,Kigali,Bush bean,Female,564.0,66
+2025,B,district,Kicukiro,Kigali,Bush bean,Male,610.9,58
+2025,B,district,Kirehe,East,Bush bean,Female,564.9,109
+2025,B,district,Kirehe,East,Bush bean,Male,612.4,218
+2025,B,district,Muhanga,South,Bush bean,Female,502.7,29
+2025,B,district,Muhanga,South,Bush bean,Male,473.7,52
+2025,B,district,Musanze,North,Bush bean,Male,620.4,10
+2025,B,district,Ngoma,East,Bush bean,Female,719.4,142
+2025,B,district,Ngoma,East,Bush bean,Male,727.1,210
+2025,B,district,Ngororero,West,Bush bean,Male,507.2,24
+2025,B,district,Nyagatare,East,Bush bean,Female,537.1,140
+2025,B,district,Nyagatare,East,Bush bean,Male,696.8,273
+2025,B,district,Nyamagabe,South,Bush bean,Male,349.6,13
+2025,B,district,Nyamasheke,West,Bush bean,Female,534.8,20
+2025,B,district,Nyamasheke,West,Bush bean,Male,550.7,28
+2025,B,district,Nyanza,South,Bush bean,Female,525.5,116
+2025,B,district,Nyanza,South,Bush bean,Male,564.8,164
+2025,B,district,Nyarugenge,Kigali,Bush bean,Female,483.6,35
+2025,B,district,Nyarugenge,Kigali,Bush bean,Male,575.1,35
+2025,B,district,Nyaruguru,South,Bush bean,Female,419.4,17
+2025,B,district,Nyaruguru,South,Bush bean,Male,466.5,20
+2025,B,district,Rubavu,West,Bush bean,Female,412.6,10
+2025,B,district,Rubavu,West,Bush bean,Male,394.1,36
+2025,B,district,Ruhango,South,Bush bean,Female,489.0,76
+2025,B,district,Ruhango,South,Bush bean,Male,605.2,99
+2025,B,district,Rulindo,North,Bush bean,Female,546.4,31
+2025,B,district,Rulindo,North,Bush bean,Male,621.2,38
+2025,B,district,Rusizi,West,Bush bean,Female,655.5,89
+2025,B,district,Rusizi,West,Bush bean,Male,724.1,140
+2025,B,district,Rwamagana,East,Bush bean,Female,469.9,117
+2025,B,district,Rwamagana,East,Bush bean,Male,523.7,184
+2025,B,national,Rwanda,,Cassava,Female,9287.8,886
+2025,B,national,Rwanda,,Cassava,Male,9483.6,1499
+2025,B,district,Bugesera,East,Cassava,Female,8550.6,35
+2025,B,district,Bugesera,East,Cassava,Male,9219.6,63
+2025,B,district,Gakenke,North,Cassava,Female,9505.7,13
+2025,B,district,Gakenke,North,Cassava,Male,11094.4,41
+2025,B,district,Gasabo,Kigali,Cassava,Female,8925.1,12
+2025,B,district,Gasabo,Kigali,Cassava,Male,8982.4,17
+2025,B,district,Gatsibo,East,Cassava,Female,7461.2,44
+2025,B,district,Gatsibo,East,Cassava,Male,6995.4,66
+2025,B,district,Gicumbi,North,Cassava,Female,6723.4,10
+2025,B,district,Gicumbi,North,Cassava,Male,9564.2,32
+2025,B,district,Gisagara,South,Cassava,Female,10213.0,90
+2025,B,district,Gisagara,South,Cassava,Male,10672.1,124
+2025,B,district,Huye,South,Cassava,Female,7863.2,50
+2025,B,district,Huye,South,Cassava,Male,8447.7,70
+2025,B,district,Kamonyi,South,Cassava,Female,5520.9,76
+2025,B,district,Kamonyi,South,Cassava,Male,5798.0,112
+2025,B,district,Karongi,West,Cassava,Female,11601.1,39
+2025,B,district,Karongi,West,Cassava,Male,11196.7,62
+2025,B,district,Kayonza,East,Cassava,Female,12410.8,19
+2025,B,district,Kayonza,East,Cassava,Male,13022.0,34
+2025,B,district,Kicukiro,Kigali,Cassava,Female,9046.3,23
+2025,B,district,Kicukiro,Kigali,Cassava,Male,10321.5,22
+2025,B,district,Kirehe,East,Cassava,Female,9478.9,35
+2025,B,district,Kirehe,East,Cassava,Male,9597.7,52
+2025,B,district,Muhanga,South,Cassava,Female,11122.2,16
+2025,B,district,Muhanga,South,Cassava,Male,10950.3,37
+2025,B,district,Ngoma,East,Cassava,Female,10400.4,32
+2025,B,district,Ngoma,East,Cassava,Male,10966.7,64
+2025,B,district,Ngororero,West,Cassava,Female,5701.0,17
+2025,B,district,Ngororero,West,Cassava,Male,6236.6,25
+2025,B,district,Nyagatare,East,Cassava,Female,11740.6,12
+2025,B,district,Nyagatare,East,Cassava,Male,13235.9,22
+2025,B,district,Nyamagabe,South,Cassava,Female,11863.5,13
+2025,B,district,Nyamagabe,South,Cassava,Male,10025.2,45
+2025,B,district,Nyamasheke,West,Cassava,Female,9207.0,50
+2025,B,district,Nyamasheke,West,Cassava,Male,7823.0,107
+2025,B,district,Nyanza,South,Cassava,Female,10049.4,47
+2025,B,district,Nyanza,South,Cassava,Male,9247.1,97
+2025,B,district,Nyarugenge,Kigali,Cassava,Female,8199.3,13
+2025,B,district,Nyarugenge,Kigali,Cassava,Male,8581.2,22
+2025,B,district,Nyaruguru,South,Cassava,Female,9181.1,25
+2025,B,district,Nyaruguru,South,Cassava,Male,8425.5,57
+2025,B,district,Ruhango,South,Cassava,Female,13924.8,20
+2025,B,district,Ruhango,South,Cassava,Male,14814.8,23
+2025,B,district,Rulindo,North,Cassava,Female,10205.7,14
+2025,B,district,Rulindo,North,Cassava,Male,10710.3,19
+2025,B,district,Rusizi,West,Cassava,Female,7665.9,115
+2025,B,district,Rusizi,West,Cassava,Male,8049.1,192
+2025,B,district,Rutsiro,West,Cassava,Female,12299.1,14
+2025,B,district,Rutsiro,West,Cassava,Male,13353.7,23
+2025,B,district,Rwamagana,East,Cassava,Female,11588.6,40
+2025,B,district,Rwamagana,East,Cassava,Male,11453.6,52
+2025,B,national,Rwanda,,Climbing bean,Female,824.5,1132
+2025,B,national,Rwanda,,Climbing bean,Male,866.4,1829
+2025,B,district,Burera,North,Climbing bean,Female,1120.9,71
+2025,B,district,Burera,North,Climbing bean,Male,1171.8,99
+2025,B,district,Gakenke,North,Climbing bean,Female,827.4,64
+2025,B,district,Gakenke,North,Climbing bean,Male,900.2,135
+2025,B,district,Gatsibo,East,Climbing bean,Female,591.5,17
+2025,B,district,Gatsibo,East,Climbing bean,Male,824.3,41
+2025,B,district,Gicumbi,North,Climbing bean,Female,863.7,66
+2025,B,district,Gicumbi,North,Climbing bean,Male,904.3,143
+2025,B,district,Gisagara,South,Climbing bean,Female,889.5,29
+2025,B,district,Gisagara,South,Climbing bean,Male,744.8,47
+2025,B,district,Huye,South,Climbing bean,Female,701.2,49
+2025,B,district,Huye,South,Climbing bean,Male,725.1,76
+2025,B,district,Kamonyi,South,Climbing bean,Female,447.6,20
+2025,B,district,Kamonyi,South,Climbing bean,Male,569.2,34
+2025,B,district,Karongi,West,Climbing bean,Female,966.6,68
+2025,B,district,Karongi,West,Climbing bean,Male,994.4,129
+2025,B,district,Kirehe,East,Climbing bean,Female,741.7,63
+2025,B,district,Kirehe,East,Climbing bean,Male,669.0,131
+2025,B,district,Muhanga,South,Climbing bean,Female,678.6,38
+2025,B,district,Muhanga,South,Climbing bean,Male,618.7,67
+2025,B,district,Musanze,North,Climbing bean,Female,1022.2,101
+2025,B,district,Musanze,North,Climbing bean,Male,1114.4,77
+2025,B,district,Ngoma,East,Climbing bean,Female,857.9,22
+2025,B,district,Ngoma,East,Climbing bean,Male,963.2,27
+2025,B,district,Ngororero,West,Climbing bean,Female,943.1,69
+2025,B,district,Ngororero,West,Climbing bean,Male,988.3,95
+2025,B,district,Nyabihu,West,Climbing bean,Female,966.6,36
+2025,B,district,Nyabihu,West,Climbing bean,Male,1174.4,57
+2025,B,district,Nyagatare,East,Climbing bean,Male,1100.9,14
+2025,B,district,Nyamagabe,South,Climbing bean,Female,562.7,51
+2025,B,district,Nyamagabe,South,Climbing bean,Male,702.6,94
+2025,B,district,Nyamasheke,West,Climbing bean,Female,805.5,59
+2025,B,district,Nyamasheke,West,Climbing bean,Male,825.8,103
+2025,B,district,Nyanza,South,Climbing bean,Female,608.1,25
+2025,B,district,Nyanza,South,Climbing bean,Male,623.2,41
+2025,B,district,Nyaruguru,South,Climbing bean,Female,737.0,31
+2025,B,district,Nyaruguru,South,Climbing bean,Male,827.6,104
+2025,B,district,Rubavu,West,Climbing bean,Female,714.7,75
+2025,B,district,Rubavu,West,Climbing bean,Male,695.3,92
+2025,B,district,Ruhango,South,Climbing bean,Female,476.4,24
+2025,B,district,Ruhango,South,Climbing bean,Male,533.4,41
+2025,B,district,Rulindo,North,Climbing bean,Female,772.4,37
+2025,B,district,Rulindo,North,Climbing bean,Male,959.2,61
+2025,B,district,Rusizi,West,Climbing bean,Female,970.9,36
+2025,B,district,Rusizi,West,Climbing bean,Male,848.2,44
+2025,B,district,Rutsiro,West,Climbing bean,Female,740.1,48
+2025,B,district,Rutsiro,West,Climbing bean,Male,787.3,62
+2025,B,national,Rwanda,,Coffee,Female,1077.2,205
+2025,B,national,Rwanda,,Coffee,Male,1110.6,502
+2025,B,district,Bugesera,East,Coffee,Male,468.3,12
+2025,B,district,Gakenke,North,Coffee,Male,1343.8,18
+2025,B,district,Gatsibo,East,Coffee,Female,870.6,14
+2025,B,district,Gatsibo,East,Coffee,Male,945.5,36
+2025,B,district,Gicumbi,North,Coffee,Male,1162.7,19
+2025,B,district,Gisagara,South,Coffee,Male,1472.8,12
+2025,B,district,Huye,South,Coffee,Male,1106.9,10
+2025,B,district,Kamonyi,South,Coffee,Female,1089.2,18
+2025,B,district,Kamonyi,South,Coffee,Male,1335.8,20
+2025,B,district,Karongi,West,Coffee,Male,1013.2,12
+2025,B,district,Kirehe,East,Coffee,Female,889.6,18
+2025,B,district,Kirehe,East,Coffee,Male,863.4,52
+2025,B,district,Muhanga,South,Coffee,Male,975.4,11
+2025,B,district,Ngoma,East,Coffee,Female,883.4,11
+2025,B,district,Ngoma,East,Coffee,Male,1170.4,16
+2025,B,district,Nyamagabe,South,Coffee,Female,1211.8,13
+2025,B,district,Nyamagabe,South,Coffee,Male,1164.4,34
+2025,B,district,Nyamasheke,West,Coffee,Female,1444.7,14
+2025,B,district,Nyamasheke,West,Coffee,Male,1187.7,55
+2025,B,district,Nyanza,South,Coffee,Male,1011.9,17
+2025,B,district,Nyaruguru,South,Coffee,Male,1277.6,15
+2025,B,district,Ruhango,South,Coffee,Male,1228.3,18
+2025,B,district,Rulindo,North,Coffee,Male,1202.4,12
+2025,B,district,Rusizi,West,Coffee,Female,1201.0,21
+2025,B,district,Rusizi,West,Coffee,Male,1167.7,52
+2025,B,district,Rutsiro,West,Coffee,Female,1408.7,12
+2025,B,district,Rutsiro,West,Coffee,Male,1249.6,26
+2025,B,district,Rwamagana,East,Coffee,Male,903.7,20
+2025,B,national,Rwanda,,Cooking banana,Female,6558.9,903
+2025,B,national,Rwanda,,Cooking banana,Male,6809.0,1776
+2025,B,district,Bugesera,East,Cooking banana,Female,8397.2,37
+2025,B,district,Bugesera,East,Cooking banana,Male,8153.5,80
+2025,B,district,Burera,North,Cooking banana,Female,7896.7,13
+2025,B,district,Burera,North,Cooking banana,Male,7518.0,24
+2025,B,district,Gakenke,North,Cooking banana,Female,5939.1,27
+2025,B,district,Gakenke,North,Cooking banana,Male,6052.2,68
+2025,B,district,Gasabo,Kigali,Cooking banana,Female,4381.0,37
+2025,B,district,Gasabo,Kigali,Cooking banana,Male,5199.5,61
+2025,B,district,Gatsibo,East,Cooking banana,Female,5014.8,91
+2025,B,district,Gatsibo,East,Cooking banana,Male,5392.3,167
+2025,B,district,Gicumbi,North,Cooking banana,Female,4088.9,26
+2025,B,district,Gicumbi,North,Cooking banana,Male,5554.8,91
+2025,B,district,Gisagara,South,Cooking banana,Female,5843.1,30
+2025,B,district,Gisagara,South,Cooking banana,Male,6359.7,53
+2025,B,district,Huye,South,Cooking banana,Female,4201.3,21
+2025,B,district,Huye,South,Cooking banana,Male,4173.1,23
+2025,B,district,Kamonyi,South,Cooking banana,Female,6624.9,35
+2025,B,district,Kamonyi,South,Cooking banana,Male,6796.7,40
+2025,B,district,Karongi,West,Cooking banana,Female,4823.6,30
+2025,B,district,Karongi,West,Cooking banana,Male,5029.1,49
+2025,B,district,Kayonza,East,Cooking banana,Female,7728.9,53
+2025,B,district,Kayonza,East,Cooking banana,Male,8412.8,104
+2025,B,district,Kicukiro,Kigali,Cooking banana,Female,4699.6,22
+2025,B,district,Kicukiro,Kigali,Cooking banana,Male,4639.2,24
+2025,B,district,Kirehe,East,Cooking banana,Female,5690.8,63
+2025,B,district,Kirehe,East,Cooking banana,Male,5810.9,168
+2025,B,district,Muhanga,South,Cooking banana,Female,5088.9,23
+2025,B,district,Muhanga,South,Cooking banana,Male,4819.5,70
+2025,B,district,Musanze,North,Cooking banana,Female,4634.0,11
+2025,B,district,Musanze,North,Cooking banana,Male,6003.9,28
+2025,B,district,Ngoma,East,Cooking banana,Female,7834.1,94
+2025,B,district,Ngoma,East,Cooking banana,Male,7956.4,148
+2025,B,district,Ngororero,West,Cooking banana,Female,2803.6,15
+2025,B,district,Ngororero,West,Cooking banana,Male,4185.6,25
+2025,B,district,Nyabihu,West,Cooking banana,Male,5737.1,11
+2025,B,district,Nyagatare,East,Cooking banana,Female,10196.8,49
+2025,B,district,Nyagatare,East,Cooking banana,Male,10049.4,99
+2025,B,district,Nyamagabe,South,Cooking banana,Female,3386.8,12
+2025,B,district,Nyamagabe,South,Cooking banana,Male,4355.8,15
+2025,B,district,Nyamasheke,West,Cooking banana,Female,3978.5,13
+2025,B,district,Nyamasheke,West,Cooking banana,Male,3804.4,59
+2025,B,district,Nyanza,South,Cooking banana,Female,4916.4,36
+2025,B,district,Nyanza,South,Cooking banana,Male,4691.3,43
+2025,B,district,Nyarugenge,Kigali,Cooking banana,Female,7132.2,12
+2025,B,district,Nyarugenge,Kigali,Cooking banana,Male,7904.0,27
+2025,B,district,Nyaruguru,South,Cooking banana,Female,5817.2,13
+2025,B,district,Nyaruguru,South,Cooking banana,Male,5528.8,29
+2025,B,district,Rubavu,West,Cooking banana,Female,5154.5,13
+2025,B,district,Rubavu,West,Cooking banana,Male,5554.3,22
+2025,B,district,Ruhango,South,Cooking banana,Female,5730.5,11
+2025,B,district,Ruhango,South,Cooking banana,Male,7692.3,19
+2025,B,district,Rulindo,North,Cooking banana,Female,6957.9,23
+2025,B,district,Rulindo,North,Cooking banana,Male,7239.7,34
+2025,B,district,Rusizi,West,Cooking banana,Female,7257.4,12
+2025,B,district,Rusizi,West,Cooking banana,Male,7192.5,46
+2025,B,district,Rutsiro,West,Cooking banana,Female,5309.3,17
+2025,B,district,Rutsiro,West,Cooking banana,Male,5369.6,23
+2025,B,district,Rwamagana,East,Cooking banana,Female,8577.2,56
+2025,B,district,Rwamagana,East,Cooking banana,Male,8733.6,126
+2025,B,national,Rwanda,,Dessert banana,Female,4532.2,832
+2025,B,national,Rwanda,,Dessert banana,Male,4570.3,1766
+2025,B,district,Bugesera,East,Dessert banana,Female,6433.6,35
+2025,B,district,Bugesera,East,Dessert banana,Male,6549.7,72
+2025,B,district,Gakenke,North,Dessert banana,Female,7982.2,32
+2025,B,district,Gakenke,North,Dessert banana,Male,7886.4,86
+2025,B,district,Gasabo,Kigali,Dessert banana,Female,5827.1,39
+2025,B,district,Gasabo,Kigali,Dessert banana,Male,5244.6,66
+2025,B,district,Gatsibo,East,Dessert banana,Female,4064.1,69
+2025,B,district,Gatsibo,East,Dessert banana,Male,4011.5,135
+2025,B,district,Gicumbi,North,Dessert banana,Female,4314.3,32
+2025,B,district,Gicumbi,North,Dessert banana,Male,4478.4,102
+2025,B,district,Gisagara,South,Dessert banana,Female,4146.0,31
+2025,B,district,Gisagara,South,Dessert banana,Male,4155.9,66
+2025,B,district,Huye,South,Dessert banana,Female,3214.7,28
+2025,B,district,Huye,South,Dessert banana,Male,3764.7,43
+2025,B,district,Kamonyi,South,Dessert banana,Female,5045.1,45
+2025,B,district,Kamonyi,South,Dessert banana,Male,5018.1,64
+2025,B,district,Karongi,West,Dessert banana,Female,3148.0,42
+2025,B,district,Karongi,West,Dessert banana,Male,3254.9,70
+2025,B,district,Kayonza,East,Dessert banana,Female,2928.6,30
+2025,B,district,Kayonza,East,Dessert banana,Male,3190.9,69
+2025,B,district,Kicukiro,Kigali,Dessert banana,Female,4948.8,28
+2025,B,district,Kicukiro,Kigali,Dessert banana,Male,6314.6,28
+2025,B,district,Kirehe,East,Dessert banana,Female,3437.7,31
+2025,B,district,Kirehe,East,Dessert banana,Male,3577.5,117
+2025,B,district,Muhanga,South,Dessert banana,Female,4240.3,30
+2025,B,district,Muhanga,South,Dessert banana,Male,4558.8,86
+2025,B,district,Musanze,North,Dessert banana,Female,3336.7,16
+2025,B,district,Musanze,North,Dessert banana,Male,3933.1,29
+2025,B,district,Ngoma,East,Dessert banana,Female,4123.4,51
+2025,B,district,Ngoma,East,Dessert banana,Male,3995.1,88
+2025,B,district,Ngororero,West,Dessert banana,Female,2727.8,27
+2025,B,district,Ngororero,West,Dessert banana,Male,3578.1,51
+2025,B,district,Nyabihu,West,Dessert banana,Male,3282.3,19
+2025,B,district,Nyagatare,East,Dessert banana,Female,2816.9,40
+2025,B,district,Nyagatare,East,Dessert banana,Male,2776.9,73
+2025,B,district,Nyamagabe,South,Dessert banana,Female,2651.1,11
+2025,B,district,Nyamagabe,South,Dessert banana,Male,2734.2,36
+2025,B,district,Nyamasheke,West,Dessert banana,Female,4074.1,18
+2025,B,district,Nyamasheke,West,Dessert banana,Male,3703.8,61
+2025,B,district,Nyanza,South,Dessert banana,Female,4086.4,29
+2025,B,district,Nyanza,South,Dessert banana,Male,3973.2,58
+2025,B,district,Nyarugenge,Kigali,Dessert banana,Female,3792.0,16
+2025,B,district,Nyarugenge,Kigali,Dessert banana,Male,2790.5,29
+2025,B,district,Nyaruguru,South,Dessert banana,Female,3619.6,13
+2025,B,district,Nyaruguru,South,Dessert banana,Male,3055.2,22
+2025,B,district,Rubavu,West,Dessert banana,Male,6111.5,17
+2025,B,district,Ruhango,South,Dessert banana,Female,3925.4,18
+2025,B,district,Ruhango,South,Dessert banana,Male,4260.7,37
+2025,B,district,Rulindo,North,Dessert banana,Female,6367.9,33
+2025,B,district,Rulindo,North,Dessert banana,Male,6624.5,49
+2025,B,district,Rusizi,West,Dessert banana,Male,5885.2,41
+2025,B,district,Rutsiro,West,Dessert banana,Female,6820.9,14
+2025,B,district,Rutsiro,West,Dessert banana,Male,5697.8,40
+2025,B,district,Rwamagana,East,Dessert banana,Female,4555.8,49
+2025,B,district,Rwamagana,East,Dessert banana,Male,4863.0,104
+2025,B,national,Rwanda,,Eggplant,Female,12017.0,20
+2025,B,national,Rwanda,,Eggplant,Male,9271.3,108
+2025,B,district,Karongi,West,Eggplant,Male,12731.9,12
+2025,B,district,Nyamasheke,West,Eggplant,Male,6781.0,11
+2025,B,national,Rwanda,,Groundnut,Female,364.2,129
+2025,B,national,Rwanda,,Groundnut,Male,411.4,207
+2025,B,district,Bugesera,East,Groundnut,Female,439.0,21
+2025,B,district,Bugesera,East,Groundnut,Male,468.9,37
+2025,B,district,Gatsibo,East,Groundnut,Female,289.5,10
+2025,B,district,Gatsibo,East,Groundnut,Male,370.8,13
+2025,B,district,Gisagara,South,Groundnut,Female,257.7,12
+2025,B,district,Gisagara,South,Groundnut,Male,279.4,12
+2025,B,district,Kirehe,East,Groundnut,Male,394.9,23
+2025,B,district,Ngoma,East,Groundnut,Female,271.5,12
+2025,B,district,Ngoma,East,Groundnut,Male,357.7,30
+2025,B,district,Nyamasheke,West,Groundnut,Male,395.3,16
+2025,B,district,Nyanza,South,Groundnut,Male,455.5,13
+2025,B,district,Ruhango,South,Groundnut,Female,392.1,10
+2025,B,district,Ruhango,South,Groundnut,Male,407.7,19
+2025,B,district,Rwamagana,East,Groundnut,Female,370.6,16
+2025,B,district,Rwamagana,East,Groundnut,Male,399.4,10
+2025,B,national,Rwanda,,Irish potato,Female,6560.6,453
+2025,B,national,Rwanda,,Irish potato,Male,7167.5,924
+2025,B,district,Bugesera,East,Irish potato,Male,3149.9,14
+2025,B,district,Burera,North,Irish potato,Female,6626.5,43
+2025,B,district,Burera,North,Irish potato,Male,8864.0,69
+2025,B,district,Gakenke,North,Irish potato,Male,5015.6,18
+2025,B,district,Gasabo,Kigali,Irish potato,Male,4001.8,17
+2025,B,district,Gatsibo,East,Irish potato,Female,5156.6,24
+2025,B,district,Gatsibo,East,Irish potato,Male,5457.6,65
+2025,B,district,Gicumbi,North,Irish potato,Female,5536.9,25
+2025,B,district,Gicumbi,North,Irish potato,Male,6768.5,73
+2025,B,district,Gisagara,South,Irish potato,Female,3242.4,10
+2025,B,district,Huye,South,Irish potato,Male,3234.3,12
+2025,B,district,Kayonza,East,Irish potato,Female,3956.5,20
+2025,B,district,Kayonza,East,Irish potato,Male,3818.9,51
+2025,B,district,Kirehe,East,Irish potato,Female,4302.4,25
+2025,B,district,Kirehe,East,Irish potato,Male,3803.8,49
+2025,B,district,Musanze,North,Irish potato,Female,8618.0,46
+2025,B,district,Musanze,North,Irish potato,Male,8702.9,50
+2025,B,district,Ngoma,East,Irish potato,Female,4903.2,10
+2025,B,district,Ngoma,East,Irish potato,Male,5115.9,19
+2025,B,district,Ngororero,West,Irish potato,Female,5197.4,16
+2025,B,district,Ngororero,West,Irish potato,Male,5848.7,25
+2025,B,district,Nyabihu,West,Irish potato,Female,8514.2,68
+2025,B,district,Nyabihu,West,Irish potato,Male,9823.9,126
+2025,B,district,Nyamagabe,South,Irish potato,Female,7362.0,15
+2025,B,district,Nyamagabe,South,Irish potato,Male,8465.9,25
+2025,B,district,Nyaruguru,South,Irish potato,Male,6397.6,33
+2025,B,district,Rubavu,West,Irish potato,Female,6866.7,37
+2025,B,district,Rubavu,West,Irish potato,Male,8732.2,120
+2025,B,district,Rulindo,North,Irish potato,Female,4319.0,14
+2025,B,district,Rulindo,North,Irish potato,Male,4085.6,32
+2025,B,district,Rutsiro,West,Irish potato,Female,4525.4,25
+2025,B,district,Rutsiro,West,Irish potato,Male,5107.3,55
+2025,B,district,Rwamagana,East,Irish potato,Female,3612.6,12
+2025,B,district,Rwamagana,East,Irish potato,Male,4098.8,23
+2025,B,national,Rwanda,,Maize,Female,1102.7,1084
+2025,B,national,Rwanda,,Maize,Male,1358.4,1830
+2025,B,district,Bugesera,East,Maize,Female,782.3,96
+2025,B,district,Bugesera,East,Maize,Male,968.6,153
+2025,B,district,Burera,North,Maize,Female,1392.8,27
+2025,B,district,Burera,North,Maize,Male,1264.0,66
+2025,B,district,Gakenke,North,Maize,Female,1169.1,19
+2025,B,district,Gakenke,North,Maize,Male,1045.3,27
+2025,B,district,Gasabo,Kigali,Maize,Female,946.8,35
+2025,B,district,Gasabo,Kigali,Maize,Male,1030.7,38
+2025,B,district,Gatsibo,East,Maize,Female,1142.2,129
+2025,B,district,Gatsibo,East,Maize,Male,1314.0,210
+2025,B,district,Gicumbi,North,Maize,Female,881.6,24
+2025,B,district,Gicumbi,North,Maize,Male,986.4,61
+2025,B,district,Gisagara,South,Maize,Female,540.8,35
+2025,B,district,Gisagara,South,Maize,Male,821.7,67
+2025,B,district,Huye,South,Maize,Female,798.1,12
+2025,B,district,Huye,South,Maize,Male,1115.7,18
+2025,B,district,Kamonyi,South,Maize,Female,682.9,45
+2025,B,district,Kamonyi,South,Maize,Male,1149.6,61
+2025,B,district,Karongi,West,Maize,Female,1067.7,13
+2025,B,district,Karongi,West,Maize,Male,1076.2,17
+2025,B,district,Kayonza,East,Maize,Female,856.5,73
+2025,B,district,Kayonza,East,Maize,Male,1054.7,143
+2025,B,district,Kicukiro,Kigali,Maize,Female,658.7,29
+2025,B,district,Kicukiro,Kigali,Maize,Male,537.9,41
+2025,B,district,Kirehe,East,Maize,Female,683.4,20
+2025,B,district,Kirehe,East,Maize,Male,718.0,32
+2025,B,district,Muhanga,South,Maize,Female,868.2,12
+2025,B,district,Muhanga,South,Maize,Male,842.7,18
+2025,B,district,Musanze,North,Maize,Female,1147.5,29
+2025,B,district,Musanze,North,Maize,Male,1338.1,41
+2025,B,district,Ngoma,East,Maize,Female,846.3,28
+2025,B,district,Ngoma,East,Maize,Male,960.0,27
+2025,B,district,Ngororero,West,Maize,Female,1160.0,49
+2025,B,district,Ngororero,West,Maize,Male,1384.9,50
+2025,B,district,Nyabihu,West,Maize,Female,1206.1,51
+2025,B,district,Nyabihu,West,Maize,Male,1277.3,91
+2025,B,district,Nyagatare,East,Maize,Female,1515.3,161
+2025,B,district,Nyagatare,East,Maize,Male,1908.3,317
+2025,B,district,Nyamagabe,South,Maize,Male,1225.0,21
+2025,B,district,Nyamasheke,West,Maize,Male,973.6,11
+2025,B,district,Nyanza,South,Maize,Female,930.5,50
+2025,B,district,Nyanza,South,Maize,Male,1211.9,75
+2025,B,district,Nyarugenge,Kigali,Maize,Female,758.9,19
+2025,B,district,Nyarugenge,Kigali,Maize,Male,805.8,26
+2025,B,district,Rubavu,West,Maize,Female,1004.8,10
+2025,B,district,Rubavu,West,Maize,Male,1373.0,46
+2025,B,district,Ruhango,South,Maize,Female,826.1,10
+2025,B,district,Ruhango,South,Maize,Male,1078.0,19
+2025,B,district,Rulindo,North,Maize,Female,924.2,16
+2025,B,district,Rulindo,North,Maize,Male,1069.4,23
+2025,B,district,Rusizi,West,Maize,Female,679.2,12
+2025,B,district,Rusizi,West,Maize,Male,853.0,26
+2025,B,district,Rutsiro,West,Maize,Female,1131.2,18
+2025,B,district,Rutsiro,West,Maize,Male,960.3,23
+2025,B,district,Rwamagana,East,Maize,Female,715.8,47
+2025,B,district,Rwamagana,East,Maize,Male,1036.0,73
+2025,B,national,Rwanda,,Napia grass for fodder,Female,8368.2,30
+2025,B,national,Rwanda,,Napia grass for fodder,Male,12833.9,140
+2025,B,district,Gasabo,Kigali,Napia grass for fodder,Male,5777.3,11
+2025,B,district,Nyaruguru,South,Napia grass for fodder,Male,16760.5,11
+2025,B,district,Rwamagana,East,Napia grass for fodder,Male,20940.8,36
+2025,B,national,Rwanda,,Paddy rice,Female,3767.9,19
+2025,B,national,Rwanda,,Paddy rice,Male,3997.5,46
+2025,B,district,Nyanza,South,Paddy rice,Male,2848.9,11
+2025,B,national,Rwanda,,Pea,Female,463.3,99
+2025,B,national,Rwanda,,Pea,Male,523.8,214
+2025,B,district,Burera,North,Pea,Female,446.7,10
+2025,B,district,Burera,North,Pea,Male,621.8,20
+2025,B,district,Gakenke,North,Pea,Male,441.3,12
+2025,B,district,Gatsibo,East,Pea,Male,454.4,11
+2025,B,district,Gicumbi,North,Pea,Male,588.8,15
+2025,B,district,Huye,South,Pea,Male,656.2,16
+2025,B,district,Ngororero,West,Pea,Female,352.0,10
+2025,B,district,Nyabihu,West,Pea,Female,546.5,13
+2025,B,district,Nyabihu,West,Pea,Male,777.4,17
+2025,B,district,Nyamagabe,South,Pea,Male,417.2,22
+2025,B,district,Rubavu,West,Pea,Male,396.0,20
+2025,B,district,Rutsiro,West,Pea,Male,492.3,16
+2025,B,national,Rwanda,,Sorghum,Female,1096.7,675
+2025,B,national,Rwanda,,Sorghum,Male,1164.1,1103
+2025,B,district,Bugesera,East,Sorghum,Female,708.9,23
+2025,B,district,Bugesera,East,Sorghum,Male,877.9,36
+2025,B,district,Burera,North,Sorghum,Female,1336.6,41
+2025,B,district,Burera,North,Sorghum,Male,1339.5,60
+2025,B,district,Gasabo,Kigali,Sorghum,Female,1105.7,35
+2025,B,district,Gasabo,Kigali,Sorghum,Male,1024.4,37
+2025,B,district,Gatsibo,East,Sorghum,Female,1312.4,55
+2025,B,district,Gatsibo,East,Sorghum,Male,1430.9,104
+2025,B,district,Gicumbi,North,Sorghum,Female,1379.9,35
+2025,B,district,Gicumbi,North,Sorghum,Male,1434.9,109
+2025,B,district,Gisagara,South,Sorghum,Female,984.3,22
+2025,B,district,Gisagara,South,Sorghum,Male,1054.2,27
+2025,B,district,Huye,South,Sorghum,Female,892.2,29
+2025,B,district,Huye,South,Sorghum,Male,886.7,40
+2025,B,district,Kamonyi,South,Sorghum,Female,1063.6,19
+2025,B,district,Kamonyi,South,Sorghum,Male,919.5,34
+2025,B,district,Karongi,West,Sorghum,Female,1153.8,10
+2025,B,district,Karongi,West,Sorghum,Male,986.0,26
+2025,B,district,Kayonza,East,Sorghum,Female,1382.2,67
+2025,B,district,Kayonza,East,Sorghum,Male,1332.0,80
+2025,B,district,Kicukiro,Kigali,Sorghum,Female,1152.4,16
+2025,B,district,Kicukiro,Kigali,Sorghum,Male,1096.0,14
+2025,B,district,Kirehe,East,Sorghum,Female,844.1,60
+2025,B,district,Kirehe,East,Sorghum,Male,1144.0,92
+2025,B,district,Musanze,North,Sorghum,Female,1276.1,37
+2025,B,district,Musanze,North,Sorghum,Male,1455.9,25
+2025,B,district,Ngoma,East,Sorghum,Female,1133.9,39
+2025,B,district,Ngoma,East,Sorghum,Male,1098.3,75
+2025,B,district,Nyagatare,East,Sorghum,Female,1351.4,26
+2025,B,district,Nyagatare,East,Sorghum,Male,1382.3,61
+2025,B,district,Nyamagabe,South,Sorghum,Female,836.1,20
+2025,B,district,Nyamagabe,South,Sorghum,Male,984.1,48
+2025,B,district,Nyanza,South,Sorghum,Female,911.7,29
+2025,B,district,Nyanza,South,Sorghum,Male,894.0,49
+2025,B,district,Nyaruguru,South,Sorghum,Female,769.3,11
+2025,B,district,Nyaruguru,South,Sorghum,Male,801.1,28
+2025,B,district,Ruhango,South,Sorghum,Female,879.8,13
+2025,B,district,Ruhango,South,Sorghum,Male,952.7,23
+2025,B,district,Rulindo,North,Sorghum,Female,996.8,29
+2025,B,district,Rulindo,North,Sorghum,Male,1140.3,41
+2025,B,district,Rwamagana,East,Sorghum,Female,1006.5,45
+2025,B,district,Rwamagana,East,Sorghum,Male,952.2,71
+2025,B,national,Rwanda,,Soybean,Female,375.8,433
+2025,B,national,Rwanda,,Soybean,Male,368.8,609
+2025,B,district,Bugesera,East,Soybean,Male,336.8,27
+2025,B,district,Gakenke,North,Soybean,Female,352.1,11
+2025,B,district,Gatsibo,East,Soybean,Female,378.2,17
+2025,B,district,Gatsibo,East,Soybean,Male,479.3,29
+2025,B,district,Gicumbi,North,Soybean,Male,478.6,10
+2025,B,district,Gisagara,South,Soybean,Female,406.1,30
+2025,B,district,Gisagara,South,Soybean,Male,319.6,41
+2025,B,district,Huye,South,Soybean,Female,318.7,33
+2025,B,district,Huye,South,Soybean,Male,387.2,26
+2025,B,district,Kamonyi,South,Soybean,Female,329.3,36
+2025,B,district,Kamonyi,South,Soybean,Male,318.6,50
+2025,B,district,Karongi,West,Soybean,Female,432.2,19
+2025,B,district,Karongi,West,Soybean,Male,386.2,47
+2025,B,district,Kirehe,East,Soybean,Male,288.9,15
+2025,B,district,Muhanga,South,Soybean,Female,383.4,28
+2025,B,district,Muhanga,South,Soybean,Male,467.8,36
+2025,B,district,Ngoma,East,Soybean,Female,435.9,12
+2025,B,district,Ngoma,East,Soybean,Male,307.4,13
+2025,B,district,Ngororero,West,Soybean,Female,355.5,23
+2025,B,district,Ngororero,West,Soybean,Male,339.6,32
+2025,B,district,Nyagatare,East,Soybean,Female,503.9,37
+2025,B,district,Nyagatare,East,Soybean,Male,426.6,54
+2025,B,district,Nyamagabe,South,Soybean,Female,439.8,12
+2025,B,district,Nyamagabe,South,Soybean,Male,388.0,20
+2025,B,district,Nyamasheke,West,Soybean,Female,407.9,13
+2025,B,district,Nyamasheke,West,Soybean,Male,323.4,28
+2025,B,district,Nyanza,South,Soybean,Female,299.4,15
+2025,B,district,Nyanza,South,Soybean,Male,357.3,33
+2025,B,district,Nyaruguru,South,Soybean,Female,457.1,12
+2025,B,district,Nyaruguru,South,Soybean,Male,352.1,21
+2025,B,district,Ruhango,South,Soybean,Female,350.3,42
+2025,B,district,Ruhango,South,Soybean,Male,343.4,53
+2025,B,district,Rusizi,West,Soybean,Female,319.6,14
+2025,B,district,Rusizi,West,Soybean,Male,430.0,12
+2025,B,district,Rutsiro,West,Soybean,Female,393.7,17
+2025,B,district,Rutsiro,West,Soybean,Male,254.9,10
+2025,B,district,Rwamagana,East,Soybean,Female,552.9,11
+2025,B,district,Rwamagana,East,Soybean,Male,468.7,13
+2025,B,national,Rwanda,,Sweet potato,Female,7604.9,658
+2025,B,national,Rwanda,,Sweet potato,Male,7751.2,999
+2025,B,district,Bugesera,East,Sweet potato,Female,6083.6,14
+2025,B,district,Bugesera,East,Sweet potato,Male,5145.8,14
+2025,B,district,Burera,North,Sweet potato,Female,8437.7,38
+2025,B,district,Burera,North,Sweet potato,Male,8746.8,31
+2025,B,district,Gakenke,North,Sweet potato,Female,9734.9,45
+2025,B,district,Gakenke,North,Sweet potato,Male,9860.7,65
+2025,B,district,Gasabo,Kigali,Sweet potato,Female,6420.2,24
+2025,B,district,Gasabo,Kigali,Sweet potato,Male,6554.3,26
+2025,B,district,Gatsibo,East,Sweet potato,Female,9289.3,25
+2025,B,district,Gatsibo,East,Sweet potato,Male,8812.5,32
+2025,B,district,Gicumbi,North,Sweet potato,Female,8172.4,21
+2025,B,district,Gicumbi,North,Sweet potato,Male,7078.3,49
+2025,B,district,Gisagara,South,Sweet potato,Female,6557.1,12
+2025,B,district,Gisagara,South,Sweet potato,Male,7558.5,33
+2025,B,district,Huye,South,Sweet potato,Female,7212.2,20
+2025,B,district,Huye,South,Sweet potato,Male,8593.4,24
+2025,B,district,Kamonyi,South,Sweet potato,Female,7013.4,22
+2025,B,district,Kamonyi,South,Sweet potato,Male,6159.1,36
+2025,B,district,Karongi,West,Sweet potato,Female,7963.0,31
+2025,B,district,Karongi,West,Sweet potato,Male,7876.2,64
+2025,B,district,Kayonza,East,Sweet potato,Female,6791.7,11
+2025,B,district,Kayonza,East,Sweet potato,Male,7732.5,13
+2025,B,district,Kicukiro,Kigali,Sweet potato,Male,6377.6,10
+2025,B,district,Kirehe,East,Sweet potato,Female,6372.5,13
+2025,B,district,Kirehe,East,Sweet potato,Male,7002.3,14
+2025,B,district,Muhanga,South,Sweet potato,Female,8249.4,43
+2025,B,district,Muhanga,South,Sweet potato,Male,8008.5,54
+2025,B,district,Musanze,North,Sweet potato,Female,7432.1,19
+2025,B,district,Musanze,North,Sweet potato,Male,7931.3,21
+2025,B,district,Ngoma,East,Sweet potato,Female,5936.2,16
+2025,B,district,Ngoma,East,Sweet potato,Male,7610.0,18
+2025,B,district,Ngororero,West,Sweet potato,Female,7115.6,51
+2025,B,district,Ngororero,West,Sweet potato,Male,6956.7,56
+2025,B,district,Nyabihu,West,Sweet potato,Female,7848.6,26
+2025,B,district,Nyabihu,West,Sweet potato,Male,7591.4,48
+2025,B,district,Nyagatare,East,Sweet potato,Female,5213.5,10
+2025,B,district,Nyagatare,East,Sweet potato,Male,4569.5,19
+2025,B,district,Nyamagabe,South,Sweet potato,Female,7249.3,45
+2025,B,district,Nyamagabe,South,Sweet potato,Male,8628.3,88
+2025,B,district,Nyamasheke,West,Sweet potato,Female,7284.7,26
+2025,B,district,Nyamasheke,West,Sweet potato,Male,8076.1,51
+2025,B,district,Nyanza,South,Sweet potato,Female,8066.7,14
+2025,B,district,Nyanza,South,Sweet potato,Male,7455.1,25
+2025,B,district,Nyaruguru,South,Sweet potato,Female,8590.2,22
+2025,B,district,Nyaruguru,South,Sweet potato,Male,9032.6,58
+2025,B,district,Rubavu,West,Sweet potato,Female,7835.9,16
+2025,B,district,Rubavu,West,Sweet potato,Male,7677.7,20
+2025,B,district,Ruhango,South,Sweet potato,Female,5160.9,13
+2025,B,district,Ruhango,South,Sweet potato,Male,6295.4,25
+2025,B,district,Rulindo,North,Sweet potato,Female,7603.4,21
+2025,B,district,Rulindo,North,Sweet potato,Male,7144.4,33
+2025,B,district,Rusizi,West,Sweet potato,Female,8854.4,13
+2025,B,district,Rusizi,West,Sweet potato,Male,8221.9,22
+2025,B,district,Rutsiro,West,Sweet potato,Female,6864.2,24
+2025,B,district,Rutsiro,West,Sweet potato,Male,7529.0,21
+2025,B,district,Rwamagana,East,Sweet potato,Female,6320.4,13
+2025,B,district,Rwamagana,East,Sweet potato,Male,5514.9,25
+2025,B,national,Rwanda,,Taro,Female,6640.1,215
+2025,B,national,Rwanda,,Taro,Male,5926.7,379
+2025,B,district,Gakenke,North,Taro,Female,9357.6,11
+2025,B,district,Gakenke,North,Taro,Male,6494.7,26
+2025,B,district,Gasabo,Kigali,Taro,Male,2294.9,10
+2025,B,district,Gisagara,South,Taro,Female,7280.4,15
+2025,B,district,Gisagara,South,Taro,Male,8085.1,20
+2025,B,district,Kamonyi,South,Taro,Female,8430.7,13
+2025,B,district,Kamonyi,South,Taro,Male,5078.9,13
+2025,B,district,Karongi,West,Taro,Female,7485.9,10
+2025,B,district,Karongi,West,Taro,Male,7883.2,24
+2025,B,district,Kicukiro,Kigali,Taro,Female,5863.2,16
+2025,B,district,Kicukiro,Kigali,Taro,Male,5318.4,11
+2025,B,district,Kirehe,East,Taro,Male,3905.6,26
+2025,B,district,Muhanga,South,Taro,Female,5836.9,25
+2025,B,district,Muhanga,South,Taro,Male,4878.7,36
+2025,B,district,Ngororero,West,Taro,Female,6858.5,19
+2025,B,district,Ngororero,West,Taro,Male,7435.0,28
+2025,B,district,Nyamagabe,South,Taro,Female,4734.4,10
+2025,B,district,Nyamagabe,South,Taro,Male,4942.5,26
+2025,B,district,Nyamasheke,West,Taro,Female,5532.7,10
+2025,B,district,Nyamasheke,West,Taro,Male,5691.1,43
+2025,B,district,Nyanza,South,Taro,Female,5660.0,11
+2025,B,district,Nyanza,South,Taro,Male,7183.7,19
+2025,B,district,Nyaruguru,South,Taro,Male,8331.0,10
+2025,B,district,Rusizi,West,Taro,Male,8826.8,14
+2025,B,district,Rwamagana,East,Taro,Male,3433.8,10
+2025,B,national,Rwanda,,Tomato,Female,6252.0,24
+2025,B,national,Rwanda,,Tomato,Male,7221.8,88
+2025,B,district,Ngoma,East,Tomato,Male,5952.6,11
+2025,C,national,Rwanda,,Bush bean,Female,975.7,103
+2025,C,national,Rwanda,,Bush bean,Male,992.4,155
+2025,C,district,Bugesera,East,Bush bean,Female,930.3,16
+2025,C,district,Bugesera,East,Bush bean,Male,1012.9,27
+2025,C,district,Gisagara,South,Bush bean,Female,868.9,16
+2025,C,district,Gisagara,South,Bush bean,Male,961.9,35
+2025,C,district,Huye,South,Bush bean,Male,1019.6,10
+2025,C,district,Kicukiro,Kigali,Bush bean,Female,1009.6,10
+2025,C,district,Nyanza,South,Bush bean,Male,1120.9,21
+2025,C,district,Rusizi,West,Bush bean,Female,1039.4,12
+2025,C,national,Rwanda,,Eggplant,Female,6698.2,27
+2025,C,national,Rwanda,,Eggplant,Male,7365.8,61
+2025,C,national,Rwanda,,Irish potato,Female,8146.8,109
+2025,C,national,Rwanda,,Irish potato,Male,9382.8,285
+2025,C,district,Burera,North,Irish potato,Female,7746.5,22
+2025,C,district,Burera,North,Irish potato,Male,8397.9,77
+2025,C,district,Gicumbi,North,Irish potato,Male,7806.4,26
+2025,C,district,Musanze,North,Irish potato,Female,8192.1,13
+2025,C,district,Musanze,North,Irish potato,Male,9468.7,38
+2025,C,district,Nyabihu,West,Irish potato,Female,8742.4,22
+2025,C,district,Nyabihu,West,Irish potato,Male,10204.7,53
+2025,C,district,Rubavu,West,Irish potato,Male,11798.8,16
+2025,C,district,Rulindo,North,Irish potato,Male,6628.4,12
+2025,C,national,Rwanda,,Pea,Female,1020.9,29
+2025,C,national,Rwanda,,Pea,Male,884.6,47
+2025,C,district,Nyanza,South,Pea,Male,930.9,12
+2025,C,national,Rwanda,,Soybean,Female,661.9,40
+2025,C,national,Rwanda,,Soybean,Male,860.6,50
+2025,C,district,Bugesera,East,Soybean,Male,907.2,16
+2025,C,national,Rwanda,,Sweet potato,Female,8694.8,221
+2025,C,national,Rwanda,,Sweet potato,Male,8759.8,297
+2025,C,district,Burera,North,Sweet potato,Male,9279.2,11
+2025,C,district,Gakenke,North,Sweet potato,Female,7124.5,14
+2025,C,district,Gakenke,North,Sweet potato,Male,10218.5,13
+2025,C,district,Gicumbi,North,Sweet potato,Male,10232.5,10
+2025,C,district,Gisagara,South,Sweet potato,Male,9109.8,18
+2025,C,district,Huye,South,Sweet potato,Female,7844.9,10
+2025,C,district,Huye,South,Sweet potato,Male,11195.6,15
+2025,C,district,Karongi,West,Sweet potato,Female,9296.2,12
+2025,C,district,Kirehe,East,Sweet potato,Female,8896.5,11
+2025,C,district,Kirehe,East,Sweet potato,Male,7079.7,11
+2025,C,district,Muhanga,South,Sweet potato,Female,6184.2,12
+2025,C,district,Muhanga,South,Sweet potato,Male,8890.5,16
+2025,C,district,Musanze,North,Sweet potato,Female,9834.8,12
+2025,C,district,Musanze,North,Sweet potato,Male,9182.6,14
+2025,C,district,Ngororero,West,Sweet potato,Male,7682.4,12
+2025,C,district,Nyamasheke,West,Sweet potato,Female,10032.6,14
+2025,C,district,Nyamasheke,West,Sweet potato,Male,9872.3,17
+2025,C,district,Nyanza,South,Sweet potato,Male,7585.2,11
+2025,C,district,Nyaruguru,South,Sweet potato,Female,8961.7,12
+2025,C,district,Nyaruguru,South,Sweet potato,Male,8731.6,32
+2025,C,district,Rubavu,West,Sweet potato,Female,10683.6,12
+2025,C,district,Ruhango,South,Sweet potato,Female,8540.3,15
+2025,C,district,Ruhango,South,Sweet potato,Male,6300.1,19
+2025,C,district,Rulindo,North,Sweet potato,Male,10970.6,11
+2025,C,national,Rwanda,,Tomato,Female,14056.1,19
+2025,C,national,Rwanda,,Tomato,Male,14964.8,75

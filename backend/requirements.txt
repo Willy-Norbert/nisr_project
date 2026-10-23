@@ -1,0 +1,14 @@
+# API (needed to run the server)
+fastapi[standard]>=0.115
+pydantic-settings>=2.4
+pandas>=2.2
+numpy>=1.26
+reportlab>=4.2
+
+# Data preparation (only needed to rebuild datasets/processed from the raw NISR files)
+pyreadstat>=1.2
+scikit-learn>=1.5
+
+# Tests
+pytest>=8
+httpx>=0.27
