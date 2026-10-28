@@ -136,7 +136,7 @@ frontend/     React + TypeScript (Vite), Leaflet maps, Recharts
 **Team BitBender**
 
 1. Willy Norbert Irabaruta
-2. Niyonshimira Jeanmarie 
+2. Niyonshimira Jeanmarie
 3. Byiringiro Urbain Bobola
 
 

@@ -11,6 +11,10 @@ npm run build    # frontend/dist, served by the FastAPI backend in production
 
 Set `VITE_API_URL` at build time only when the API is hosted on a different origin.
 
+For Vercel, set the project root directory to `frontend`. The included `vercel.json`
+rewrites direct requests for client-side routes to `index.html`, so refreshing a page
+such as `/dashboard` does not return a 404.
+
 ```
 src/
   lib/          api client and types, formatting, useApi hook
