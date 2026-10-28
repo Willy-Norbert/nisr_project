@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Icon, Logo } from './Icons'
 
 const NAV: { to: string; label: string }[] = [
-  { to: '/explore', label: 'Ask the data' },
+  // { to: '/explore', label: 'Ask the data' },
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/insights', label: 'Insights' },
   { to: '/priorities', label: 'Priorities' },
@@ -65,7 +65,7 @@ export default function Layout() {
           <div>
             <h4>Explore</h4>
             <ul>
-              <li><Link to="/explore">Ask the data</Link></li>
+              {/* <li><Link to="/explore">Ask the data</Link></li> */}
               <li><Link to="/dashboard">District dashboard</Link></li>
               <li><Link to="/insights">Key insights</Link></li>
               <li><Link to="/priorities">Priority districts</Link></li>
