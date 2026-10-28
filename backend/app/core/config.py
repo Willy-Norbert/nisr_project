@@ -1,4 +1,4 @@
-from functools import lru_cache
+﻿from functools import lru_cache
 from pathlib import Path
 
 from pydantic import AliasChoices, Field
@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     processed_data_dir: Path = BACKEND_DIR / "datasets" / "processed"
     geography_dir: Path = BACKEND_DIR / "datasets" / "geography"
     frontend_dist_dir: Path = BACKEND_DIR.parent / "frontend" / "dist"
-    cors_origins: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    cors_origins: list[str] = ["http://localhost:5173", "http://localhost:3000", "https://analiza-nisr.vercel.app"]
     log_level: str = "INFO"
 
     # Any OpenAI-compatible chat API (Gemini, Groq, OpenAI, OpenRouter...). Empty key = rule-based answers only.
@@ -33,3 +33,4 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
+
