@@ -2067,6 +2067,12 @@ main { flex: 1; }
   margin: 0 auto;
 }
 
+.chat-columns--examples {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 780px;
+  align-items: start;
+}
+
 .chat-col {
   display: flex;
   flex-direction: column;
@@ -2122,10 +2128,181 @@ main { flex: 1; }
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
 }
 
-.chat-card-arrow {
-  margin-left: 6px;
+/* Chat Prompt Suggestions Grid */
+.chat-suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 680px) {
+  .chat-suggestions-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+.chat-suggestion-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chat-suggestion-text {
+  flex: 1;
+  font-weight: 500;
+}
+
+.chat-suggestion-arrow {
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: transform 0.18s ease, opacity 0.18s ease, color 0.18s ease;
+}
+
+.chat-suggestion-card:hover .chat-suggestion-arrow {
+  transform: translateX(3px);
+  opacity: 1;
+}
+
+/* Light Theme Suggestions */
+.chat-app.light-theme .chat-suggestion-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.chat-app.light-theme .chat-suggestion-card:hover {
+  background: #ffffff;
+  border-color: var(--blue);
+  color: var(--blue);
+  box-shadow: 0 4px 14px rgba(0, 87, 168, 0.12);
+  transform: translateY(-1px);
+}
+
+.chat-app.light-theme .chat-suggestion-card:hover .chat-suggestion-arrow {
+  color: var(--blue);
+}
+
+/* Dark Theme Suggestions */
+.chat-app.dark-theme .chat-suggestion-card {
+  background: #132439;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.chat-app.dark-theme .chat-suggestion-card:hover {
+  background: #1a3454;
+  border-color: var(--sky);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.chat-app.dark-theme .chat-suggestion-card:hover .chat-suggestion-arrow {
   color: var(--sky);
-  font-weight: 700;
+}
+
+.chat-suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 680px) {
+  .chat-suggestions-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+.chat-suggestion-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chat-suggestion-text {
+  flex: 1;
+  font-weight: 500;
+}
+
+.chat-suggestion-arrow {
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: transform 0.18s ease, opacity 0.18s ease, color 0.18s ease;
+}
+
+.chat-suggestion-card:hover .chat-suggestion-arrow {
+  transform: translateX(3px);
+  opacity: 1;
+}
+
+/* Light Theme Suggestions */
+.chat-app.light-theme .chat-suggestion-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.chat-app.light-theme .chat-suggestion-card:hover {
+  background: #ffffff;
+  border-color: var(--blue);
+  color: var(--blue);
+  box-shadow: 0 4px 14px rgba(0, 87, 168, 0.12);
+  transform: translateY(-1px);
+}
+
+.chat-app.light-theme .chat-suggestion-card:hover .chat-suggestion-arrow {
+  color: var(--blue);
+}
+
+/* Dark Theme Suggestions */
+.chat-app.dark-theme .chat-suggestion-card {
+  background: #132439;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.chat-app.dark-theme .chat-suggestion-card:hover {
+  background: #1a3454;
+  border-color: var(--sky);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.chat-app.dark-theme .chat-suggestion-card:hover .chat-suggestion-arrow {
+  color: var(--sky);
 }
 
 /* Messages */

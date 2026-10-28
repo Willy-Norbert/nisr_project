@@ -16,7 +16,8 @@ class LLMError(Exception):
 
 
 def enabled() -> bool:
-    return bool(get_settings().llm_api_key)
+    settings = get_settings()
+    return settings.llm_enabled and bool(settings.llm_api_key)
 
 
 def chat(messages: list[dict], temperature: float = 0.2, json_mode: bool = False) -> str:

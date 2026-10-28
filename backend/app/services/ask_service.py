@@ -310,9 +310,10 @@ def _facts(p: dict, data: dict | None) -> dict | None:
     return data
 
 
-WRITER_PROMPT = """You are FarmGap Rwanda's agricultural data analyst. Answer the user's question using ONLY the
-numbers in DATA (retrieved from NISR surveys). Never invent numbers; if DATA does not cover the question, say so
-and suggest a related question FarmGap can answer.
+WRITER_PROMPT = """You are FarmGap Rwanda's agricultural data analyst. Answer ONLY the LATEST QUESTION, not an
+earlier question in the conversation. Use ONLY the numbers and facts in DATA (retrieved from NISR surveys). Never
+invent numbers; if DATA does not cover the latest question, return the DRAFT answer unchanged rather than answering
+a different question from conversation history.
 Style: clear, friendly, plain English (reply in Kinyarwanda or French if the user writes in it); 2-5 short sentences
 or a few bullet points with "- "; round sensibly (kg/ha to whole numbers, % to one decimal); always state the
 period (year and season). Add one practical takeaway for planners when relevant. Input/yield differences and model
@@ -342,8 +343,11 @@ def answer(question: str, history: list[dict] | None = None) -> dict:
     if ai:
         facts = json.dumps({"query": p, "data": _facts(p, data), "draft": text}, default=str)[:24000]
         try:
-            text = llm_service.chat([{"role": "system", "content": WRITER_PROMPT}, *history,
-                                     {"role": "user", "content": f"QUESTION: {question}\n\nDATA: {facts}"}], temperature=0.3)
+            text = llm_service.chat(
+                [{"role": "system", "content": WRITER_PROMPT}, *history,
+                 {"role": "user", "content": f"LATEST QUESTION: {question}\n\nDATA: {facts}"}],
+                temperature=0.3,
+            )
         except llm_service.LLMError:
             ai = False
 

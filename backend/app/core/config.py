@@ -1,6 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
@@ -19,9 +20,13 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
 
     # Any OpenAI-compatible chat API (Gemini, Groq, OpenAI, OpenRouter...). Empty key = rule-based answers only.
-    llm_api_key: str = ""
+    llm_enabled: bool = False
+    llm_api_key: str = Field(
+        default="",
+        validation_alias=AliasChoices("FARMGAP_LLM_API_KEY", "GEMINI_API_KEY", "GOOGLE_API_KEY"),
+    )
     llm_base_url: str = "https://generativelanguage.googleapis.com/v1beta/openai"
-    llm_model: str = "gemini-2.5-flash"
+    llm_model: str = "gemini-3.8-flash"
     llm_timeout_s: float = 40.0
 
 

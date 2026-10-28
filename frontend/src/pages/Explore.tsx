@@ -27,18 +27,11 @@ const EXAMPLES = [
   'Which districts have the highest maize yield?',
   'How has Irish potato yield changed across seasons?',
   'What if farmers in Nyagatare used improved seed and fertilizer?',
-]
-
-const CAPABILITIES = [
-  'Answers in plain language in English, Kinyarwanda or French',
-  'Generates interactive crop yield charts, seasonal trends & district maps',
-  'Trained on NISR SAS 2024–2025 & Agriculture Household Survey microdata',
-]
-
-const LIMITATIONS = [
-  'May occasionally require clarification on specific administrative cells',
-  'Simulation scenarios show statistical associations, not guaranteed effects',
-  'Evidence strictly bounded by official NISR surveys up to 2025',
+  'Which districts have the lowest fertilizer use?',
+  'Compare women and men farmers maize yields',
+  'Where should support be prioritised for beans?',
+  'Tell me about Musanze district',
+  'Which districts have the lowest extension access?',
 ]
 
 const INTENT_LABEL: Record<string, string> = {
@@ -196,56 +189,22 @@ export default function Explore() {
                   <div className="chat-landing-badge">
                     <img src="/logo.png" alt="FarmGap logo" />
                   </div>
+
                   <h1>FarmGap AI</h1>
                   <p>Ask in plain language. Grounded in NISR agricultural surveys, with real-time charts and maps.</p>
                 </div>
 
-                <div className="chat-columns">
-                  {/* Column 1: Examples */}
-                  <div className="chat-col">
-                    <div className="chat-col-head">
-                      <Icon name="sun" size={24} />
-                      <h2>Examples</h2>
-                    </div>
-                    <div className="chat-col-cards">
-                      {EXAMPLES.map((ex) => (
-                        <button key={ex} className="chat-card chat-card--clickable" onClick={() => ask(ex)}>
-                          <span>"{ex}"</span>
-                          <span className="chat-card-arrow">&rarr;</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                <div className="chat-suggestions-grid">
 
-                  {/* Column 2: Capabilities */}
-                  <div className="chat-col">
-                    <div className="chat-col-head">
-                      <Icon name="zap" size={24} />
-                      <h2>Capabilities</h2>
-                    </div>
-                    <div className="chat-col-cards">
-                      {CAPABILITIES.map((cap) => (
-                        <div key={cap} className="chat-card">
-                          <span>{cap}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
 
-                  {/* Column 3: Limitations */}
-                  <div className="chat-col">
-                    <div className="chat-col-head">
-                      <Icon name="alert" size={24} />
-                      <h2>Limitations</h2>
-                    </div>
-                    <div className="chat-col-cards">
-                      {LIMITATIONS.map((lim) => (
-                        <div key={lim} className="chat-card">
-                          <span>{lim}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  {EXAMPLES.map((ex) => (
+                    <button key={ex} type="button" className="chat-suggestion-card" onClick={() => ask(ex)}>
+                      <span className="chat-suggestion-text">{ex}</span>
+                      <Icon name="arrowRight" size={15} className="chat-suggestion-arrow" />
+                    </button>
+                  ))}
+
+
                 </div>
               </div>
             )}
