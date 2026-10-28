@@ -133,7 +133,12 @@ frontend/     React + TypeScript (Vite), Leaflet maps, Recharts
 
 ## Team
 
-**Team BitBender**. _Add team member names here._
+**Team BitBender**
+
+1. Willy Norbert Irabaruta
+2. Niyonshimira Jeanmarie 
+3. Byiringiro Urbain Bobola
+
 
 Data: National Institute of Statistics of Rwanda (NISR). Please cite "NISR Seasonal Agricultural Survey 2024-2025
 and Agriculture Household Survey 2024, processed by FarmGap Rwanda".
