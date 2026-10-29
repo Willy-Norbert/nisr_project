@@ -7,9 +7,8 @@ FarmGap turns official NISR survey microdata into answers that planners, extensi
 researchers can use: where farms produce less than they could, which inputs make the difference, and which
 districts should be prioritised for support. No account is needed.
 
-- **Live app:** _add deployment link here_
-- **Demo video (max 3 min):** [`docs/demo.webm`](docs/demo.webm)
-- **API docs:** `<app-url>/docs`
+- **Live app:** _http://analiza-nisr.vercel.app/_
+- **Demo video (max 3 min):** [`/demo video.mp4`](demo video.mp4)
 
 ## The problem
 
