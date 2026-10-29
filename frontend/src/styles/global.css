@@ -1908,6 +1908,11 @@ main { flex: 1; }
   background: rgba(255, 255, 255, 0.08);
 }
 
+.chat-app.light-theme .chat-side-nav-item:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
 .chat-side-nav-item svg {
   flex-shrink: 0;
 }
@@ -1959,6 +1964,11 @@ main { flex: 1; }
   border-radius: 14px;
   background: rgba(0, 87, 168, 0.18);
   color: var(--sky);
+}
+
+.chat-app.light-theme .chat-status {
+  background: var(--blue-50);
+  color: var(--blue-800);
 }
 
 .chat-status .dot {
