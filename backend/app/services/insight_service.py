@@ -178,7 +178,7 @@ def _model_potential(year: int, season: str) -> dict | None:
         "id": "model-potential",
         "topic": "opportunity",
         "title": f"Seed + fertilizer could lift maize yields by up to {top['change_pct'].iloc[0]:.0f}% in {top['district'].iloc[0]}",
-        "summary": "FarmGap's yield model estimates the gain if every surveyed maize plot used improved seed and inorganic fertilizer. "
+        "summary": "Analiza's yield model estimates the gain if every surveyed maize plot used improved seed and inorganic fertilizer. "
         f"The largest estimated gains are in {', '.join(top['district'])}.",
         "chart": "bar",
         "evidence": store.records(sc[["district", "predicted_yield", "change_pct", "current_improved_seed_pct", "current_inorganic_fertilizer_pct"]]),

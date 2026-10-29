@@ -54,7 +54,7 @@ export function Icon({ name, size = 20, ...rest }: { name: IconName; size?: numb
 export function Logo({ inverted = false }: { inverted?: boolean }) {
   return (
     <span className={`logo${inverted ? ' logo--inverted' : ''}`}>
-      <img src="/logo.png" alt="FarmGap logo" className="logo-img" />
+      <img src="/logo.png" alt="Analiza logo" className="logo-img" />
     </span>
   )
 }

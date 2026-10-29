@@ -1,4 +1,4 @@
-"""Indicator catalogue: the single place where every published FarmGap indicator is defined."""
+"""Indicator catalogue: the single place where every published Analiza indicator is defined."""
 
 from dataclasses import asdict, dataclass
 

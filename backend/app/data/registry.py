@@ -1,4 +1,4 @@
-"""Catalogue of the NISR source files used by FarmGap.
+"""Catalogue of the NISR source files used by Analiza.
 
 The Stata (.dta) version of each file is used as the source of truth because it
 carries variable labels; the CSV exports are tab-separated and unlabeled.

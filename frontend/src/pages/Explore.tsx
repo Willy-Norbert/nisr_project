@@ -158,7 +158,7 @@ export default function Explore() {
           </button>
           <Link to="/" className="chat-side-nav-item" title="Exit to home">
             <Icon name="logOut" size={16} />
-            <span>Back to FarmGap</span>
+            <span>Back to Analiza</span>
           </Link>
         </div>
       </aside>
@@ -170,13 +170,13 @@ export default function Explore() {
           </button>
           <div className="chat-top-brand">
             <img src="/logo.png" alt="" className="chat-top-logo" />
-            <span className="chat-top-title">FarmGap AI</span>
+            <span className="chat-top-title">Analiza AI</span>
           </div>
           <div className="spacer" />
           <span className={`chat-status${aiOn ? ' on' : ''}`}>
             <span className="dot" /> {status.loading ? 'Connecting…' : aiOn ? `AI · ${status.data?.model}` : 'Data Assistant (NISR)'}
           </span>
-          <Link to="/" className="chat-icon-btn chat-desktop-back" title="Back to FarmGap">
+          <Link to="/" className="chat-icon-btn chat-desktop-back" title="Back to Analiza">
             <Icon name="home" size={16} />
           </Link>
         </header>
@@ -187,10 +187,10 @@ export default function Explore() {
               <div className="chat-landing">
                 <div className="chat-landing-hero">
                   <div className="chat-landing-badge">
-                    <img src="/logo.png" alt="FarmGap logo" />
+                    <img src="/logo.png" alt="Analiza logo" />
                   </div>
 
-                  <h1>FarmGap AI</h1>
+                  <h1>Analiza AI</h1>
                   <p>Ask in plain language. Grounded in NISR agricultural surveys, with real-time charts and maps.</p>
                 </div>
 
@@ -255,7 +255,7 @@ export default function Explore() {
               </button>
             </div>
             <p className="chat-disclaimer">
-              FarmGap AI Version 2026. Free Research Preview. Grounded in NISR SAS 2024–2025 &amp; Household Survey microdata.
+              Analiza AI Version 2026. Free Research Preview. Grounded in NISR SAS 2024–2025 &amp; Household Survey microdata.
             </p>
           </form>
         </div>

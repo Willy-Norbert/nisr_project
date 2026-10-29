@@ -1,4 +1,4 @@
-# FarmGap Rwanda - Data dictionary
+# Analiza - Data dictionary
 
 ## sas2024_a_production
 

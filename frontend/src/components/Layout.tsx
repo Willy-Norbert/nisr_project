@@ -24,7 +24,7 @@ export default function Layout() {
     <div className="app">
       <header className="header">
         <div className="container">
-          <Link to="/" aria-label="FarmGap Rwanda home" className="logo-link"><Logo /></Link>
+          <Link to="/" aria-label="Analiza home" className="logo-link"><Logo /></Link>
           <button className="nav-toggle" onClick={() => setOpen((o) => !o)} aria-label="Toggle menu">
             <Icon name="layers" />
           </button>
@@ -91,10 +91,10 @@ export default function Layout() {
         <div className="container footer-bottom">
           <div className="footer-brand">
             <span className="footer-seal">
-              <img src="/logo.png" alt="FarmGap logo" />
+              <img src="/logo.png" alt="Analiza logo" />
             </span>
             <div>
-              <strong>FarmGap Rwanda</strong>
+              <strong>Analiza</strong>
               <span>Built by Team BitBender</span>
               <span>NISR Big Data Hackathon 2026</span>
             </div>

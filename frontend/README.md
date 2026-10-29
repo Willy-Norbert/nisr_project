@@ -1,4 +1,4 @@
-# FarmGap Rwanda - Frontend
+# Analiza - Frontend
 
 React 19 + TypeScript (Vite), Leaflet district maps and Recharts. Design follows the NISR website
 (primary blue `#005BAA`, gold accent `#F5B800`, Poppins and Inter).

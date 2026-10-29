@@ -158,7 +158,7 @@ def _run(p: dict) -> tuple[str, dict | None]:
 
     if intent == "chat":
         data = overview_service.overview(year, season)
-        text = ("I'm FarmGap's data assistant. Ask me about crop yields, inputs such as improved seed, fertilizer and "
+        text = ("I'm Analiza's data assistant. Ask me about crop yields, inputs such as improved seed, fertilizer and "
                 "irrigation, district comparisons, trends across seasons, women farmers, priority districts or "
                 "what-if scenarios, and I'll answer from NISR survey data.")
     elif intent == "overview":
@@ -233,7 +233,7 @@ def _run(p: dict) -> tuple[str, dict | None]:
 def _plan_prompt() -> str:
     year, season = ind.latest_period()
     indicators = "\n".join(f"- {i.id}: {i.name} ({i.unit}){' [per crop]' if i.crop_specific else ''}" for i in INDICATORS.values())
-    return f"""You plan data queries for FarmGap Rwanda, an agricultural statistics assistant built on NISR surveys
+    return f"""You plan data queries for Analiza, an agricultural statistics assistant built on NISR surveys
 (Seasonal Agricultural Survey 2024-2025, seasons A/B/C; Agriculture Household Survey 2024).
 Read the conversation and the latest user question, then return ONE JSON object:
 {{"intent": one of {INTENTS},
@@ -254,7 +254,7 @@ Intents:
 - scenario: what-if adoption of inputs in a district (model simulation)
 - priorities: where support/investment should go
 - profile: anything about one district in general ("tell me about Musanze", "how is Huye doing")
-- chat: greetings, questions about FarmGap, methods or definitions that need no specific numbers
+- chat: greetings, questions about Analiza, methods or definitions that need no specific numbers
 
 Resolve follow-ups from the conversation (e.g. "and in Huye?" keeps the previous intent and crop).
 Map crop synonyms: beans -> Bush bean, potato -> Irish potato, rice -> Paddy rice, banana -> Cooking banana.
@@ -310,7 +310,7 @@ def _facts(p: dict, data: dict | None) -> dict | None:
     return data
 
 
-WRITER_PROMPT = """You are FarmGap Rwanda's agricultural data analyst. Answer ONLY the LATEST QUESTION, not an
+WRITER_PROMPT = """You are Analiza's agricultural data analyst. Answer ONLY the LATEST QUESTION, not an
 earlier question in the conversation. Use ONLY the numbers and facts in DATA (retrieved from NISR surveys). Never
 invent numbers; if DATA does not cover the latest question, return the DRAFT answer unchanged rather than answering
 a different question from conversation history.

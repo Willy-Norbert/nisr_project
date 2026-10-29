@@ -1,9 +1,9 @@
-# FarmGap Rwanda
+# Analiza
 
 **Open agricultural intelligence for closing Rwanda's crop yield gaps.**
 Built for the NISR Big Data Hackathon 2026.
 
-FarmGap turns official NISR survey microdata into answers that planners, extension officers, cooperatives and
+Analiza turns official NISR survey microdata into answers that planners, extension officers, cooperatives and
 researchers can use: where farms produce less than they could, which inputs make the difference, and which
 districts should be prioritised for support. No account is needed.
 
@@ -15,11 +15,11 @@ districts should be prioritised for support. No account is needed.
 Agriculture employs most Rwandans, yet average yields of staple crops remain far below what farmers achieve on
 well-managed plots. NST2 and Vision 2050 target higher agricultural productivity, wider use of improved seed,
 fertilizer and irrigation, and better-targeted extension. The data to guide this exists in NISR surveys, but it sits
-in large microdata files that most decision-makers cannot analyse. FarmGap closes that gap.
+in large microdata files that most decision-makers cannot analyse. Analiza closes that gap.
 
 ## Data
 
-| Source | Use in FarmGap |
+| Source | Use in Analiza |
 |---|---|
 | [Seasonal Agricultural Survey 2024](https://microdata.statistics.gov.rw/index.php/catalog) (Seasons A, B, C) | Plot-level production, crop area, inputs, practices |
 | [Seasonal Agricultural Survey 2025](https://microdata.statistics.gov.rw/index.php/catalog) (Seasons A, B, C) | Same, latest seasons |
@@ -53,7 +53,7 @@ variable list in [`data_dictionary.md`](backend/datasets/processed/data_dictiona
 - The simulator uses a gradient-boosted model trained on log yield (holdout R² = 0.80). It shows associations, not
   causal effects.
 - **Ask the data** is an AI assistant: a language model plans the query (intent, crop, district, season, and
-  follow-ups from the conversation), FarmGap runs it on the processed survey tables, and the model writes the answer
+  follow-ups from the conversation), Analiza runs it on the processed survey tables, and the model writes the answer
   from those retrieved numbers only. Without an API key it falls back to a rule-based parser.
 
 ### Enable the AI assistant
@@ -117,7 +117,7 @@ One web service serves both the frontend and the API. Example on [Render](https:
 The same two commands work on Railway, Fly.io (with a buildpack) or any VM.
 To host the frontend separately (for example on Vercel or Netlify), build it with
 `VITE_API_URL=https://your-api-host` and add that frontend origin to `FARMGAP_CORS_ORIGINS` on the API
-(a JSON list, e.g. `["https://farmgap.vercel.app"]`).
+(a JSON list, e.g. `["https://analiza-nisr.vercel.app"]`).
 
 ## Repository structure
 
@@ -140,4 +140,4 @@ frontend/     React + TypeScript (Vite), Leaflet maps, Recharts
 
 
 Data: National Institute of Statistics of Rwanda (NISR). Please cite "NISR Seasonal Agricultural Survey 2024-2025
-and Agriculture Household Survey 2024, processed by FarmGap Rwanda".
+and Agriculture Household Survey 2024, processed by Analiza".

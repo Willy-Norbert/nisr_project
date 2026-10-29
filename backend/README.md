@@ -1,4 +1,4 @@
-# FarmGap Rwanda - Backend (FastAPI)
+# Analiza - Backend (FastAPI)
 
 Python API that turns NISR agricultural survey microdata into survey-weighted indicators, district comparisons,
 insights, priority rankings, yield scenarios and downloadable reports.

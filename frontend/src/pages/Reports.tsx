@@ -115,7 +115,7 @@ export default function Reports() {
             <div className="card card-pad">
               <h3 style={{ fontSize: 16, marginBottom: 12 }}>What's in the PDF report</h3>
               <ol className="steps">
-                <li><div><strong>Institutional NISR &amp; Analiza header</strong><br /><span className="small muted">Official National Institute of Statistics of Rwanda (NISR) emblem on the left, FarmGap Rwanda branding on the right.</span></div></li>
+                <li><div><strong>Institutional NISR &amp; Analiza header</strong><br /><span className="small muted">Official National Institute of Statistics of Rwanda (NISR) emblem on the left, Analiza branding on the right.</span></div></li>
                 <li><div><strong>Geographic district map</strong><br /><span className="small muted">Dynamic map of Rwanda highlighting the selected district with administrative metrics and priority rank.</span></div></li>
                 <li><div><strong>Latest survey findings &amp; actions</strong><br /><span className="small muted">Data-driven findings on yield gaps, input adoption bottlenecks, top local crops, and recommended interventions.</span></div></li>
                 <li><div><strong>SAS indicators &amp; crop yields</strong><br /><span className="small muted">Full table of 13 agricultural indicators and crop productivity (kg/ha) benchmarked against the national average.</span></div></li>

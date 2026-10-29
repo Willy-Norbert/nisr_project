@@ -10,7 +10,7 @@ BACKEND_DIR = Path(__file__).resolve().parents[2]
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=BACKEND_DIR / ".env", env_prefix="FARMGAP_", extra="ignore")
 
-    app_name: str = "FarmGap Rwanda API"
+    app_name: str = "Analiza API"
     api_prefix: str = "/api/v1"
     raw_data_dir: Path = BACKEND_DIR / "datasets" / "raw"
     processed_data_dir: Path = BACKEND_DIR / "datasets" / "processed"
@@ -33,4 +33,3 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-

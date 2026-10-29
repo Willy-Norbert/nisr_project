@@ -26,7 +26,7 @@ export default function Methods() {
   return (
     <>
       <PageHero crumb="Data & methods" title="Data & methodology"
-        lead="How FarmGap turns NISR microdata into reliable, survey-weighted indicators, and the limits you should keep in mind." />
+        lead="How Analiza turns NISR microdata into reliable, survey-weighted indicators, and the limits you should keep in mind." />
 
       <section id="sources" className="section section--blue">
         <div className="container">
@@ -89,7 +89,7 @@ export default function Methods() {
 
       <section id="catalogue" className="section section--alt">
         <div className="container">
-          <SectionHead title="Indicator catalogue" lead="Every indicator available in FarmGap, its unit and definition." />
+          <SectionHead title="Indicator catalogue" lead="Every indicator available in Analiza, its unit and definition." />
           <div className="card table-wrap">
             <table className="table">
               <thead><tr><th>Indicator</th><th>Unit</th><th>Topic</th><th>Definition</th><th>Source</th></tr></thead>

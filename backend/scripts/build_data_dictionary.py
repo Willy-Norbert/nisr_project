@@ -15,7 +15,7 @@ def main() -> None:
     settings.processed_data_dir.mkdir(parents=True, exist_ok=True)
 
     dictionary = {}
-    lines = ["# FarmGap Rwanda - Data dictionary", ""]
+    lines = ["# Analiza - Data dictionary", ""]
     for ds in DATASETS.values():
         if not ds.path.exists():
             print(f"MISSING  {ds.id}: {ds.path}")

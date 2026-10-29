@@ -45,7 +45,7 @@ export default function Home() {
     <>
       <Banner>
         <p className="banner-tagline">
-          FarmGap turns NISR agricultural surveys into evidence for closing Rwanda's crop yield gaps,
+          Analiza turns NISR agricultural surveys into evidence for closing Rwanda's crop yield gaps,
           district by district and season by season.
         </p>
         <form className="askbox" onSubmit={submit}>
@@ -63,7 +63,7 @@ export default function Home() {
           {POSTERS.map((p) => (
             <Link key={p.to} to={p.to} className="poster">
               <div className="poster-art">
-                <span className="poster-kicker">FarmGap Rwanda</span>
+                <span className="poster-kicker">Analiza</span>
                 <strong className="poster-year">{p.year}</strong>
                 <strong className="poster-title">{p.title}</strong>
                 <span className="poster-sub">{p.sub}</span>

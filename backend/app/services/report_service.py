@@ -149,7 +149,7 @@ def _table(rows: list[list], widths: list[float] | None = None, header_bg: color
 
 
 def _build_header(nisr_path: Path | None, logo_path: Path | None, styles: dict) -> Table:
-    """Builds the official two-sided institutional header: NISR on the left, Analiza/FarmGap on the right."""
+    """Builds the official two-sided institutional header: NISR on the left, Analiza on the right."""
     # Left side: NISR logo and institutional hierarchy
     left_cells = []
     if nisr_path and nisr_path.is_file():
@@ -170,12 +170,12 @@ def _build_header(nisr_path: Path | None, logo_path: Path | None, styles: dict) 
         ("BOTTOMPADDING", (0, 0), (-1, -1), 1),
     ]))
 
-    # Right side: Analiza / FarmGap platform branding
+    # Right side: Analiza platform branding
     right_cells = []
     if logo_path and logo_path.is_file():
         right_cells.append(Image(str(logo_path), width=2.0 * cm, height=2.0 * cm))
     right_cells.extend([
-        Paragraph("<b>FarmGap Rwanda</b>", styles["Brand_Name"]),
+        Paragraph("<b>Analiza</b>", styles["Brand_Name"]),
         Paragraph("Agricultural Intelligence &amp; Yield Gap Analytics", styles["Brand_Title"]),
         Paragraph("Developed by Team BitBender &nbsp;|&nbsp; NISR Big Data Hackathon 2026", styles["Brand_Sub"]),
     ])
@@ -518,7 +518,7 @@ def _build_pdf(year: int, season: str, crop: str, district: str | None) -> bytes
     footer_text = (
         "<b>Data Attribution:</b> National Institute of Statistics of Rwanda (NISR), Seasonal Agricultural Survey (SAS) "
         "2024–2025 and Agriculture Household Survey (AHS) 2024 (microdata.statistics.gov.rw). "
-        "Survey-weighted estimates and yield gap analytics computed by <b>FarmGap Rwanda (Team BitBender)</b> for the NISR Big Data Hackathon 2026. "
+        "Survey-weighted estimates and yield gap analytics computed by <b>Analiza (Team BitBender)</b> for the NISR Big Data Hackathon 2026. "
         "Aligned with Rwanda Strategic Plan for Agriculture Transformation (PSTA 5), NST2, and Vision 2050 goals."
     )
     story.append(Spacer(1, 8))
@@ -552,7 +552,7 @@ def create(year: int, season: str, crop: str, district: str | None, fmt: str) ->
         "created": time.time(),
         "content": content,
         "media_type": "application/pdf" if fmt == "pdf" else "text/csv",
-        "filename": f"farmgap_{scope}_{year}{season}_{crop.replace(' ', '_').lower()}.{fmt}",
+        "filename": f"analiza_{scope}_{year}{season}_{crop.replace(' ', '_').lower()}.{fmt}",
     }
     _purge()
     return {"report_id": rid, "filename": _reports[rid]["filename"], "size_bytes": len(content)}
