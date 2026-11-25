@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import type { FeatureCollection, Geometry } from 'geojson'
 import DistrictFocusMap from '../components/DistrictFocusMap'
 import DistrictMap from '../components/DistrictMap'
-import { GroupedBars, RankingBars, SimpleBars, TrendChart, C } from '../components/charts'
+import { DeviationBars, GroupedBars, RankingBars, SimpleBars, TrendChart, C } from '../components/charts'
 import { Icon } from '../components/Icons'
 import type { IconName } from '../components/Icons'
 import { api, qs } from '../lib/api'
@@ -392,6 +392,15 @@ function ChartVisual({ v }: { v: AskVisual }) {
     const series = v.series as { key: string; label: string }[]
     return <GroupedBars height={v.unit === '%' ? 300 : 220} unit={v.unit as string} keys={series.map((s) => s.key)}
       labels={series.map((s) => s.label)} colors={PALETTE} data={v.rows as Record<string, string | number>[]} />
+  }
+  if (v.kind === 'deviation') {
+    return (
+      <>
+        <DeviationBars unit={v.unit as string} reference={v.reference as string}
+          data={v.rows as { name: string; value: number; highlight?: boolean }[]} />
+        <p className="small muted">Below zero: women's plots yield less than men's. Gold bar: national figure.</p>
+      </>
+    )
   }
   if (v.kind === 'simple_bars') {
     return <SimpleBars unit={v.unit as string} digits={v.unit === '%' ? 1 : 0}

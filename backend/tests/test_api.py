@@ -132,3 +132,10 @@ def test_reports(fmt, media):
     created = client.post(API + "/reports", json={"crop": "Maize", "district": "Huye", "format": fmt}).json()
     response = client.get(created["download_url"])
     assert response.status_code == 200 and response.headers["content-type"].startswith(media)
+
+
+def test_ask_known_answers():
+    """Every question in scripts/check_ask_answers.py matches the figure computed directly from the data."""
+    from scripts.check_ask_answers import main
+
+    assert main() == 0

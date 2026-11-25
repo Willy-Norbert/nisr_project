@@ -183,7 +183,7 @@ export interface ScenarioResult {
 }
 
 export interface AskVisual {
-  kind: 'choropleth' | 'district_maps' | 'ranking' | 'bars' | 'simple_bars' | 'trend' | 'inputs' | 'gender' | 'scenario'
+  kind: 'choropleth' | 'district_maps' | 'ranking' | 'bars' | 'simple_bars' | 'deviation' | 'trend' | 'inputs' | 'gender' | 'scenario'
     | 'priorities' | 'profile' | 'overview'
   title: string | null
   [key: string]: unknown

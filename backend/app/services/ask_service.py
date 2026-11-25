@@ -159,6 +159,11 @@ def fmt(indicator_id: str, v) -> str:
     return f"{v:.1f}%"
 
 
+def unit_label(indicator_id: str) -> str:
+    """Unit shown in chart titles, e.g. (kg/ha), (% of plots), (% of households)."""
+    return f"({INDICATORS[indicator_id].unit})"
+
+
 def period_label(year: int | None, season: str | None, indicator_id: str | None = None) -> str:
     if indicator_id and _household(indicator_id):
         return "Agriculture Household Survey 2024"
@@ -204,7 +209,7 @@ class Reply:
 
 
 def map_visual(r: Reply, indicator_id: str, crop: str | None, year, season, highlight: list[str] | None = None):
-    r.visual("choropleth", f"{INDICATORS[indicator_id].name}"
+    r.visual("choropleth", f"{INDICATORS[indicator_id].name} {unit_label(indicator_id)}"
              + (f" · {crop}" if crop and not _household(indicator_id) else "")
              + f" · {period_label(year, season, indicator_id)}",
              indicator_id=indicator_id, crop=None if _household(indicator_id) else crop,
@@ -436,7 +441,8 @@ def h_ranking(r: Reply, e: ent.Entities, q: str) -> None:
         r.warn(note)
         r.period = (year, season)
         map_visual(r, indicator_id, crop, year, season, [d["area"] for d in top])
-        r.visual("ranking", f"{definition.name}{' · ' + crop if crop and crop != ALL and indicator_id not in HOUSEHOLD else ''}"
+        r.visual("ranking", f"{definition.name} {unit_label(indicator_id)}"
+                 f"{' · ' + crop if crop and crop != ALL and indicator_id not in HOUSEHOLD else ''}"
                  f" · {period_label(year, season, indicator_id)}", data=data, highlight=[d["area"] for d in top])
     crop = crops[0]
     ranked = [v for v in r.visuals if v["kind"] == "ranking"]
@@ -647,7 +653,7 @@ def _explain(r: Reply, crop, year, season, lead, trail, diffs, lead_i, trail_i) 
                   f"{' and '.join(INPUT_COLUMNS[i].lower() for i in sim['inputs'])}, the yield model expects about "
                   f"**{signed(sim['change_pct'])}** higher average yield ({kg(sim['current_yield'])} → "
                   f"{kg(sim['scenario_yield'])} on the model's own scale).")
-            r.visual("scenario", f"What-if · {crop} · {trail[0]}", data=sim)
+            r.visual("scenario", f"What-if: modelled yield (kg/ha) · {crop} · {trail[0]}", data=sim)
         except ind.NotFoundError:
             pass
     r.say("Soil, altitude and rainfall also matter but are not measured in these surveys, and these are "
@@ -726,7 +732,7 @@ def h_why_gap(r: Reply, e: ent.Entities, q: str) -> None:
         r.say("\n".join(lines))
         r.say("Low use of the inputs with the biggest differences is where the data points. These are associations; "
               "soil, altitude and rainfall also matter but are not measured here.")
-        r.visual("inputs", f"{crop} yield with vs without each input · {year} Season {season}",
+        r.visual("inputs", f"{crop} yield with vs without each input (kg/ha) · {year} Season {season}",
                  data=comparison_service.inputs(year, season, crop))
         r.suggest(f"Where should support be prioritised for {crop.lower()}?",
                   f"Which districts have the lowest {crop.lower()} yield?")
@@ -767,7 +773,8 @@ def h_trend(r: Reply, e: ent.Entities, q: str) -> None:
               f"(seasons differ in rainfall and crops, so A is compared with A):\n" + "\n".join(lines))
         r.say(f"The highest value was in {peak['period']} ({fmt(indicator_id, peak['value'])}). Two years is a short "
               f"series, so treat this as a direction, not a long-term trend.")
-        r.visual("trend", f"{INDICATORS[indicator_id].name}{' · ' + crop if crop else ''} · {area}", data=data)
+        r.visual("trend", f"{INDICATORS[indicator_id].name} {unit_label(indicator_id)}{' · ' + crop if crop else ''}"
+                          f" · {area} · by season", data=data)
     crop = (crops[0] or "maize").lower()
     r.suggest(f"Which districts have the highest {crop} yield?", f"Does improved seed increase {crop} yield?")
 
@@ -797,7 +804,7 @@ def h_input_effect(r: Reply, e: ent.Entities, q: str) -> None:
             best = max(effects, key=lambda x: x["premium_pct"])
             r.say(f"Of all inputs, **{best['input_label'].lower()}** shows the largest difference "
                   f"({signed(best['premium_pct'])}).")
-        r.visual("inputs", f"{crop} yield with vs without each input · {year} Season {season}", data=data)
+        r.visual("inputs", f"{crop} yield with vs without each input (kg/ha) · {year} Season {season}", data=data)
     r.say("These compare plots that do and don't use an input. Farmers who use inputs may also differ in other ways "
           "(land, location), so this is an association, not proof.")
     crop = crops[0].lower()
@@ -837,7 +844,7 @@ def h_scenario(r: Reply, e: ent.Entities, q: str) -> None:
         r.say("Each input on its own: " + "; ".join(f"{INPUT_COLUMNS.get(s['input'], s['input']).lower()} "
                                                     f"{signed(s['change_pct'])}" for s in singles) + ".")
     r.say("This is a machine-learning estimate from survey patterns (holdout R² ≈ 0.80), not a guaranteed result.")
-    r.visual("scenario", f"What-if · {crop} · {district}", data=sim)
+    r.visual("scenario", f"What-if: modelled yield (kg/ha) · {crop} · {district}", data=sim)
     r.suggest(f"How is {crop.lower()} grown in {district}?", f"Where should support be prioritised for {crop.lower()}?")
 
 
@@ -864,7 +871,7 @@ def h_priorities(r: Reply, e: ent.Entities, q: str) -> None:
         r.say("The score combines yield gap, modelled potential gain, low seed and fertilizer use and low extension "
               "access, with equal transparency on the Priorities page where the weights can be changed.")
         map_visual(r, "yield_kg_ha", crop, 2025, "A", [d["district"] for d in top])
-        r.visual("priorities", f"Priority score · {crop} · 2025 Season A", data=data)
+        r.visual("priorities", f"Priority score (0-100, higher = more need) · {crop} · 2025 Season A", data=data)
     crop = crops[0].lower()
     r.suggest(f"Why is {crop} yield low in {rows[0]['district'] if rows else 'Nyamagabe'}?",
               f"What if farmers in {rows[0]['district'] if rows else 'Nyamagabe'} used improved seed and fertilizer "
@@ -896,8 +903,11 @@ def h_gender(r: Reply, e: ent.Entities, q: str) -> None:
             behind = sum(1 for d in drows if d["gap_pct"] < 0)
             r.say(f"Women's plots trail men's in {behind} of {len(drows)} districts with reliable samples; the widest "
                   f"gap is in {drows[0]['area']} ({signed(drows[0]['gap_pct'])}).")
-            r.visual("gender", f"{crop} yield by plot manager · {year} Season {season} (districts with ≥30 plots)",
-                     data={**districts, "rows": drows[:12]})
+            ordered = sorted(drows, key=lambda d: d["gap_pct"])
+            r.visual("deviation", f"Women's {crop.lower()} yield vs men's (% difference, 0 = equal) · {year} Season "
+                     f"{season} · districts with 30+ plots", unit="%", reference="Equal yields",
+                     rows=[{"name": "Rwanda", "value": round(float(row["gap_pct"]), 1), "highlight": True}]
+                     + [{"name": d["area"], "value": round(float(d["gap_pct"]), 1)} for d in ordered])
         r.say("Differences can reflect land size, access to inputs and extension rather than farming skill.")
     crop = crops[0].lower()
     r.suggest("Which districts have the lowest extension access?", f"Does improved seed increase {crop} yield?")
@@ -927,7 +937,7 @@ def h_best_crops(r: Reply, e: ent.Entities, q: str) -> None:
               + "; ".join(f"**{x['crop']}** {x['prod']:,.0f} t ({kg(x['value'])})" for x in by_prod[:5]) + ".")
         r.say("Yields in kg/ha can't be compared fairly across crops (a cassava field weighs far more than a bean "
               "field), so this ranks crops by total production.")
-        r.visual("simple_bars", f"Production by crop · Rwanda · {year} Season {season} (tonnes)", unit="t",
+        r.visual("simple_bars", f"Production by crop (tonnes) · Rwanda · {year} Season {season}", unit="t",
                  rows=[{"name": x["crop"], "value": round(x["prod"])} for x in by_prod[:10]])
     else:
         strong = sorted([x for x in rows if x["vs"] is not None and x["n"] >= LOW_RELIABILITY_N],
@@ -989,7 +999,7 @@ def h_profile(r: Reply, e: ent.Entities, q: str) -> None:
         worst = min(crops, key=lambda c: c["vs_national_pct"])
         r.say(f"Strongest crop compared with Rwanda: **{best['crop'].lower()}** {kg(best['value'])} "
               f"({signed(best['vs_national_pct'])}); weakest: {worst['crop'].lower()} ({signed(worst['vs_national_pct'])}).")
-    r.visual("profile", f"Crop yields · {district} vs Rwanda · {year} Season {season}", data=data)
+    r.visual("profile", f"Crop yields (kg/ha) · {district} vs Rwanda · {year} Season {season}", data=data)
     r.suggest(f"Which crops grow best in {district}?", f"How is maize grown in {district}?",
               "Where should support be prioritised for maize?")
 

@@ -68,6 +68,34 @@ variable list in [`data_dictionary.md`](backend/datasets/processed/data_dictiona
 
 Retrain the question model after editing the examples: `cd backend; python -m scripts.train_intent_model`.
 
+### Testing the assistant (questions with known answers)
+
+The assistant is checked with test questions whose correct answer is computed **directly from the processed data
+files** (independently of the assistant's code). Run it yourself with `cd backend; python -m scripts.check_ask_answers`
+(it also runs as part of `python -m pytest`):
+
+| Question | Understood as | Correct answer (computed directly from the data) | Assistant matches |
+|---|---|---|---|
+| Which district has the highest maize yield? | District ranking | Nyagatare 3,074 kg/ha | ✅ |
+| mesanze beans | Crop in a district | Musanze (typo fixed), climbing bean 1,049 kg/ha | ✅ |
+| How is maize grown in Musanze? | How a crop is grown | improved seed on 40.7% of maize plots | ✅ |
+| Which districts use the least fertilizer? | District ranking | Ruhango 13.2% | ✅ |
+| ni akahe karere keza mu musaruro w ibirayi? | District ranking | Rubavu 14,147 kg/ha (Kinyarwanda question) | ✅ |
+| How has bean yield changed across seasons? | Trend over seasons | bush bean Season A 627 kg/ha → 614 kg/ha (-2.1%) | ✅ |
+| Does improved seed increase maize yield? | Input effect | 2,216 kg/ha with vs 1,471 kg/ha without (+50.6%) | ✅ |
+| What if farmers in Nyagatare used improved seed and fertilizer for maize? | What-if scenario | model change +6.0% | ✅ |
+| Compare women and men farmers' maize yields | Women and men farmers | women 1,773 kg/ha vs men 2,078 kg/ha (-14.7%) | ✅ |
+| Which districts have the lowest extension access? | District ranking | Karongi 37.6% | ✅ |
+| Why is Musanze behind Nyagatare in maize? | Explaining a gap | Musanze 1,755 kg/ha vs Nyagatare 3,074 kg/ha | ✅ |
+| What is the price of maize? | Outside our data | politely declined: prices are not in the surveys | ✅ |
+| muraho | Greeting | greeting, with example questions | ✅ |
+
+13 of 13 questions answered correctly.
+
+The question classifier itself is evaluated separately: **97.5%** 5-fold
+cross-validation accuracy on 2,277 training examples, and **95.8%** on
+48 hand-written test questions it never saw (typos, Kinyarwanda and French included).
+
 Full details: [`backend/README.md`](backend/README.md) and the in-app **Data & methods** page.
 
 ## Run locally
