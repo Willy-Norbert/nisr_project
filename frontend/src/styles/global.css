@@ -2697,47 +2697,59 @@ main { flex: 1; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 22px;
+  padding: 8px 20px;
   border-radius: 9999px;
-  background: var(--green-50);
-  color: var(--green);
-  border: 1px solid rgba(27, 138, 90, 0.25);
-  box-shadow: 0 2px 6px rgba(27, 138, 90, 0.08);
+  background: var(--blue-50);
+  color: var(--blue);
+  border: 1px solid #bfdbfe;
+  box-shadow: 0 1px 3px rgba(0, 87, 168, 0.08);
 }
 
 .result-change-banner.negative {
   background: var(--red-50);
   color: var(--red);
   border-color: rgba(196, 55, 45, 0.25);
-  box-shadow: 0 2px 6px rgba(196, 55, 45, 0.08);
+  box-shadow: 0 1px 3px rgba(196, 55, 45, 0.08);
 }
 
 .result-change-icon {
   display: flex;
   align-items: center;
+  color: var(--blue);
+}
+
+.result-change-banner.negative .result-change-icon {
+  color: var(--red);
 }
 
 .result-change-val {
   font-family: var(--font-head);
   font-size: 18px;
   font-weight: 800;
+  color: var(--blue);
+}
+
+.result-change-banner.negative .result-change-val {
+  color: var(--red);
 }
 
 .result-change-desc {
   font-size: 13.5px;
   font-weight: 600;
+  color: var(--navy);
 }
 
 .result-change {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 18px;
+  padding: 6px 16px;
   border-radius: 9999px;
-  background: var(--green-50);
-  color: var(--green);
+  background: var(--blue-50);
+  color: var(--blue);
+  border: 1px solid #bfdbfe;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13.5px;
 }
 
 .result-context-footer {
@@ -2761,10 +2773,26 @@ main { flex: 1; }
 
 
 
-/* ---------- Processing Pipeline Steps ---------- */
+/* ---------- Processing Pipeline & Methods Layout ---------- */
+
+.methods-top-grid {
+  margin-bottom: 32px;
+  align-items: stretch;
+}
+
+.methods-col {
+  display: flex;
+  flex-direction: column;
+}
 
 .pipeline-card {
-  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.coverage-card {
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
@@ -2846,12 +2874,6 @@ main { flex: 1; }
 
 /* ---------- Coverage & Model Card ---------- */
 
-.coverage-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 .coverage-dl {
   display: flex;
   flex-direction: column;
@@ -2863,7 +2885,7 @@ main { flex: 1; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 11px 0;
   border-bottom: 1px solid var(--border);
   gap: 16px;
 }
@@ -2902,6 +2924,54 @@ main { flex: 1; }
   font-family: var(--font-head);
   font-size: 15px;
   color: var(--navy);
+}
+
+.api-link-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blue);
+  background: var(--blue-50);
+  border: 1px solid #bfdbfe;
+  padding: 3px 8px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.api-link-badge:hover {
+  background: var(--blue-100);
+  color: var(--blue-700);
+}
+
+.coverage-callout {
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-top: 1px dashed var(--border);
+}
+
+.coverage-callout-icon {
+  color: var(--blue);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.coverage-callout-text strong {
+  display: block;
+  font-size: 13px;
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+
+.coverage-callout-text p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
 .season-badges {
@@ -2967,8 +3037,11 @@ main { flex: 1; }
 /* ---------- Methodological Notes Card ---------- */
 
 .method-notes-card {
-  margin-top: 32px;
+  margin-top: 36px;
   border-top: 3px solid var(--blue);
+  position: relative;
+  z-index: 1;
+  clear: both;
 }
 
 .method-notes-head {

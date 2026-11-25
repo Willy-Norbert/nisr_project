@@ -123,10 +123,16 @@ export default function Methods() {
                       <dd><code className="code-badge">{m.data.model.model}</code></dd>
                     </div>
                     <div className="coverage-row">
+                      <dt>Training sample</dt>
+                      <dd>
+                        <strong>{num(m.data.model.train_rows)}</strong> plots <span className="small muted">(80/20 train-test split)</span>
+                      </dd>
+                    </div>
+                    <div className="coverage-row">
                       <dt>Holdout accuracy</dt>
                       <dd>
                         <span className="accuracy-badge">R² = {m.data.model.r2_log_yield}</span>
-                        <span className="small muted" style={{ marginLeft: 6 }}>({num(m.data.model.test_rows)} test plots)</span>
+                        <span className="small muted" style={{ marginLeft: 6 }}>MAPE: {(m.data.model.mape_yield * 100).toFixed(1)}% ({num(m.data.model.test_rows)} test plots)</span>
                       </dd>
                     </div>
                     <div className="coverage-row coverage-row--features">
@@ -142,6 +148,14 @@ export default function Methods() {
                       <dd className="small muted">{new Date(m.data.generated_at).toLocaleString()}</dd>
                     </div>
                   </dl>
+
+                  <div className="coverage-callout">
+                    <Icon name="shield" size={18} className="coverage-callout-icon" />
+                    <div className="coverage-callout-text">
+                      <strong>NISR Methodological Compliance</strong>
+                      <p>Survey weights (plot_weight &amp; household weight) applied throughout. Microdata processed with pyreadstat and verified against official published reports.</p>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
