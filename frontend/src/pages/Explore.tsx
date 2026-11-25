@@ -25,8 +25,22 @@ const TOPICS: { label: string; icon: IconName; q: string }[] = [
   { label: 'District profile', icon: 'home', q: 'Tell me about Musanze district' },
 ]
 
+const CAPABILITIES = [
+  'Understands English, Kinyarwanda and French, and fixes typos like “mesanze”',
+  'Answers from official NISR surveys with maps and charts',
+  'Remembers the topic, so “and in Huye?” just works',
+]
+
+const LIMITATIONS = [
+  'Only covers NISR agricultural surveys for 2024 and 2025',
+  'No prices, weather, pest advice or forecasts',
+  'Results from few surveyed plots are flagged: read them with care',
+]
+
 const EXAMPLES = [
   'Which districts have the highest maize yield?',
+  'How is maize grown in Musanze?',
+  'Why is Musanze behind Nyagatare in maize?',
   'How has Irish potato yield changed across seasons?',
   'What if farmers in Nyagatare used improved seed and fertilizer?',
   'Which districts have the lowest fertilizer use?',
@@ -45,17 +59,9 @@ export default function Explore() {
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
   const [sideOpen, setSideOpen] = useState(false)
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    const saved = localStorage.getItem('farmgap_chat_theme')
-    return saved !== null ? saved === 'dark' : true
-  })
   const endRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const asked = useRef<string | null>(null)
-
-  useEffect(() => {
-    localStorage.setItem('farmgap_chat_theme', darkMode ? 'dark' : 'light')
-  }, [darkMode])
 
   const ask = async (question: string) => {
     if (!question.trim() || busy) return
@@ -114,7 +120,7 @@ export default function Explore() {
   const accuracy = status.data?.classifier?.test_accuracy
 
   return (
-    <div className={`chat-app ${darkMode ? 'dark-theme' : 'light-theme'}`}>
+    <div className="chat-app light-theme gpt">
       <aside className={`chat-side${sideOpen ? ' open' : ''}`}>
         <div className="chat-side-top">
           <button className="chat-new-btn" onClick={() => setMessages([])}>
@@ -124,11 +130,10 @@ export default function Explore() {
         </div>
 
         <div className="chat-side-group">
-          <span className="chat-side-heading">Explore by topic</span>
           <div className="chat-topic-list">
             {TOPICS.map((t) => (
               <button key={t.label} className="chat-topic-item" onClick={() => ask(t.q)} disabled={busy}>
-                <Icon name={t.icon} size={16} />
+                <Icon name="chat" size={16} />
                 <span className="chat-topic-label">{t.label}</span>
               </button>
             ))}
@@ -136,6 +141,10 @@ export default function Explore() {
         </div>
 
         <div className="chat-side-bottom">
+          <button className="chat-side-nav-item" type="button" onClick={() => setMessages([])} disabled={!messages.length}>
+            <Icon name="trash" size={16} />
+            <span>Clear conversations</span>
+          </button>
           <a
             href="https://microdata.statistics.gov.rw"
             target="_blank"
@@ -143,18 +152,13 @@ export default function Explore() {
             className="chat-side-nav-item"
             title="NISR Microdata catalog"
           >
-            <Icon name="database" size={16} />
+            <Icon name="arrowUpRight" size={16} />
             <span>NISR Microdata</span>
           </a>
-          <button
-            className="chat-side-nav-item"
-            onClick={() => setDarkMode((d) => !d)}
-            title="Toggle theme"
-            type="button"
-          >
-            <Icon name={darkMode ? 'sun' : 'moon'} size={16} />
-            <span>{darkMode ? 'Light mode' : 'Dark mode'}</span>
-          </button>
+          <Link to="/methods#ask" className="chat-side-nav-item" title="How answers are made">
+            <Icon name="info" size={16} />
+            <span>How it works</span>
+          </Link>
           <Link to="/" className="chat-side-nav-item" title="Exit to home">
             <Icon name="logOut" size={16} />
             <span>Back to Analiza</span>
@@ -184,28 +188,32 @@ export default function Explore() {
         <div className="chat-scroll">
           <div className="chat-thread">
             {messages.length === 0 && (
-              <div className="chat-landing">
-                <div className="chat-landing-hero">
-                  <div className="chat-landing-badge">
-                    <img src="/logo.png" alt="Analiza logo" />
-                  </div>
-
+              <div className="gpt-landing">
+                <div className="gpt-brand">
+                  <img src="/logo.png" alt="" />
                   <h1>Analiza AI</h1>
-                  <p>Ask in plain language (English, Kinyarwanda or French). Every answer comes from NISR agricultural
-                    surveys, with maps and charts.</p>
+                  <span className="gpt-tag">NISR data</span>
                 </div>
-
-                <div className="chat-suggestions-grid">
-
-
-                  {EXAMPLES.map((ex) => (
-                    <button key={ex} type="button" className="chat-suggestion-card" onClick={() => ask(ex)}>
-                      <span className="chat-suggestion-text">{ex}</span>
-                      <Icon name="arrowRight" size={15} className="chat-suggestion-arrow" />
-                    </button>
-                  ))}
-
-
+                <div className="gpt-columns">
+                  <div className="gpt-col">
+                    <Icon name="chat" size={22} />
+                    <h2>Examples</h2>
+                    {EXAMPLES.slice(0, 3).map((ex) => (
+                      <button key={ex} type="button" className="gpt-item gpt-item--click" onClick={() => ask(ex)}>
+                        “{ex}” <Icon name="arrowRight" size={13} />
+                      </button>
+                    ))}
+                  </div>
+                  <div className="gpt-col">
+                    <Icon name="sparkle" size={22} />
+                    <h2>Capabilities</h2>
+                    {CAPABILITIES.map((c) => <div key={c} className="gpt-item">{c}</div>)}
+                  </div>
+                  <div className="gpt-col">
+                    <Icon name="shield" size={22} />
+                    <h2>Limitations</h2>
+                    {LIMITATIONS.map((c) => <div key={c} className="gpt-item">{c}</div>)}
+                  </div>
                 </div>
               </div>
             )}
@@ -243,7 +251,7 @@ export default function Explore() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={onKey}
                 autoFocus
-                placeholder="Ask about yields, inputs, a district or a what-if scenario…"
+                placeholder="Type message"
                 aria-label="Your question"
               />
               <button
@@ -255,10 +263,6 @@ export default function Explore() {
                 <Icon name="send" size={16} />
               </button>
             </div>
-            <p className="chat-disclaimer">
-              Answers come only from NISR SAS 2024–2025 &amp; Agriculture Household Survey 2024 data, understood by
-              Analiza's own question model. No external AI service.
-            </p>
           </form>
         </div>
       </div>
