@@ -52,15 +52,21 @@ variable list in [`data_dictionary.md`](backend/datasets/processed/data_dictiona
 - Yield outliers (top 1% per crop) are excluded.
 - The simulator uses a gradient-boosted model trained on log yield (holdout R² = 0.80). It shows associations, not
   causal effects.
-- **Ask the data** is an AI assistant: a language model plans the query (intent, crop, district, season, and
-  follow-ups from the conversation), Analiza runs it on the processed survey tables, and the model writes the answer
-  from those retrieved numbers only. Without an API key it falls back to a rule-based parser.
+- **Ask the data** uses Analiza's own natural-language model, with no external AI service or API key:
+  1. **Entity finder** (`backend/app/nlp/entities.py`): spots crops, districts, provinces, measures, inputs, year and
+     season in English, Kinyarwanda or French, corrects typos by fuzzy matching ("mesanze" → Musanze, "ibigori" →
+     maize) and shows the user what it understood.
+  2. **Question classifier** (`backend/app/nlp/intent_model.py`): TF-IDF character + word n-grams and logistic
+     regression (scikit-learn), trained on 2,000+ example questions in three languages across 19 question types.
+     Names are masked before classification, so it works for every crop and district. Accuracy is reported in
+     `backend/app/nlp/intent_metrics.json` (5-fold cross-validation and a separate set of hand-written test questions).
+  3. **Answer engine** (`backend/app/services/ask_service.py`): runs the right survey-weighted queries and writes the
+     answer from templates, so every number comes from the NISR tables, with maps and charts. Safeguards: same crop
+     and period in every comparison, Season A compared with Season A, results on fewer than 30 observations flagged,
+     the period and any assumption (e.g. "beans" = bush + climbing bean) always stated. Questions outside the data
+     (prices, weather, pests, other countries, years after 2025) are declined politely with suggestions.
 
-### Enable the AI assistant
-
-Copy `backend/.env.example` to `backend/.env` and set `FARMGAP_LLM_API_KEY` (free Gemini key from
-[Google AI Studio](https://aistudio.google.com/apikey), or Groq/OpenAI via `FARMGAP_LLM_BASE_URL` and
-`FARMGAP_LLM_MODEL`). On Render, add the same variables in the service's Environment settings.
+Retrain the question model after editing the examples: `cd backend; python -m scripts.train_intent_model`.
 
 Full details: [`backend/README.md`](backend/README.md) and the in-app **Data & methods** page.
 

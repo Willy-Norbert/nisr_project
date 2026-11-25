@@ -41,7 +41,8 @@ app/
     prioritization.py     transparent district priority score
   services/               business logic per feature
   api/v1/endpoints/       HTTP routes
-scripts/                  prepare_datasets.py, build_data_dictionary.py
+nlp/                      entity finder, question training data, intent classifier (+ saved model and metrics)
+scripts/                  prepare_datasets.py, build_data_dictionary.py, train_intent_model.py
 datasets/processed/       indicators.csv, gender_yield.csv, input_effects.csv, scenarios.csv, manifest.json
 datasets/geography/       rwanda_districts.geojson (geoBoundaries, CC BY 4.0)
 tests/                    pytest suite (python -m pytest)
@@ -65,7 +66,7 @@ tests/                    pytest suite (python -m pytest)
 | GET | `/insights`, `/insights/{id}` | Data-generated findings with evidence and suggested actions |
 | GET | `/priorities` | District priority ranking with adjustable weights (`w_yield_gap`, ...) |
 | GET | `/scenarios/options`, `/scenarios` | Yield simulator: crop, district, season, `inputs=` |
-| POST | `/ask`, GET `/ask/suggestions` | Plain-language questions answered from the data |
+| POST | `/ask`, GET `/ask/status`, GET `/ask/suggestions` | Plain-language questions (EN/RW/FR) answered from the data by Analiza's own classifier (`app/nlp/`) |
 | POST | `/reports`, GET `/reports/{id}/download` | PDF or CSV report (national or district) |
 
 ## Methodology

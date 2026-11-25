@@ -1,12 +1,14 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import type { FormEvent, KeyboardEvent, ReactNode } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import type { FeatureCollection, Geometry } from 'geojson'
 import DistrictFocusMap from '../components/DistrictFocusMap'
+import DistrictMap from '../components/DistrictMap'
 import { GroupedBars, RankingBars, SimpleBars, TrendChart, C } from '../components/charts'
 import { Icon } from '../components/Icons'
 import type { IconName } from '../components/Icons'
-import { api } from '../lib/api'
-import type { AskCompare, AskResponse, AskStatus, DistrictComparison, DistrictProfile, InputEffect, Overview, Priorities, ScenarioResult, SeasonSeries } from '../lib/api'
+import { api, qs } from '../lib/api'
+import type { AskResponse, AskStatus, AskUnderstood, AskVisual, DistrictComparison, DistrictProfile, GeoFeatureProps, InputEffect, Overview, Priorities, ScenarioResult, SeasonSeries } from '../lib/api'
 import { INPUT_LABELS, num, signed, valueWithUnit } from '../lib/format'
 import { useApi } from '../lib/useApi'
 
@@ -34,12 +36,7 @@ const EXAMPLES = [
   'Which districts have the lowest extension access?',
 ]
 
-const INTENT_LABEL: Record<string, string> = {
-  districts: 'District ranking', compare: 'District comparison', trend: 'Trend over seasons', inputs: 'Input effect',
-  gender: 'Gender comparison',
-  scenario: 'Model scenario', priorities: 'Priority ranking', profile: 'District profile', chat: 'Conversation',
-  overview: 'National overview', out_of_scope: 'Outside our data',
-}
+const CONVERSATION = new Set(['greeting', 'thanks', 'goodbye', 'help', 'about_data', 'out_of_scope'])
 
 export default function Explore() {
   const [params, setParams] = useSearchParams()
@@ -62,14 +59,15 @@ export default function Explore() {
 
   const ask = async (question: string) => {
     if (!question.trim() || busy) return
-    const history = messages.flatMap((m) =>
-      m.role === 'user' ? [{ role: 'user', content: m.text }] : m.role === 'bot' ? [{ role: 'assistant', content: m.res.answer }] : [])
+    // The previous answer's "understood" block lets follow-ups such as "and in Huye?" keep the same topic.
+    const last = [...messages].reverse().find((m) => m.role === 'bot')
+    const context: AskUnderstood | null = last && last.role === 'bot' ? last.res.understood : null
     setMessages((m) => [...m, { role: 'user', text: question }])
     setInput('')
     setSideOpen(false)
     setBusy(true)
     try {
-      const res = await api.post<AskResponse>('/ask', { question, history })
+      const res = await api.post<AskResponse>('/ask', { question, context })
       setMessages((m) => [...m, { role: 'bot', res }])
     } catch (e) {
       setMessages((m) => [...m, { role: 'error', text: (e as Error).message }])
@@ -113,7 +111,7 @@ export default function Explore() {
     }
   }
 
-  const aiOn = status.data?.ai_enabled
+  const accuracy = status.data?.classifier?.test_accuracy
 
   return (
     <div className={`chat-app ${darkMode ? 'dark-theme' : 'light-theme'}`}>
@@ -174,8 +172,9 @@ export default function Explore() {
             <span className="chat-top-title">Analiza AI</span>
           </div>
           <div className="spacer" />
-          <span className={`chat-status${aiOn ? ' on' : ''}`}>
-            <span className="dot" /> {status.loading ? 'Connecting…' : aiOn ? `AI · ${status.data?.model}` : 'Data Assistant (NISR)'}
+          <span className="chat-status on" title={status.data?.classifier?.algorithm ?? ''}>
+            <span className="dot" /> {status.loading ? 'Connecting…'
+              : `Analiza NLP · NISR data${accuracy ? ` · ${Math.round(accuracy * 100)}% test accuracy` : ''}`}
           </span>
           <Link to="/" className="chat-icon-btn chat-desktop-back" title="Back to Analiza">
             <Icon name="home" size={16} />
@@ -192,7 +191,8 @@ export default function Explore() {
                   </div>
 
                   <h1>Analiza AI</h1>
-                  <p>Ask in plain language. Grounded in NISR agricultural surveys, with real-time charts and maps.</p>
+                  <p>Ask in plain language (English, Kinyarwanda or French). Every answer comes from NISR agricultural
+                    surveys, with maps and charts.</p>
                 </div>
 
                 <div className="chat-suggestions-grid">
@@ -256,7 +256,8 @@ export default function Explore() {
               </button>
             </div>
             <p className="chat-disclaimer">
-              Analiza AI Version 2026. Free Research Preview. Grounded in NISR SAS 2024–2025 &amp; Household Survey microdata.
+              Answers come only from NISR SAS 2024–2025 &amp; Agriculture Household Survey 2024 data, understood by
+              Analiza's own question model. No external AI service.
             </p>
           </form>
         </div>
@@ -288,128 +289,122 @@ function RichText({ text }: { text: string }) {
 }
 
 function BotMessage({ res, onAsk }: { res: AskResponse; onAsk: (q: string) => void }) {
-  const p = res.parsed
-  const maps = p.districts?.length ? p.districts : p.district ? [p.district] : []
-  const followUps = p.intent === 'out_of_scope'
-    ? EXAMPLES.slice(0, 3)
-    : p.intent === 'compare' && maps.length === 2
-      ? [`How has maize yield changed in ${maps[0]}?`, `What if farmers in ${maps[1]} used improved seed and fertilizer?`]
-      : p.district
-        ? [`How has maize yield changed in ${p.district}?`, `What if farmers in ${p.district} used improved seed and fertilizer?`]
-        : p.crop ? [`Where should support be prioritised for ${p.crop.toLowerCase()}?`, `Does fertilizer increase ${p.crop.toLowerCase()} yield?`] : []
+  const u = res.understood
+  const conversation = CONVERSATION.has(u.intent)
+  const typos = u.corrections.filter((c) => c.kind === 'typo')
+  const translated = u.corrections.filter((c) => c.kind === 'translation')
   return (
     <div className="msg-bot">
       <span className="msg-avatar"><img src="/logo.png" alt="" /></span>
       <div className="msg-body">
         <div className="msg-answer">
+          {typos.length > 0 && (
+            <p className="small muted" style={{ marginBottom: 8 }}>
+              Showing results for {typos.map((c, i) => (
+                <Fragment key={c.typed}>{i > 0 && ', '}<strong>{c.understood}</strong> (you typed “{c.typed}”)</Fragment>
+              ))}
+            </p>
+          )}
           <RichText text={res.answer} />
-          {p.intent !== 'chat' && (
+          {(u.assumptions.length > 0 || res.warnings.length > 0) && (
+            <div className="msg-notes">
+              {u.assumptions.map((a) => <p key={a} className="small muted"><Icon name="info" size={12} /> <RichInline text={a} /></p>)}
+              {res.warnings.map((w) => <p key={w} className="small" style={{ color: '#8a6400' }}>⚠ <RichInline text={w} /></p>)}
+            </div>
+          )}
+          {!conversation && (
             <div className="msg-meta">
-              <span className="badge">{INTENT_LABEL[p.intent] ?? p.intent}</span>
-              {p.crop && <span className="badge badge--muted">{p.crop}</span>}
-              {maps.map((d) => <span key={d} className="badge badge--muted">{d}</span>)}
-              {p.intent !== 'out_of_scope' &&
-                <span className="badge badge--muted">{p.year} Season {p.season}</span>}
-              {res.ai && <span className="badge badge--muted"><Icon name="sparkle" size={11} /> AI-written</span>}
+              <span className="badge">{u.intent_label}</span>
+              {u.crops.map((c) => <span key={c} className="badge badge--muted">{c}</span>)}
+              {translated.map((c) => <span key={c.typed} className="badge badge--muted">{c.typed} = {c.understood}</span>)}
+              {[...u.districts, ...u.provinces].map((d) => <span key={d} className="badge badge--muted">{d}</span>)}
+              {u.indicator && <span className="badge badge--muted">{u.indicator}</span>}
+              <span className="badge badge--muted">{u.year} Season {u.season}</span>
+              <span className="badge badge--muted" title="Every number comes from NISR survey tables">NISR data</span>
             </div>
           )}
         </div>
-        {maps.length === 2 ? (
-          <div className="msg-visual msg-maps">
-            {maps.map((d) => (
-              <div key={d} className="card">
-                <div className="card-head"><h3>{d} District</h3>
-                  <Link className="view-all" to={`/districts/${encodeURIComponent(d)}`}>Open <Icon name="chevronRight" size={14} /></Link></div>
-                <DistrictFocusMap district={d} height={220} />
-              </div>
-            ))}
-          </div>
-        ) : maps.length === 1 ? (
-          <div className="msg-visual card">
-            <div className="card-head"><h3>{maps[0]} District</h3>
-              <Link className="view-all" to={`/districts/${encodeURIComponent(maps[0])}`}>Open district page <Icon name="chevronRight" size={14} /></Link></div>
-            <DistrictFocusMap district={maps[0]} height={280} />
-          </div>
-        ) : null}
-        {res.data != null && <div className="msg-visual card card-pad"><Visual res={res} /></div>}
-        {followUps.length > 0 && (
-          <div className="chips">{followUps.map((q) => <button key={q} className="chip" onClick={() => onAsk(q)}>{q}</button>)}</div>
+        {res.visuals.map((v, i) => <VisualBlock key={i} v={v} />)}
+        {res.suggestions.length > 0 && (
+          <div className="chips">{res.suggestions.map((q) => <button key={q} className="chip" onClick={() => onAsk(q)}>{q}</button>)}</div>
         )}
       </div>
     </div>
   )
 }
 
-function Visual({ res }: { res: AskResponse }) {
-  const { intent } = res.parsed
-  if (intent === 'overview') {
-    const d = res.data as Overview
+function RichInline({ text }: { text: string }) {
+  return <>{text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**') ? <strong key={i}>{part.slice(2, -2)}</strong> : <Fragment key={i}>{part}</Fragment>)}</>
+}
+
+const PALETTE = [C.blue, C.gold, C.green, C.grey]
+
+function VisualBlock({ v }: { v: AskVisual }) {
+  if (v.kind === 'district_maps') {
+    const districts = v.districts as string[]
     return (
-      <>
-        <div className="grid grid-4" style={{ gap: 12, marginBottom: 16 }}>
-          {d.kpis.map((k) => (
-            <div key={k.indicator_id} className="kpi kpi--left" style={{ boxShadow: 'none', border: '1px solid var(--border)' }}>
-              <div className="kpi-label">{k.name}</div>
-              <div className="kpi-value">{valueWithUnit(k.value, k.unit)}</div>
-              <div className="kpi-meta">{k.period}</div>
-            </div>
-          ))}
-        </div>
-        <h4 style={{ fontSize: 14, marginBottom: 4 }}>Main crop yields, {d.year} Season {d.season} (kg/ha)</h4>
-        <SimpleBars unit="kg/ha" data={d.crops.map((c) => ({ name: c.crop, value: c.yield_kg_ha }))} />
-        <Link className="view-all" to="/dashboard">Explore every district <Icon name="chevronRight" size={14} /></Link>
-      </>
+      <div className={`msg-visual${districts.length > 1 ? ' msg-maps' : ''}`}>
+        {districts.map((d) => (
+          <div key={d} className="card">
+            <div className="card-head"><h3>{d} District</h3>
+              <Link className="view-all" to={`/districts/${encodeURIComponent(d)}`}>Open district page <Icon name="chevronRight" size={14} /></Link></div>
+            <DistrictFocusMap district={d} height={districts.length > 1 ? 220 : 260} />
+          </div>
+        ))}
+      </div>
     )
   }
-  if (intent === 'compare') {
-    const d = res.data as AskCompare
-    const two = d.districts.slice(0, 2)
-    if (two.length < 2) return <p className="empty">Not enough plot data to compare those districts.</p>
-    const labels = [two[0].district, two[1].district]
-    const yieldRows = two[0].yield_kg_ha != null && two[1].yield_kg_ha != null
-      ? [{ name: d.crop, first: two[0].yield_kg_ha, second: two[1].yield_kg_ha }] : []
-    const practiceRows = d.practice_series
-      .filter((s) => s.values[0] != null && s.values[1] != null)
-      .map((s) => ({ name: s.name, first: s.values[0] as number, second: s.values[1] as number }))
-    return (
-      <>
-        {yieldRows.length > 0 && (
-          <>
-            <h4 style={{ fontSize: 14, marginBottom: 4 }}>{d.crop} yield, {d.year} Season {d.season} (kg/ha)</h4>
-            <GroupedBars height={220} unit="kg/ha" keys={['first', 'second']} labels={labels}
-              colors={[C.blue, C.gold]} data={yieldRows} />
-          </>
-        )}
-        {practiceRows.length > 0 && (
-          <>
-            <h4 style={{ fontSize: 14, margin: '18px 0 4px' }}>Farm practices (% of plots or households)</h4>
-            <GroupedBars height={300} unit="%" keys={['first', 'second']} labels={labels}
-              colors={[C.blue, C.gold]} data={practiceRows} />
-          </>
-        )}
-        <p className="small muted">
-          {labels[0]}: rank {two[0].rank ?? '–'} of {two[0].of} · {labels[1]}: rank {two[1].rank ?? '–'} of {two[1].of}.
-          National average {num(two[0].national_yield)} kg/ha.
-        </p>
-      </>
-    )
+  if (v.kind === 'choropleth') return <ChoroplethVisual v={v} />
+  return (
+    <div className="msg-visual card card-pad">
+      {v.title && <h4 style={{ fontSize: 14, marginBottom: 8 }}>{v.title}</h4>}
+      <ChartVisual v={v} />
+    </div>
+  )
+}
+
+function ChoroplethVisual({ v }: { v: AskVisual }) {
+  const query = qs({ indicator_id: v.indicator_id as string, year: v.year as number | null, season: v.season as string | null,
+    crop: v.crop as string | null })
+  const geo = useApi<FeatureCollection<Geometry, GeoFeatureProps>>(`/geography/districts.geojson${query}`)
+  const unit = v.unit as string
+  const highlight = (v.highlight as string[]) ?? []
+  return (
+    <div className="msg-visual card">
+      <div className="card-head"><h3>{v.title}</h3>
+        <Link className="view-all" to={`/dashboard${qs({ indicator: v.indicator_id as string, crop: v.crop as string | null })}`}>Open on the map <Icon name="chevronRight" size={14} /></Link></div>
+      {geo.data ? (
+        <DistrictMap geo={geo.data} label={unit} height={320} selected={highlight[0] ?? null}
+          format={(x) => (x == null ? 'no data' : `${num(x, unit.startsWith('%') ? 1 : 0)} ${unit}`)} />
+      ) : <p className="muted small" style={{ padding: 16 }}>Loading map…</p>}
+      {highlight.length > 0 && <p className="small muted" style={{ padding: '0 16px 12px' }}>Highlighted: {highlight.join(', ')}</p>}
+    </div>
+  )
+}
+
+function ChartVisual({ v }: { v: AskVisual }) {
+  if (v.kind === 'bars') {
+    const series = v.series as { key: string; label: string }[]
+    return <GroupedBars height={v.unit === '%' ? 300 : 220} unit={v.unit as string} keys={series.map((s) => s.key)}
+      labels={series.map((s) => s.label)} colors={PALETTE} data={v.rows as Record<string, string | number>[]} />
   }
-  if (intent === 'districts') {
-    const d = res.data as DistrictComparison
-    const rows = d.districts.map((r) => ({ name: r.area, value: r.value }))
-    return (
-      <>
-        <RankingBars data={rows} national={d.national_value} unit={d.indicator.unit} />
-        <Link className="view-all" to={`/dashboard?indicator=${d.indicator.id}&crop=${encodeURIComponent(d.crop)}`}>Open on the map <Icon name="chevronRight" size={14} /></Link>
-      </>
-    )
+  if (v.kind === 'simple_bars') {
+    return <SimpleBars unit={v.unit as string} digits={v.unit === '%' ? 1 : 0}
+      data={(v.rows as { name: string; value: number }[]).filter((r) => r.value != null)} />
   }
-  if (intent === 'trend') {
-    const d = res.data as SeasonSeries
+  if (v.kind === 'ranking') {
+    const d = v.data as DistrictComparison
+    const rows = d.districts.filter((r) => r.value != null).map((r) => ({ name: r.area, value: r.value }))
+    return <RankingBars data={rows} national={d.national_value} unit={d.indicator.unit}
+      highlight={((v.highlight as string[]) ?? [])[0] ?? null} />
+  }
+  if (v.kind === 'trend') {
+    const d = v.data as SeasonSeries
     return d.series.length ? <TrendChart data={d.series} unit={d.indicator.unit} /> : <p className="empty">No data.</p>
   }
-  if (intent === 'inputs') {
-    const d = res.data as { effects: InputEffect[]; note: string }
+  if (v.kind === 'inputs') {
+    const d = v.data as { effects: InputEffect[]; note: string }
     return (
       <>
         <GroupedBars unit="kg/ha" keys={['with', 'without']} labels={['With input', 'Without input']}
@@ -418,20 +413,20 @@ function Visual({ res }: { res: AskResponse }) {
       </>
     )
   }
-  if (intent === 'gender') {
-    const d = res.data as { rows: Record<string, number | string>[] }
+  if (v.kind === 'gender') {
+    const d = v.data as { rows: Record<string, number | string>[] }
     return d.rows.length ? (
       <GroupedBars unit="kg/ha" keys={['Female', 'Male']} labels={['Female farmers', 'Male farmers']} colors={[C.gold, C.blue]}
         data={d.rows.map((r) => ({ name: String(r.area), Female: r.Female, Male: r.Male }))} />
     ) : <p className="empty">Not enough data.</p>
   }
-  if (intent === 'scenario') {
-    const d = res.data as ScenarioResult
+  if (v.kind === 'scenario') {
+    const d = v.data as ScenarioResult
     return (
       <div className="simulator-result-body">
         <div className="result-hero">
           <div className="result-stat-card">
-            <span className="result-stat-label">Current estimate</span>
+            <span className="result-stat-label">Model estimate today</span>
             <div className="result-stat-value">
               <strong>{num(d.current_yield)}</strong>
               <span className="unit">kg/ha</span>
@@ -458,17 +453,24 @@ function Visual({ res }: { res: AskResponse }) {
               <Icon name={d.change_pct >= 0 ? 'trendUp' : 'trendDown'} size={18} />
             </span>
             <span className="result-change-val">{signed(d.change_pct)}</span>
-            <span className="result-change-desc">estimated yield</span>
+            <span className="result-change-desc">estimated yield · {d.district}, 2025 Season {d.season}</span>
           </div>
         </div>
+        {d.single_input_effects.length > 0 && (
+          <>
+            <h4 style={{ fontSize: 13, margin: '16px 0 4px' }}>Each input on its own (% change in yield)</h4>
+            <SimpleBars unit="%" digits={1} height={200}
+              data={d.single_input_effects.map((s) => ({ name: INPUT_LABELS[s.input] ?? s.input, value: s.change_pct }))} />
+          </>
+        )}
         <Link className="view-all" style={{ marginTop: 8, justifyContent: 'center' }} to="/simulator">
           Try other combinations in Simulator <Icon name="chevronRight" size={14} />
         </Link>
       </div>
     )
   }
-  if (intent === 'priorities') {
-    const d = res.data as Priorities
+  if (v.kind === 'priorities') {
+    const d = v.data as Priorities
     return (
       <>
         <SimpleBars unit="score" digits={1} data={d.districts.slice(0, 8).map((r) => ({ name: r.district, value: r.score }))} />
@@ -476,8 +478,8 @@ function Visual({ res }: { res: AskResponse }) {
       </>
     )
   }
-  if (intent === 'profile') {
-    const d = res.data as DistrictProfile
+  if (v.kind === 'profile') {
+    const d = v.data as DistrictProfile
     return (
       <div className="table-wrap">
         <table className="table">
@@ -490,6 +492,25 @@ function Visual({ res }: { res: AskResponse }) {
           </tbody>
         </table>
       </div>
+    )
+  }
+  if (v.kind === 'overview') {
+    const d = v.data as Overview
+    return (
+      <>
+        <div className="grid grid-4" style={{ gap: 12, marginBottom: 16 }}>
+          {d.kpis.map((k) => (
+            <div key={k.indicator_id} className="kpi kpi--left" style={{ boxShadow: 'none', border: '1px solid var(--border)' }}>
+              <div className="kpi-label">{k.name}</div>
+              <div className="kpi-value">{valueWithUnit(k.value, k.unit)}</div>
+              <div className="kpi-meta">{k.period}</div>
+            </div>
+          ))}
+        </div>
+        <h4 style={{ fontSize: 14, marginBottom: 4 }}>Main crop yields, {d.year} Season {d.season} (kg/ha)</h4>
+        <SimpleBars unit="kg/ha" data={d.crops.map((c) => ({ name: c.crop, value: c.yield_kg_ha }))} />
+        <Link className="view-all" to="/dashboard">Explore every district <Icon name="chevronRight" size={14} /></Link>
+      </>
     )
   }
   return null

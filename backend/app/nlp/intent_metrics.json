@@ -1,0 +1,32 @@
+{
+  "trained_at": "2026-11-25T16:17:22+00:00",
+  "algorithm": "TF-IDF (char 2-5 + word 1-2 n-grams) + logistic regression",
+  "scikit_learn": "1.9.1",
+  "intents": 19,
+  "training_examples": 2277,
+  "examples_per_intent": {
+    "greeting": 129,
+    "thanks": 96,
+    "goodbye": 71,
+    "help": 131,
+    "about_data": 127,
+    "ranking": 203,
+    "crop_in_district": 130,
+    "practices": 147,
+    "compare": 115,
+    "why_gap": 111,
+    "trend": 116,
+    "input_effect": 111,
+    "scenario": 100,
+    "priorities": 92,
+    "gender": 79,
+    "best_crops": 96,
+    "profile": 107,
+    "overview": 99,
+    "out_of_scope": 217
+  },
+  "cross_validation_accuracy": 0.975,
+  "test_questions": 48,
+  "test_accuracy": 0.958,
+  "test_macro_f1": 0.944
+}
