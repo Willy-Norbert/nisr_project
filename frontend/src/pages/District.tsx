@@ -120,7 +120,7 @@ export default function District() {
               <div className="card-head"><h3>Crop yields vs Rwanda</h3><small>kg/ha · {year} Season {season}</small></div>
               <div className="card-body">
                 {p ? (p.crop_yields.length ? (
-                  <GroupedBars unit="kg/ha" keys={['district', 'rwanda']} labels={[p.district, 'Rwanda']} height={320}
+                  <GroupedBars unit="kg/ha" keys={['district', 'rwanda']} labels={[p.district, 'Rwanda']} height={380}
                     data={p.crop_yields.map((c) => ({ name: c.crop, district: c.value, rwanda: c.national_value }))} />
                 ) : <p className="empty">No crop has enough plots this season.</p>) : <Loader />}
               </div>
@@ -128,7 +128,7 @@ export default function District() {
             <div className="card">
               <div className="card-head"><h3>Maize yield across seasons</h3><small>kg/ha · {p?.district ?? name}</small></div>
               <div className="card-body">
-                {trend.data?.series.length ? <TrendChart data={trend.data.series} unit="kg/ha" height={320} />
+                {trend.data?.series.length ? <TrendChart data={trend.data.series} unit="kg/ha" height={380} />
                   : trend.loading ? <Loader /> : <p className="empty">No maize trend for this district.</p>}
               </div>
             </div>
