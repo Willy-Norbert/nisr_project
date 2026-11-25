@@ -53,25 +53,57 @@ export function TrendChart({ data, unit, height = 260 }: { data: { period: strin
   )
 }
 
-export function GroupedBars({ data, keys, labels, colors = [C.blue, C.grey], unit, height = 280 }: {
+export function GroupedBars({ data, keys, labels, colors = [C.blue, C.grey], unit, height = 300, showLabels, legendPosition = 'top' }: {
   data: Record<string, string | number>[]
   keys: string[]
   labels: string[]
   colors?: string[]
   unit: string
   height?: number
+  showLabels?: boolean
+  legendPosition?: 'top' | 'bottom'
 }) {
+  const isCrowded = data.length > 5
+  const shouldShowLabels = showLabels ?? !isCrowded
+
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <BarChart data={data} margin={{ left: 0, right: 10, top: 20, bottom: 4 }}>
+      <BarChart
+        data={data}
+        margin={{
+          left: 0,
+          right: 10,
+          top: legendPosition === 'top' ? 10 : 20,
+          bottom: isCrowded ? (legendPosition === 'top' ? 16 : 85) : 8,
+        }}
+      >
         <CartesianGrid stroke="#edf1f5" vertical={false} />
-        <XAxis dataKey="name" tick={axis} interval={0} />
+        <XAxis
+          dataKey="name"
+          interval={0}
+          height={isCrowded ? 95 : 30}
+          tick={
+            isCrowded
+              ? { ...axis, fontSize: 10, angle: -45, textAnchor: 'end', dy: 4, dx: -4 }
+              : axis
+          }
+        />
         <YAxis tick={axis} tickFormatter={(v) => num(v)} width={56} />
         <Tooltip contentStyle={tooltipStyle} formatter={(v, n) => [`${num(Number(v))} ${unit}`, String(n)]} />
-        <Legend wrapperStyle={{ fontSize: 12 }} />
+        <Legend
+          verticalAlign={legendPosition}
+          align={legendPosition === 'top' ? 'right' : 'center'}
+          wrapperStyle={{
+            fontSize: 12,
+            paddingBottom: legendPosition === 'top' ? 12 : 0,
+            paddingTop: legendPosition === 'bottom' ? 8 : 0,
+          }}
+        />
         {keys.map((k, i) => (
           <Bar key={k} dataKey={k} name={labels[i]} fill={colors[i]} radius={[3, 3, 0, 0]} maxBarSize={38}>
-            <LabelList dataKey={k} position="top" formatter={(v) => num(Number(v))} style={{ fontSize: 10.5, fill: '#5d6d7e' }} />
+            {shouldShowLabels && (
+              <LabelList dataKey={k} position="top" formatter={(v) => num(Number(v))} style={{ fontSize: 10.5, fill: '#5d6d7e' }} />
+            )}
           </Bar>
         ))}
       </BarChart>
@@ -86,16 +118,36 @@ export function SimpleBars({ data, unit, color = C.blue, height = 260, digits = 
   height?: number
   digits?: number
 }) {
+  const isCrowded = data.length > 6
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <BarChart data={data} margin={{ left: 0, right: 10, top: 22, bottom: 4 }}>
+      <BarChart
+        data={data}
+        margin={{
+          left: 0,
+          right: 10,
+          top: 22,
+          bottom: isCrowded ? 65 : 4,
+        }}
+      >
         <CartesianGrid stroke="#edf1f5" vertical={false} />
-        <XAxis dataKey="name" tick={axis} interval={0} />
+        <XAxis
+          dataKey="name"
+          interval={0}
+          height={isCrowded ? 65 : 30}
+          tick={
+            isCrowded
+              ? { ...axis, fontSize: 10.5, angle: -45, textAnchor: 'end', dy: 4, dx: -4 }
+              : axis
+          }
+        />
         <YAxis tick={axis} tickFormatter={(v) => num(v)} width={52} />
         <Tooltip contentStyle={tooltipStyle} formatter={(v) => [`${num(Number(v), digits)} ${unit}`, 'Value']} />
         <Bar dataKey="value" radius={[3, 3, 0, 0]} maxBarSize={46}>
           {data.map((d) => <Cell key={d.name} fill={d.value < 0 ? C.red : color} />)}
-          <LabelList dataKey="value" position="top" formatter={(v) => num(Number(v), digits)} style={{ fontSize: 11, fill: '#003c73' }} />
+          {!isCrowded && (
+            <LabelList dataKey="value" position="top" formatter={(v) => num(Number(v), digits)} style={{ fontSize: 11, fill: '#003c73' }} />
+          )}
         </Bar>
       </BarChart>
     </ResponsiveContainer>

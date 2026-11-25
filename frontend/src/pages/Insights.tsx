@@ -34,7 +34,14 @@ export default function Insights() {
                 <h3>{i.title}</h3>
                 <p className="insight-summary">{i.summary}</p>
                 <div className="insight-chart"><InsightVisual insight={i} /></div>
-                <div className="insight-action"><Icon name="target" size={16} /><div><strong>Suggested action: </strong>{i.action}</div></div>
+                <div className="insight-action">
+                  <span className="insight-action-icon">
+                    <Icon name="bulb" size={15} />
+                  </span>
+                  <div className="insight-action-content">
+                    <strong>Suggested policy action:</strong> {i.action}
+                  </div>
+                </div>
               </article>
             ))}
           </div>

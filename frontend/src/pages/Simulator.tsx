@@ -67,26 +67,58 @@ export default function Simulator() {
             </div>
 
             <div className="stack">
-              <div className="card card-pad">
-                <h3 style={{ fontSize: 16, marginBottom: 14 }}>3. Estimated result · {crop} in {district}</h3>
+              <div className="card card-pad simulator-result-card">
+                <div className="card-head" style={{ marginBottom: 16 }}>
+                  <div>
+                    <h3 style={{ fontSize: 16, margin: 0 }}>3. Estimated result · {crop} in {district}</h3>
+                    <small className="muted">Predicted yield response based on NISR survey data</small>
+                  </div>
+                  {result.loading && <span className="badge">Calculating...</span>}
+                </div>
                 {result.error && <ErrorBox message={result.error} />}
                 {r && !result.error && (
-                  <>
-                    <div className="result-hero" style={{ opacity: result.loading ? 0.6 : 1 }}>
-                      <div><small>Current estimate</small><strong>{num(r.current_yield)}</strong><span className="unit">kg/ha</span></div>
-                      <div className="result-arrow"><Icon name="arrowRight" /></div>
-                      <div>
-                        <small>{r.inputs.length ? 'With selected inputs' : 'Select inputs'}</small>
-                        <strong>{num(r.scenario_yield)}</strong><span className="unit">kg/ha</span>
+                  <div className="simulator-result-body" style={{ opacity: result.loading ? 0.6 : 1 }}>
+                    <div className="result-hero">
+                      <div className="result-stat-card">
+                        <span className="result-stat-label">Current estimate</span>
+                        <div className="result-stat-value">
+                          <strong>{num(r.current_yield)}</strong>
+                          <span className="unit">kg/ha</span>
+                        </div>
+                        <span className="result-stat-badge">Current baseline</span>
+                      </div>
+                      <div className="result-arrow" aria-hidden="true">
+                        <Icon name="arrowRight" size={20} />
+                      </div>
+                      <div className="result-stat-card result-stat-card--highlight">
+                        <span className="result-stat-label">
+                          {r.inputs.length ? 'With selected inputs' : 'Select inputs'}
+                        </span>
+                        <div className="result-stat-value">
+                          <strong className="text-scenario">{num(r.scenario_yield)}</strong>
+                          <span className="unit">kg/ha</span>
+                        </div>
+                        <span className={`result-stat-badge ${r.inputs.length ? 'result-stat-badge--active' : ''}`}>
+                          {r.inputs.length ? `${r.inputs.length} input${r.inputs.length > 1 ? 's' : ''} applied` : 'No inputs selected'}
+                        </span>
                       </div>
                     </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <span className="result-change">{signed(r.change_pct)} estimated change in average yield</span>
+                    <div className="result-change-wrapper">
+                      <div className={`result-change-banner ${r.change_pct < 0 ? 'negative' : ''}`}>
+                        <span className="result-change-icon">
+                          <Icon name={r.change_pct >= 0 ? 'trendUp' : 'trendDown'} size={18} />
+                        </span>
+                        <span className="result-change-val">{signed(r.change_pct)}</span>
+                        <span className="result-change-desc">estimated change in average yield</span>
+                      </div>
                     </div>
-                    <p className="small muted" style={{ textAlign: 'center', marginBottom: 0 }}>
-                      Based on {num(r.n_plots)} surveyed {crop.toLowerCase()} plots in {district}, {r.year} Season {r.season}.
-                    </p>
-                  </>
+                    <div className="result-context-footer">
+                      <Icon name="database" size={14} style={{ color: 'var(--blue)', flexShrink: 0 }} />
+                      <span>
+                        Based on <strong>{num(r.n_plots)}</strong> surveyed {crop.toLowerCase()} plots in <strong>{district}</strong>, {r.year} Season {r.season}.
+                      </span>
+                    </div>
+                  </div>
                 )}
                 {!r && <Loader />}
               </div>

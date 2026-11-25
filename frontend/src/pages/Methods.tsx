@@ -45,45 +45,134 @@ export default function Methods() {
       </section>
 
       <section id="model" className="section">
-        <div className="container grid grid-2">
-          <div>
-            <SectionHead title="Processing pipeline" />
-            <ol className="steps">
-              <li><div><strong>Load</strong><br /><span className="small muted">38 Stata files read with their value labels (Python, pyreadstat).</span></div></li>
-              <li><div><strong>Harmonise</strong><br /><span className="small muted">2024 and 2025 questionnaires mapped to common variables; skip patterns resolved; district names standardised.</span></div></li>
-              <li><div><strong>Clean</strong><br /><span className="small muted">Crop areas from the screening module, implausible areas capped, extreme yields (top 1% per crop) removed.</span></div></li>
-              <li><div><strong>Weight and aggregate</strong><br /><span className="small muted">Survey weights applied; indicators computed at national, province and district level; small cells suppressed.</span></div></li>
-              <li><div><strong>Model</strong><br /><span className="small muted">Gradient-boosted yield model trained to estimate adoption scenarios.</span></div></li>
-              <li><div><strong>Serve</strong><br /><span className="small muted">FastAPI serves the aggregated tables to this React interface and as an open API.</span></div></li>
-            </ol>
-          </div>
-          <div className="stack">
-            <SectionHead title="Coverage & model" />
-            {m.loading && <Loader />}
-            {m.error && <ErrorBox message={m.error} />}
-            {m.data && (
-              <div className="card card-pad">
-                <dl className="dl">
-                  <dt>Plot-crop records</dt><dd><strong>{num(m.data.coverage.plot_crop_records)}</strong></dd>
-                  <dt>Households (AHS)</dt><dd><strong>{num(m.data.coverage.households)}</strong></dd>
-                  <dt>Seasons</dt><dd>{m.data.coverage.seasons.map((s) => `${s.year}${s.season}`).join(', ')}</dd>
-                  <dt>Crops published</dt><dd>{m.data.crops.length}</dd>
-                  <dt>Yield model</dt><dd>{m.data.model.model}</dd>
-                  <dt>Holdout accuracy</dt><dd>R² = <strong>{m.data.model.r2_log_yield}</strong> on log yield ({num(m.data.model.test_rows)} test plots)</dd>
-                  <dt>Model features</dt><dd className="small">{m.data.model.features.join(', ').replaceAll('_', ' ')}</dd>
-                  <dt>Data processed</dt><dd>{new Date(m.data.generated_at).toLocaleString()}</dd>
-                </dl>
+        <div className="container">
+          <div className="grid grid-2 methods-top-grid" style={{ alignItems: 'stretch', gap: 24 }}>
+            <div className="methods-col">
+              <SectionHead title="Processing pipeline" lead="Automated end-to-end data pipeline from raw microdata to publication." />
+              <div className="card card-pad pipeline-card">
+                <ol className="steps">
+                  <li>
+                    <div>
+                      <strong>Load</strong>
+                      <span className="small muted">38 Stata files read with their value labels (Python, pyreadstat).</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <strong>Harmonise</strong>
+                      <span className="small muted">2024 and 2025 questionnaires mapped to common variables; skip patterns resolved; district names standardised.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <strong>Clean</strong>
+                      <span className="small muted">Crop areas from the screening module, implausible areas capped, extreme yields (top 1% per crop) removed.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <strong>Weight and aggregate</strong>
+                      <span className="small muted">Survey weights applied; indicators computed at national, province and district level; small cells suppressed.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <strong>Model</strong>
+                      <span className="small muted">Gradient-boosted yield model trained to estimate adoption scenarios.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <strong>Serve</strong>
+                      <span className="small muted">FastAPI serves the aggregated tables to this React interface and as an open API.</span>
+                    </div>
+                  </li>
+                </ol>
               </div>
-            )}
-            {m.data && (
-              <div className="card card-pad">
-                <h3 style={{ fontSize: 16, marginBottom: 10 }}>Methodological notes</h3>
-                <ul className="profile-list">
-                  {m.data.notes.map((n) => <li key={n} style={{ justifyContent: 'flex-start' }}><Icon name="check" size={16} style={{ color: 'var(--blue)', flexShrink: 0 }} /> {n}</li>)}
-                </ul>
-              </div>
-            )}
+            </div>
+
+            <div className="methods-col">
+              <SectionHead title="Coverage & model" lead="Key statistical scope and machine-learning model specifications." />
+              {m.loading && <Loader />}
+              {m.error && <ErrorBox message={m.error} />}
+              {m.data && (
+                <div className="card card-pad coverage-card">
+                  <dl className="coverage-dl">
+                    <div className="coverage-row">
+                      <dt>Plot-crop records</dt>
+                      <dd><strong>{num(m.data.coverage.plot_crop_records)}</strong></dd>
+                    </div>
+                    <div className="coverage-row">
+                      <dt>Households (AHS)</dt>
+                      <dd><strong>{num(m.data.coverage.households)}</strong></dd>
+                    </div>
+                    <div className="coverage-row">
+                      <dt>Seasons</dt>
+                      <dd className="season-badges">
+                        {m.data.coverage.seasons.map((s) => (
+                          <span key={`${s.year}${s.season}`} className="season-pill">{s.year}{s.season}</span>
+                        ))}
+                      </dd>
+                    </div>
+                    <div className="coverage-row">
+                      <dt>Crops published</dt>
+                      <dd><strong>{m.data.crops.length}</strong> crops</dd>
+                    </div>
+                    <div className="coverage-row">
+                      <dt>Yield model</dt>
+                      <dd><code className="code-badge">{m.data.model.model}</code></dd>
+                    </div>
+                    <div className="coverage-row">
+                      <dt>Holdout accuracy</dt>
+                      <dd>
+                        <span className="accuracy-badge">R² = {m.data.model.r2_log_yield}</span>
+                        <span className="small muted" style={{ marginLeft: 6 }}>({num(m.data.model.test_rows)} test plots)</span>
+                      </dd>
+                    </div>
+                    <div className="coverage-row coverage-row--features">
+                      <dt>Model features</dt>
+                      <dd className="feature-tag-list">
+                        {m.data.model.features.map((f) => (
+                          <span key={f} className="feature-tag">{f.replaceAll('_', ' ')}</span>
+                        ))}
+                      </dd>
+                    </div>
+                    <div className="coverage-row">
+                      <dt>Data processed</dt>
+                      <dd className="small muted">{new Date(m.data.generated_at).toLocaleString()}</dd>
+                    </div>
+                  </dl>
+                </div>
+              )}
+            </div>
           </div>
+
+          {m.data && (
+            <div className="card card-pad method-notes-card">
+              <div className="method-notes-head">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span className="badge" style={{ background: 'var(--blue-50)', color: 'var(--blue)', fontWeight: 700 }}>
+                    NISR Standards
+                  </span>
+                  <h3 style={{ fontSize: 18, margin: 0 }}>Methodological notes</h3>
+                </div>
+                <p className="small muted" style={{ margin: 0 }}>
+                  Official survey weighting protocols, calculation standards, and data reliability thresholds.
+                </p>
+              </div>
+
+              <div className="method-notes-grid">
+                {m.data.notes.map((n, i) => (
+                  <div key={i} className="method-note-item">
+                    <span className="method-note-icon">
+                      <Icon name="check" size={15} />
+                    </span>
+                    <span className="method-note-text">{n}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

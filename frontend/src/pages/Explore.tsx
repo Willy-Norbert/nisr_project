@@ -428,15 +428,43 @@ function Visual({ res }: { res: AskResponse }) {
   if (intent === 'scenario') {
     const d = res.data as ScenarioResult
     return (
-      <>
+      <div className="simulator-result-body">
         <div className="result-hero">
-          <div><small>Current estimate</small><strong>{num(d.current_yield)}</strong><span className="unit">kg/ha</span></div>
-          <div className="result-arrow"><Icon name="arrowRight" /></div>
-          <div><small>With {d.inputs.map((i) => INPUT_LABELS[i].toLowerCase()).join(' + ')}</small><strong>{num(d.scenario_yield)}</strong><span className="unit">kg/ha</span></div>
+          <div className="result-stat-card">
+            <span className="result-stat-label">Current estimate</span>
+            <div className="result-stat-value">
+              <strong>{num(d.current_yield)}</strong>
+              <span className="unit">kg/ha</span>
+            </div>
+            <span className="result-stat-badge">Baseline yield</span>
+          </div>
+          <div className="result-arrow" aria-hidden="true">
+            <Icon name="arrowRight" size={20} />
+          </div>
+          <div className="result-stat-card result-stat-card--highlight">
+            <span className="result-stat-label">
+              With {d.inputs.length ? d.inputs.map((i) => INPUT_LABELS[i].toLowerCase()).join(' + ') : 'Selected inputs'}
+            </span>
+            <div className="result-stat-value">
+              <strong className="text-scenario">{num(d.scenario_yield)}</strong>
+              <span className="unit">kg/ha</span>
+            </div>
+            <span className="result-stat-badge result-stat-badge--active">Projected yield</span>
+          </div>
         </div>
-        <div style={{ textAlign: 'center' }}><span className="result-change">{signed(d.change_pct)} estimated yield</span></div>
-        <Link className="view-all" style={{ marginTop: 12 }} to="/simulator">Try other combinations <Icon name="chevronRight" size={14} /></Link>
-      </>
+        <div className="result-change-wrapper">
+          <div className={`result-change-banner ${d.change_pct < 0 ? 'negative' : ''}`}>
+            <span className="result-change-icon">
+              <Icon name={d.change_pct >= 0 ? 'trendUp' : 'trendDown'} size={18} />
+            </span>
+            <span className="result-change-val">{signed(d.change_pct)}</span>
+            <span className="result-change-desc">estimated yield</span>
+          </div>
+        </div>
+        <Link className="view-all" style={{ marginTop: 8, justifyContent: 'center' }} to="/simulator">
+          Try other combinations in Simulator <Icon name="chevronRight" size={14} />
+        </Link>
+      </div>
     )
   }
   if (intent === 'priorities') {
