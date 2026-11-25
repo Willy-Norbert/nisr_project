@@ -3440,3 +3440,55 @@ main { flex: 1; }
     grid-template-columns: 1fr;
   }
 }
+
+/* Ask page: assumptions and data-quality notes under an answer */
+.msg-notes { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border); display: grid; gap: 4px; }
+.msg-notes p { margin: 0; line-height: 1.5; }
+.msg-notes svg { vertical-align: -1px; margin-right: 4px; }
+
+/* Ask page: ChatGPT layout (light only) in Analiza colours */
+.chat-app.gpt { background: #ffffff; color: #202123; grid-template-columns: 240px 1fr; }
+.chat-app.gpt .chat-side { background: #ffffff; color: #353740; border-right: 1px solid #ececf1; padding: 14px 12px; }
+.chat-app.gpt .chat-new-btn { background: var(--blue-900); border: none; color: #fff; border-radius: 6px; justify-content: center; padding: 9px 14px; font-size: 13.5px; }
+.chat-app.gpt .chat-new-btn:hover { background: var(--blue-800); }
+.chat-app.gpt .chat-side-group { padding-top: 10px; }
+.chat-app.gpt .chat-topic-item { color: #353740; opacity: 1; font-size: 12.5px; padding: 10px 8px; border-radius: 6px; gap: 12px; }
+.chat-app.gpt .chat-topic-item svg { color: #6e6e80; }
+.chat-app.gpt .chat-topic-item:hover:not(:disabled) { background: #f4f6fa; color: var(--blue-800); }
+.chat-app.gpt .chat-topic-item:hover:not(:disabled) svg { color: var(--blue); }
+.chat-app.gpt .chat-side-bottom { border-top: 1px solid #ececf1; padding-top: 10px; gap: 2px; }
+.chat-app.gpt .chat-side-nav-item { color: #353740; opacity: 1; font-size: 12.5px; padding: 10px 8px; gap: 12px; }
+.chat-app.gpt .chat-side-nav-item svg { color: #6e6e80; }
+.chat-app.gpt .chat-side-nav-item:hover:not(:disabled) { background: #f4f6fa; color: var(--blue-800); }
+.chat-app.gpt .chat-side-nav-item:disabled { opacity: 0.45; cursor: default; }
+.chat-app.gpt .chat-scroll { background: #ffffff; }
+.chat-app.gpt .chat-composer-wrap { background: #ffffff; padding: 10px 20px 26px; }
+.chat-app.gpt .chat-composer { max-width: 620px; }
+.chat-app.gpt .chat-input-bar { background: #f7f7f8; border: none; border-radius: 10px; box-shadow: none; padding: 6px 8px 6px 16px; align-items: center; }
+.chat-app.gpt .chat-input-bar:focus-within { box-shadow: 0 0 0 1px var(--blue-100); }
+.chat-app.gpt .chat-input-bar textarea { font-size: 13.5px; color: #202123; }
+.chat-app.gpt .chat-input-bar textarea::placeholder { color: #a9a9b3; }
+.chat-app.gpt .chat-send-btn { background: transparent; color: #a9a9b3; width: 30px; height: 30px; }
+.chat-app.gpt .chat-send-btn:not(:disabled) { color: var(--blue); }
+.chat-app.gpt .chat-send-btn:not(:disabled):hover { background: var(--blue-50); }
+@media (min-width: 901px) { .chat-app.gpt .chat-top { display: none; } }
+
+.gpt-landing { max-width: 700px; margin: 0 auto; padding: 17vh 8px 24px; text-align: center; }
+.gpt-brand { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 64px; }
+.gpt-brand img { width: 46px; height: 46px; object-fit: contain; }
+.gpt-brand h1 { margin: 0; font-size: 26px; font-weight: 600; color: #202123; letter-spacing: -0.01em; }
+.gpt-tag { align-self: center; background: var(--blue-100); color: var(--blue-800); font-size: 10px; font-weight: 600; padding: 2px 5px; border-radius: 3px; }
+.gpt-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.gpt-col { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+.gpt-col > svg { align-self: center; color: #202123; }
+.gpt-col h2 { margin: 0 0 14px; font-size: 14.5px; font-weight: 500; color: #202123; }
+.gpt-item { background: #f7f7f8; border: none; border-radius: 6px; padding: 8px 10px; font-size: 11.5px; line-height: 1.45; color: #353740; text-align: left; font-family: inherit; min-height: 44px; }
+.gpt-item--click { cursor: pointer; transition: background 0.15s ease, color 0.15s ease; display: flex; justify-content: space-between; gap: 6px; align-items: flex-start; }
+.gpt-item--click svg { flex-shrink: 0; margin-top: 2px; color: var(--blue); opacity: 0; transition: opacity 0.15s ease; }
+.gpt-item--click:hover { background: var(--blue-50); color: var(--blue-800); }
+.gpt-item--click:hover svg { opacity: 1; }
+@media (max-width: 760px) {
+  .gpt-columns { grid-template-columns: 1fr; }
+  .gpt-landing { padding-top: 5vh; }
+  .gpt-brand { margin-bottom: 36px; }
+}

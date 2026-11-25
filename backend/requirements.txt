@@ -4,10 +4,10 @@ pydantic-settings>=2.4
 pandas>=2.2
 numpy>=1.26
 reportlab>=4.2
+scikit-learn>=1.5    # Ask page question classifier (and the yield model scripts)
 
 # Data preparation (only needed to rebuild datasets/processed from the raw NISR files)
 pyreadstat>=1.2
-scikit-learn>=1.5
 
 # Tests
 pytest>=8

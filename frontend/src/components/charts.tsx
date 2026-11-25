@@ -18,7 +18,7 @@ export function RankingBars({ data, national, unit, highlight, height }: {
   const digits = unit.startsWith('%') ? 1 : 0
   return (
     <ResponsiveContainer width="100%" height={height ?? Math.max(260, data.length * 22 + 40)}>
-      <BarChart data={data} layout="vertical" margin={{ left: 8, right: 48, top: 8, bottom: 8 }}>
+      <BarChart data={data} layout="vertical" margin={{ left: 8, right: 48, top: 20, bottom: 8 }}>
         <CartesianGrid horizontal={false} stroke="#edf1f5" />
         <XAxis type="number" tick={axis} tickFormatter={(v) => num(v)} />
         <YAxis type="category" dataKey="name" width={96} tick={axis} interval={0} />
@@ -30,6 +30,36 @@ export function RankingBars({ data, national, unit, highlight, height }: {
         <Bar dataKey="value" radius={[0, 3, 3, 0]} barSize={14}>
           {data.map((d) => <Cell key={d.name} fill={d.name === highlight ? C.gold : C.blue} />)}
           <LabelList dataKey="value" position="right" formatter={(v) => num(Number(v), digits)} style={{ fontSize: 11, fill: '#5d6d7e' }} />
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  )
+}
+
+/** Horizontal bars around zero: how far each item is from a reference (equality, the national average...). */
+export function DeviationBars({ data, unit, reference }: {
+  data: { name: string; value: number; highlight?: boolean }[]
+  unit: string
+  reference: string
+}) {
+  const max = Math.max(5, ...data.map((d) => Math.abs(d.value)))
+  const step = [5, 10, 20, 25, 50, 100].find((x) => x >= max / 3) ?? 100
+  const bound = Math.ceil(max / step) * step
+  const ticks = Array.from({ length: (2 * bound) / step + 1 }, (_, i) => -bound + i * step)
+  return (
+    <ResponsiveContainer width="100%" height={Math.max(220, data.length * 24 + 50)}>
+      <BarChart data={data} layout="vertical" margin={{ left: 8, right: 48, top: 18, bottom: 8 }}>
+        <CartesianGrid horizontal={false} stroke="#edf1f5" />
+        <XAxis type="number" domain={[-bound, bound]} ticks={ticks} tick={axis}
+          tickFormatter={(v) => `${v > 0 ? '+' : ''}${num(v)}${unit}`} />
+        <YAxis type="category" dataKey="name" width={96} tick={axis} interval={0} />
+        <Tooltip contentStyle={tooltipStyle} formatter={(v) => [`${Number(v) > 0 ? '+' : ''}${num(Number(v), 1)}${unit}`, 'Difference']} />
+        <ReferenceLine x={0} stroke="#12263f" strokeWidth={1.5}
+          label={{ value: reference, position: 'top', fontSize: 11, fill: '#12263f' }} />
+        <Bar dataKey="value" barSize={14}>
+          {data.map((d) => <Cell key={d.name} fill={d.highlight ? C.gold : d.value < 0 ? C.red : C.blue} />)}
+          <LabelList dataKey="value" position="right" formatter={(v) => `${Number(v) > 0 ? '+' : ''}${num(Number(v), 1)}${unit}`}
+            style={{ fontSize: 11, fill: '#5d6d7e' }} />
         </Bar>
       </BarChart>
     </ResponsiveContainer>

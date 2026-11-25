@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 from app.analytics.prioritization import DEFAULT_WEIGHTS
 from app.schemas.common import Season
-from app.core.config import get_settings
-from app.services import ask_service, insight_service, llm_service, priority_service, scenario_service
+from app.nlp import intent_model
+from app.services import ask_service, insight_service, priority_service, scenario_service
 from app.services import indicator_service as ind
 
 router = APIRouter(tags=["insights"])
@@ -60,17 +60,19 @@ class ChatTurn(BaseModel):
 class AskRequest(BaseModel):
     question: str
     history: list[ChatTurn] = []
+    # The previous answer's "understood" block, so follow-ups like "and in Huye?" keep the same topic.
+    context: dict | None = None
 
 
 @router.post("/ask")
 def ask(body: AskRequest):
-    return ask_service.answer(body.question, [t.model_dump() for t in body.history])
+    return ask_service.answer(body.question, [t.model_dump() for t in body.history], body.context)
 
 
 @router.get("/ask/status")
 def ask_status():
-    settings = get_settings()
-    return {"ai_enabled": llm_service.enabled(), "model": settings.llm_model if llm_service.enabled() else None}
+    """Which engine answers questions, and how accurate its question classifier is."""
+    return {"engine": "Analiza NLP (scikit-learn)", "external_ai": False, "classifier": intent_model.metrics()}
 
 
 @router.get("/ask/suggestions")

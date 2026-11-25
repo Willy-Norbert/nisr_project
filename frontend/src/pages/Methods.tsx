@@ -1,6 +1,6 @@
 import { Icon } from '../components/Icons'
 import { ErrorBox, Loader, PageHero, SectionHead } from '../components/ui'
-import type { IndicatorDef } from '../lib/api'
+import type { AskStatus, IndicatorDef } from '../lib/api'
 import { num } from '../lib/format'
 import { useApi } from '../lib/useApi'
 
@@ -22,6 +22,8 @@ const SOURCES = [
 export default function Methods() {
   const m = useApi<Methodology>('/metadata/methodology')
   const indicators = useApi<IndicatorDef[]>('/indicators')
+  const ask = useApi<AskStatus>('/ask/status')
+  const clf = ask.data?.classifier
 
   return (
     <>
@@ -186,6 +188,33 @@ export default function Methods() {
                 ))}
               </div>
             </div>
+          )}
+        </div>
+      </section>
+
+      <section id="ask" className="section">
+        <div className="container">
+          <SectionHead title="How “Ask the data” works"
+            lead="Analiza's own natural-language model. No external AI service: every number in an answer comes from the NISR tables." />
+          <div className="method-notes-grid">
+            {[
+              ['1. Understand the words', 'An entity finder spots crops, districts, provinces, measures, inputs, year and season in English, Kinyarwanda or French. Typos are corrected by fuzzy matching (“mesanze” → Musanze, “ibigori” → maize) and the answer shows what was understood.'],
+              ['2. Classify the question', `A scikit-learn classifier (${clf?.algorithm ?? 'TF-IDF n-grams + logistic regression'}) sorts the question into one of ${clf?.intents ?? 19} types, trained on ${clf?.training_examples ? num(clf.training_examples) : '2,000+'} example questions. Names are masked first, so it works for every crop and district.`],
+              ['3. Query the survey tables', 'Each question type runs fixed, survey-weighted queries. What-if questions use the gradient-boosted yield model above.'],
+              ['4. Answer with evidence', 'Answers are written from templates filled with the retrieved numbers, with maps and charts. Fair comparisons only: same crop and period, Season A vs Season A, and results on fewer than 30 observations flagged.'],
+            ].map(([t, d]) => (
+              <div key={t} className="method-note-item">
+                <span className="method-note-icon"><Icon name="check" size={15} /></span>
+                <span className="method-note-text"><strong>{t}.</strong> {d}</span>
+              </div>
+            ))}
+          </div>
+          {clf?.test_accuracy != null && (
+            <p className="small muted" style={{ marginTop: 12 }}>
+              Classifier accuracy: <strong>{Math.round((clf.test_accuracy ?? 0) * 100)}%</strong> on hand-written test
+              questions it never saw. Questions outside the surveys (prices, weather, pests, other countries, years after
+              2025) are declined with suggestions of what the data can answer.
+            </p>
           )}
         </div>
       </section>

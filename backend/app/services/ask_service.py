@@ -1,22 +1,31 @@
-"""Question answering for the Ask page.
+"""Ask the data: Analiza's own question-answering engine. No external AI service is used.
 
-A question becomes a plan of one to three data queries. Each query is run against the processed survey tables and
-the result is reduced to an ANALYSIS block of computed comparisons (ranks, gaps, changes, ratios, rankings). An LLM
-plans the queries and writes the answer strictly from the retrieved numbers plus that analysis; without an LLM a
-rule-based parser and templates answer instead. Either way every number in an answer comes from the data.
+Pipeline for every question:
+1. entities.extract    finds crops, districts, provinces, measure, inputs, year and season (typo-tolerant, EN/RW/FR)
+                       and masks them (CROPX, DISTX...) so the classifier sees only the phrasing
+2. intent_model        TF-IDF + logistic regression (scikit-learn) picks one of 19 question types
+3. _resolve            sanity rules on top of the model (e.g. two districts named -> comparison), follow-ups,
+                       defaults that are always stated in the answer
+4. handlers            read the survey-weighted NISR tables and write the answer from templates, so every number
+                       in an answer comes from the data; each answer carries maps/charts as "visuals"
+
+Fairness safeguards: same crop and same period in every comparison, season-to-season changes compared like with like
+(Season A with Season A), results on fewer than 30 observations flagged, cells under 10 already suppressed upstream,
+and the period used is always named. When the requested period has no data for a place, the nearest period that does
+is used and the answer says so.
 """
 
-import json
 import logging
-import re
 
-from app.analytics.definitions import INDICATORS
+from app.analytics.definitions import INDICATORS, INPUT_COLUMNS, LOW_RELIABILITY_N
 from app.data import store
+from app.nlp import entities as ent
+from app.nlp import intent_model
+from app.nlp.training_data import INTENTS
 from app.services import (
     comparison_service,
     geography_service,
     indicator_service as ind,
-    llm_service,
     overview_service,
     priority_service,
     scenario_service,
@@ -24,1085 +33,1059 @@ from app.services import (
 
 logger = logging.getLogger(__name__)
 
-_NUMBER = re.compile(r"\d[\d,]*\.?\d*")
-
-INTENTS = ["overview", "districts", "compare", "trend", "inputs", "gender", "scenario", "priorities", "profile",
-           "chat", "out_of_scope"]
-MAX_STEPS = 3
-
-COMPARE_PRACTICES = ["improved_seed_pct", "inorganic_fertilizer_pct", "organic_fertilizer_pct", "irrigation_pct",
-                     "anti_erosion_pct", "land_consolidation_pct", "extension_access_pct", "cooperative_member_pct"]
-
-SCOPE_TOPICS = ("crop yields, production, improved seed, fertilizer, irrigation, erosion measures, extension, "
-                "cooperative membership, women versus men, priority districts and what-if scenarios")
-
-OUT_OF_SCOPE_TOPICS = [
-    ("market prices or production costs", ["price", "prices", "cost", "costs", "profit", "profits", "revenue",
-                                           "market", "markets", "sell", "selling", "export", "gdp", "income"]),
-    ("weather or climate", ["weather", "rain", "rainfall", "climate", "temperature", "drought", "flood", "forecast"]),
-    ("loans, credit or money", ["loan", "loans", "credit", "interest", "bank", "banks", "cash", "subsidy amount"]),
-    ("farm machinery or input brands", ["tractor", "tractors", "machinery", "machine", "machines", "brand", "brands",
-                                        "pesticide", "equipment"]),
-    ("other countries", ["kenya", "uganda", "tanzania", "burundi", "congo", "kampala", "nairobi", "ethiopia"]),
-    ("years after 2025", ["2026", "2027", "2028", "2029", "2030", "next year", "coming years"]),
-]
-
-INDICATOR_KEYWORDS = [
-    ("production_t", ["production", "produce", "harvest", "tonnes", "output"]),
-    ("yield_kg_ha", ["yield", "productivity", "kg/ha", "per hectare"]),
-    ("improved_seed_pct", ["seed"]),
-    ("organic_fertilizer_pct", ["organic", "manure", "compost"]),
-    ("inorganic_fertilizer_pct", ["fertilizer", "fertiliser", "npk", "dap", "urea"]),
-    ("irrigation_pct", ["irrigat", "water"]),
-    ("anti_erosion_pct", ["erosion", "terrace"]),
-    ("land_consolidation_pct", ["consolidat"]),
-    ("extension_access_pct", ["extension", "advisory", "training"]),
-    ("cooperative_member_pct", ["cooperative", "association"]),
-    ("crop_insurance_pct", ["insurance"]),
-    ("agri_support_pct", ["grant", "support", "subsid"]),
-    ("fertilizer_risk_aware_pct", ["aware", "risk"]),
-]
-
-CROP_SYNONYMS = {
-    "beans": "Bush bean", "bean": "Bush bean", "potato": "Irish potato", "potatoes": "Irish potato",
-    "rice": "Paddy rice", "banana": "Cooking banana", "bananas": "Cooking banana", "soya": "Soybean",
-    "peas": "Pea", "groundnuts": "Groundnut", "tomatoes": "Tomato",
-}
-
-INPUT_KEYWORDS = {
-    "improved_seed": ["seed"],
-    "inorganic_fertilizer": ["fertilizer", "fertiliser", "npk", "dap", "urea"],
-    "organic_fertilizer": ["organic", "manure", "compost"],
-    "irrigated": ["irrigat"],
-}
-
-INPUT_INDICATORS = {
-    "improved_seed": "improved_seed_pct",
-    "inorganic_fertilizer": "inorganic_fertilizer_pct",
-    "organic_fertilizer": "organic_fertilizer_pct",
-    "irrigated": "irrigation_pct",
-}
+ALL = ind.ALL_CROPS
+PRACTICES = ["improved_seed_pct", "inorganic_fertilizer_pct", "organic_fertilizer_pct", "irrigation_pct",
+             "anti_erosion_pct", "land_consolidation_pct"]
+HOUSEHOLD = ["extension_access_pct", "cooperative_member_pct"]
+PERIODS = [(2025, "A"), (2025, "B"), (2024, "A"), (2024, "B"), (2025, "C"), (2024, "C")]
+CONFIDENT = 0.35
+CROP_INDICATORS = {"yield_kg_ha", "production_t"}
+CHART_LABEL = {"improved_seed_pct": "Improved seed", "inorganic_fertilizer_pct": "Inorganic fert.",
+               "organic_fertilizer_pct": "Organic fert.", "irrigation_pct": "Irrigation",
+               "anti_erosion_pct": "Anti-erosion", "land_consolidation_pct": "Land consol.",
+               "extension_access_pct": "Extension", "cooperative_member_pct": "Cooperative"}
+INPUT_TO_INDICATOR = {"improved_seed": "improved_seed_pct", "inorganic_fertilizer": "inorganic_fertilizer_pct",
+                      "organic_fertilizer": "organic_fertilizer_pct", "irrigated": "irrigation_pct"}
 
 SUGGESTIONS = [
     "Which districts have the highest maize yield?",
-    "How has bean yield changed across seasons?",
+    "How is maize grown in Musanze?",
+    "Compare beans in Musanze and Nyabihu",
+    "Why is Musanze behind Nyagatare in maize?",
+    "How has Irish potato yield changed across seasons?",
     "Does improved seed increase maize yield?",
     "What if farmers in Nyagatare used improved seed and fertilizer for maize?",
-    "Where should fertilizer support be prioritised for Irish potato?",
+    "Where should support be prioritised for beans?",
+    "Which crops grow best in Huye?",
     "Compare women and men farmers' maize yields",
-    "Show me Musanze district",
-    "Which districts have the lowest extension access?",
 ]
 
 
-def _has(text: str, words: list[str]) -> bool:
-    return any(w in text for w in words)
+class Clarify(Exception):
+    """The question is missing something we cannot sensibly assume; ask the user, with clickable options."""
+
+    def __init__(self, text: str, options: list[str]):
+        super().__init__(text)
+        self.text, self.options = text, options
 
 
-def _find_crop(text: str) -> str | None:
-    crops = store.manifest()["crops"]
-    for crop in sorted(crops, key=len, reverse=True):
-        if crop.lower() in text:
-            return crop
-    for word, crop in CROP_SYNONYMS.items():
-        if re.search(rf"\b{word}\b", text):
-            return crop
-    return None
+# --- data helpers -------------------------------------------------------------------------------------------------
 
 
-def _find_districts(text: str) -> list[str]:
-    """Every district named in the text, in the order the user wrote them."""
-    found = []
-    for district in store.district_provinces():
-        index = text.find(district.lower())
-        if index >= 0:
-            found.append((index, district))
-    return [district for _, district in sorted(found)]
+def _household(indicator_id: str) -> bool:
+    return ind.is_household(indicator_id)
 
 
-def _find_district(text: str) -> str | None:
-    districts = _find_districts(text)
-    return districts[0] if districts else None
+def _crop_key(indicator_id: str, crop: str | None) -> str:
+    if _household(indicator_id):
+        return ALL
+    return crop or ALL
 
 
-def _find_indicator(text: str) -> str | None:
-    for indicator_id, words in INDICATOR_KEYWORDS:
-        if _has(text, words):
-            return indicator_id
-    return None
-
-
-def _period(text: str) -> tuple[int, str]:
-    year, season = ind.latest_period()
-    if m := re.search(r"\b(2024|2025)\b", text):
-        year = int(m.group(1))
-    if m := re.search(r"season\s*([abc])\b", text):
-        season = m.group(1).upper()
-    return year, season
-
-
-def _scope_message(subject: str | None = None) -> str:
-    head = "I can only answer from the NISR agricultural surveys this app is built on. "
-    if subject:
-        head += f"Our data does not measure {subject}, so answering would mean inventing numbers. "
-    else:
-        head += "That question falls outside what our data measures. "
-    return head + f"What the surveys do cover: {SCOPE_TOPICS}, for 2024 and 2025 Season A."
-
-
-def _scope_refusal(question: str) -> str | None:
-    """Refuse before any model call when the question asks for something the surveys do not measure."""
-    text = question.lower()
-    for topic, words in OUT_OF_SCOPE_TOPICS:
-        if any(re.search(rf"\b{re.escape(word)}\b", text) for word in words):
-            return _scope_message(topic)
-    return None
-
-
-def _best_period(areas: list[str], crop: str, year: int, season: str) -> tuple[int, str, bool]:
-    """The latest period in which every named district actually has plots of this crop."""
+def cell(indicator_id: str, crop: str | None, year: int | None, season: str | None, level: str,
+         area: str) -> dict | None:
+    """One published value with its sample size, or None (no plots / suppressed)."""
     df = store.indicators()
-    subset = df[(df["indicator_id"] == "yield_kg_ha") & (df["level"] == "district") & (df["crop"] == crop)]
-    if subset.empty:
-        return year, season, False
-
-    def complete(period_year: int, period_season: str) -> bool:
-        present = subset[(subset["year"] == period_year) & (subset["season"] == period_season)]
-        have = {item.area for item in present.itertuples() if item.value == item.value}
-        return all(area in have for area in areas)
-
-    if complete(year, season):
-        return year, season, False
-    periods = (subset[["year", "season"]].drop_duplicates()
-               .sort_values(["year", "season"], ascending=False).itertuples(index=False))
-    for row in periods:
-        if (int(row.year), str(row.season)) == (year, season):
-            continue
-        if complete(int(row.year), str(row.season)):
-            return int(row.year), str(row.season), True
-    return year, season, False
+    df = df[(df["indicator_id"] == indicator_id) & (df["crop"] == _crop_key(indicator_id, crop))
+            & (df["level"] == level) & (df["area"].str.lower() == area.lower())]
+    if not _household(indicator_id):
+        df = df[(df["year"] == year) & (df["season"] == season)]
+    df = df[df["value"].notna()]
+    if df.empty:
+        return None
+    row = df.iloc[0]
+    return {"value": float(row["value"]), "n": int(row["n"]), "low": int(row["n"]) < LOW_RELIABILITY_N}
 
 
-def _compare_data(areas: list[str], crop: str, year: int, season: str) -> dict:
-    """Side-by-side picture of two or more districts: the crop's yield plus the practices we publish."""
-    crop_name = ind.resolve_crop("yield_kg_ha", crop)
-    year, season, moved = _best_period(areas, crop_name, year, season)
-    ranked = comparison_service.districts("yield_kg_ha", year, season, crop_name)
-    by_area = {row["area"]: row for row in ranked["districts"]}
-    national = ranked.get("national_value")
-    series = {key: {"id": key, "name": INDICATORS[key].name, "unit": INDICATORS[key].unit, "values": []}
-              for key in COMPARE_PRACTICES if key in INDICATORS}
-    rows = []
-    for area in areas:
-        profile = geography_service.profile(area, year, season)
-        value = by_area.get(profile["district"], {})
-        yield_value = value.get("value")
-        practices = {item["indicator_id"]: item for item in profile["indicators"]}
-        rows.append({
-            "district": profile["district"],
-            "province": profile["province"],
-            "yield_kg_ha": yield_value,
-            "national_yield": national,
-            "vs_national_pct": (None if yield_value is None or not national
-                                else round((yield_value / national - 1) * 100, 1)),
-            "rank": value.get("rank"),
-            "of": len(ranked["districts"]),
-            "n": value.get("n"),
-            "low_reliability": bool(value.get("low_reliability")),
-            "practices": {key: (None if practices.get(key) is None else practices[key]["value"]) for key in series},
-        })
-        for key, item in series.items():
-            item["values"].append(rows[-1]["practices"][key])
-    return {"crop": ranked.get("crop") or crop, "year": year, "season": season, "period_note": moved,
-            "districts": rows, "practice_series": list(series.values())}
+def nat(indicator_id: str, crop: str | None, year: int | None, season: str | None) -> dict | None:
+    return cell(indicator_id, crop, year, season, "national", "Rwanda")
 
 
-def parse(question: str) -> dict:
-    text = question.lower().strip()
-    year, season = _period(text)
-    crop = _find_crop(text)
-    districts = _find_districts(text)
-    district = districts[0] if districts else None
-    indicator_id = _find_indicator(text)
-    inputs = [k for k, words in INPUT_KEYWORDS.items() if _has(text, words)]
+def rank_of(indicator_id: str, crop: str | None, year: int, season: str, district: str) -> tuple[int | None, int]:
+    df = ind.query(indicator_id, None if _household(indicator_id) else year,
+                   None if _household(indicator_id) else season, _crop_key(indicator_id, crop), level="district")
+    df = df[df["value"].notna()].sort_values("value", ascending=not INDICATORS[indicator_id].higher_is_better)
+    areas = list(df["area"])
+    return (areas.index(district) + 1 if district in areas else None), len(areas)
 
-    if re.fullmatch(r"(hi|hello|hey|thanks|thank you|muraho|bite|help|who are you|what can you do)[!?. ]*", text):
-        intent = "chat"
-    elif _has(text, ["what if", "simulat", "scenario", "would happen", "if farmers", "if all"]):
-        intent = "scenario"
-    elif _has(text, ["priorit", "target", "where should", "most need", "invest"]):
-        intent = "priorities"
-    elif _has(text, ["women", "woman", "female", "gender", " men "]):
-        intent = "gender"
-    elif len(districts) >= 2:
+
+def pick_period(indicator_id: str, crop: str | None, places: list[tuple[str, str]], year: int | None,
+                season: str | None) -> tuple[int, str, str | None]:
+    """The asked period if every place has data there, otherwise the most recent period that does (with a note)."""
+    if _household(indicator_id):
+        return 2024, "A", None
+    wanted = (year or PERIODS[0][0], season or PERIODS[0][1])
+    order = [wanted] + [p for p in PERIODS if p != wanted]
+    if year and not season:
+        order = [p for p in order if p[0] == year] + [p for p in order if p[0] != year]
+    places = places or [("national", "Rwanda")]
+    for y, s in order:
+        if all(cell(indicator_id, crop, y, s, level, area) for level, area in places):
+            if (y, s) == wanted:
+                return y, s, None
+            asked = f"{wanted[0]} Season {wanted[1]}" if (year or season) else "the latest season (2025 Season A)"
+            return y, s, (f"There were too few surveyed plots for {asked}, so this uses **{y} Season {s}**, the most "
+                          f"recent period with data for every place named.")
+    return wanted[0], wanted[1], None
+
+
+# --- formatting ---------------------------------------------------------------------------------------------------
+
+
+def kg(v) -> str:
+    return "n/a" if v is None else f"{v:,.0f} kg/ha"
+
+
+def pct(v) -> str:
+    return "n/a" if v is None else f"{v:.1f}%"
+
+
+def signed(v) -> str:
+    return "n/a" if v is None else f"{v:+.1f}%"
+
+
+def change(a, b) -> float | None:
+    return None if a is None or not b else round((a / b - 1) * 100, 1)
+
+
+def fmt(indicator_id: str, v) -> str:
+    if v is None:
+        return "n/a"
+    unit = INDICATORS[indicator_id].unit
+    if unit == "kg/ha":
+        return kg(v)
+    if unit == "tonnes":
+        return f"{v:,.0f} tonnes"
+    return f"{v:.1f}%"
+
+
+def unit_label(indicator_id: str) -> str:
+    """Unit shown in chart titles, e.g. (kg/ha), (% of plots), (% of households)."""
+    return f"({INDICATORS[indicator_id].unit})"
+
+
+def period_label(year: int | None, season: str | None, indicator_id: str | None = None) -> str:
+    if indicator_id and _household(indicator_id):
+        return "Agriculture Household Survey 2024"
+    return f"{year} Season {season}"
+
+
+def short_name(indicator_id: str) -> str:
+    return {"yield_kg_ha": "yield", "production_t": "production"}.get(indicator_id,
+                                                                     INDICATORS[indicator_id].name.lower())
+
+
+def low_note(n: int | None) -> str:
+    return f" ⚠ based on only {n} plots, treat with caution" if n is not None and n < LOW_RELIABILITY_N else ""
+
+
+# --- the answer object --------------------------------------------------------------------------------------------
+
+
+class Reply:
+    def __init__(self) -> None:
+        self.parts: list[str] = []
+        self.visuals: list[dict] = []
+        self.warnings: list[str] = []
+        self.suggestions: list[str] = []
+        self.assumptions: list[str] = []
+        self.period: tuple[int, str] | None = None
+
+    def say(self, text: str) -> None:
+        if text:
+            self.parts.append(text)
+
+    def visual(self, kind: str, title: str | None = None, **data) -> None:
+        self.visuals.append({"kind": kind, "title": title, **data})
+
+    def warn(self, text: str | None) -> None:
+        if text and text not in self.warnings:
+            self.warnings.append(text)
+
+    def suggest(self, *questions: str) -> None:
+        for q in questions:
+            if q and q not in self.suggestions:
+                self.suggestions.append(q)
+
+
+def map_visual(r: Reply, indicator_id: str, crop: str | None, year, season, highlight: list[str] | None = None):
+    r.visual("choropleth", f"{INDICATORS[indicator_id].name} {unit_label(indicator_id)}"
+             + (f" · {crop}" if crop and not _household(indicator_id) else "")
+             + f" · {period_label(year, season, indicator_id)}",
+             indicator_id=indicator_id, crop=None if _household(indicator_id) else crop,
+             year=None if _household(indicator_id) else year, season=None if _household(indicator_id) else season,
+             unit=INDICATORS[indicator_id].unit, highlight=highlight or [])
+
+
+def district_maps(r: Reply, districts: list[str]) -> None:
+    if districts:
+        r.visual("district_maps", None, districts=districts[:3])
+
+
+# --- understanding ------------------------------------------------------------------------------------------------
+
+FOLLOW_UP_STARTS = ("and ", "what about", "how about", "and in", "na ", "naho", "et ", "et a", "same for", "now ")
+
+
+def _resolve(question: str, e: ent.Entities, context: dict | None) -> tuple[str, float, list]:
+    intent, confidence, alternatives = intent_model.predict(e.masked)
+    text = ent.normalise(question)
+    n_places = len(e.districts) + len(e.provinces)
+
+    # Follow-up such as "and in Huye?" or "what about beans?": keep the previous question type.
+    previous = (context or {}).get("intent")
+    if previous and previous not in ("greeting", "thanks", "goodbye", "help", "about_data", "out_of_scope") and \
+            (text.startswith(FOLLOW_UP_STARTS) or len(text.split()) <= 3) and (e.districts or e.crops or e.provinces) \
+            and intent not in ("greeting", "thanks", "goodbye", "help"):
+        if not e.crops and context.get("crops") and previous not in ("profile",):
+            e.crops = list(context["crops"])
+        if not e.indicator_id and context.get("indicator_id"):
+            e.indicator_id = context["indicator_id"]
+        if previous in ("compare", "why_gap") and len(e.districts) == 1 and context.get("districts"):
+            e.districts = [context["districts"][0], *e.districts] if context["districts"][0] not in e.districts \
+                else e.districts
+        intent, confidence = previous, max(confidence, 0.6)
+
+    if e.foreign or (e.other_year and e.other_year not in (2024, 2025)):
+        return "out_of_scope", 1.0, alternatives
+
+    # Low confidence: fall back on what the question names.
+    if confidence < CONFIDENT and intent not in ("greeting", "thanks", "goodbye"):
+        if n_places >= 2:
+            intent = "compare"
+        elif e.districts and e.crops:
+            intent = "crop_in_district"
+        elif e.districts or e.provinces:
+            intent = "profile"
+        elif e.crops:
+            intent = "ranking"
+
+    # Structural sanity rules on top of the model.
+    if intent in ("ranking", "crop_in_district", "profile", "practices") and n_places >= 2:
         intent = "compare"
-    elif district and _has(text, ["compare", "versus", " vs ", "difference between"]):
-        intent = "profile"
-    elif inputs and _has(text, ["effect", "impact", "increase", "improve", "boost", "premium", "difference", "does ", "do "]):
-        intent = "inputs"
-        indicator_id = INPUT_INDICATORS[inputs[0]]
-    elif _has(text, ["trend", "over time", "changed", "change", "across seasons", "between seasons", "evolution", "vs"]):
-        intent = "trend"
-    elif district and not _has(text, ["compare", "which", "rank", "highest", "lowest", "best", "worst"]):
-        intent = "profile"
-    elif not indicator_id and not crop and not _has(text, ["which", "rank", "highest", "lowest", "best", "worst", "district"]):
+    if intent == "ranking" and len(e.districts) == 1 and not any(
+            w in text for w in ("which", "rank", "top", "best", "highest", "lowest", "most", "least", "where", "akahe",
+                                "utuhe", "quel")):
+        intent = "crop_in_district" if e.crops else "practices" if e.indicator_id in PRACTICES else "profile"
+    if intent == "crop_in_district" and not e.districts and not e.provinces:
+        intent = "ranking"
+    if intent == "crop_in_district" and not e.crops:
+        intent = "practices" if e.indicator_id in PRACTICES + HOUSEHOLD else "profile"
+    if intent == "profile" and e.crops and (e.districts or e.provinces):
+        intent = "crop_in_district"
+    if intent == "profile" and not e.districts and not e.provinces:
         intent = "overview"
-    else:
-        intent = "districts"
+    if intent == "compare" and n_places < 2 and len(e.crops) < 2 and len(e.seasons) < 2 and not e.year:
+        intent = "crop_in_district" if (e.districts or e.provinces) and e.crops else \
+            "profile" if (e.districts or e.provinces) else "ranking"
+    return intent, confidence, alternatives
 
-    return {
+
+def _main_crop(r: Reply, e: ent.Entities, purpose: str = "") -> str:
+    if e.crops:
+        return e.crops[0]
+    r.assumptions.append("No crop was named, so this uses **maize**, Rwanda's most widely grown cereal"
+                         + (f" ({purpose})" if purpose else "") + ". Name a crop to change it.")
+    return "Maize"
+
+
+def _crop_list(r: Reply, e: ent.Entities, purpose: str = "") -> list[str]:
+    if e.beans_generic:
+        r.assumptions.append("\"Beans\" covers two crops in the survey, **bush bean** and **climbing bean**, so "
+                             "both are shown.")
+    return e.crops[:3] if e.crops else [_main_crop(r, e, purpose)]
+
+
+# --- conversation handlers ----------------------------------------------------------------------------------------
+
+
+def h_greeting(r: Reply, e: ent.Entities, q: str) -> None:
+    r.say("Hello! I'm **Analiza**, your guide to Rwanda's official agricultural statistics (NISR surveys "
+          "2024-2025). Ask me about crop yields, how crops are grown in a district, comparisons between districts, "
+          "trends, the effect of improved seed or fertilizer, what-if scenarios or priority districts.")
+    r.suggest(*SUGGESTIONS[:4])
+
+
+def h_thanks(r: Reply, e: ent.Entities, q: str) -> None:
+    r.say("You're welcome! Ask me anything else about crops, districts or farming practices in Rwanda.")
+    r.suggest(SUGGESTIONS[4], SUGGESTIONS[6], SUGGESTIONS[8])
+
+
+def h_goodbye(r: Reply, e: ent.Entities, q: str) -> None:
+    r.say("Goodbye, and thank you for using Analiza. Murabeho!")
+
+
+def h_help(r: Reply, e: ent.Entities, q: str) -> None:
+    r.say("I answer questions from **official NISR survey data**: the Seasonal Agricultural Survey 2024-2025 "
+          "(Seasons A, B and C) and the Agriculture Household Survey 2024, for 19 crops and all 30 districts. "
+          "You can write in English, Kinyarwanda or French, and small typos are fine. For example:")
+    r.say("\n".join([
+        "- **Rankings**: which districts have the highest maize yield?",
+        "- **A crop in a district**: beans in Musanze",
+        "- **How a crop is grown**: how is maize planted in Nyagatare?",
+        "- **Comparisons and reasons**: why is Musanze behind Nyagatare in maize?",
+        "- **Trends**: how has potato yield changed across seasons?",
+        "- **Inputs and what-if**: what if Nyagatare farmers used improved seed?",
+        "- **Priorities, women farmers, best crops, district profiles, national overview**",
+    ]))
+    r.say("Every answer shows where its numbers come from, with a map or chart.")
+    r.suggest(*SUGGESTIONS[:3])
+
+
+def h_about_data(r: Reply, e: ent.Entities, q: str) -> None:
+    m = intent_model.metrics()
+    man = store.manifest()
+    r.say(f"All numbers come from **NISR microdata**: the Seasonal Agricultural Survey 2024 and 2025 "
+          f"({man['sas_plot_crop_rows']:,} plot-crop records, Seasons A, B and C) and the Agriculture Household "
+          f"Survey 2024 ({man['ahs_households']:,} households), for 30 districts and {len(man['crops'])} crops.")
+    r.say("\n".join([
+        "- **Weighted**: every estimate uses NISR survey weights, so it represents all farm plots, not only the "
+        "surveyed ones.",
+        "- **Yield** = weighted harvest ÷ weighted planted area (kg/ha). The top 1% of yields per crop are excluded "
+        "as outliers.",
+        "- **Reliability**: results on fewer than 10 observations are not published; fewer than 30 are flagged.",
+        "- **What-if scenarios** use a gradient-boosted model trained on plot data "
+        f"(holdout R² = {man['model'].get('r2_log_yield', 0):.2f}); they show associations, not proven causes.",
+    ]))
+    if m:
+        r.say(f"Questions are understood by Analiza's own classifier ({m['algorithm']}, trained on "
+              f"{m['training_examples']:,} example questions in English, Kinyarwanda and French; "
+              f"{m['test_accuracy'] * 100:.0f}% accuracy on unseen test questions). No external AI service is used.")
+    r.suggest("Which districts have the highest maize yield?", "Tell me about Rwanda")
+
+
+OUT_OF_SCOPE_REASONS = [
+    (("price", "prices", "cost", "costs", "sell", "market", "igiciro", "prix", "earn", "income", "gdp", "export",
+      "kilo"), "prices, markets or incomes"),
+    (("weather", "rain", "rainfall", "forecast", "climate", "imvura", "meteo", "temperature", "drought"),
+     "weather or climate"),
+    (("pest", "pests", "armyworm", "disease", "pesticide", "insect", "treat", "spray"), "pests and diseases"),
+    (("plant", "planting", "spacing", "when should", "how do i", "compost", "how to"), "farming advice"),
+    (("loan", "loans", "credit", "bank", "tractor", "machinery", "brand"), "loans, machinery or brands"),
+    (("cow", "cows", "livestock", "cattle", "goat", "fish", "chicken", "milk"), "livestock"),
+]
+
+
+def h_out_of_scope(r: Reply, e: ent.Entities, q: str) -> None:
+    text = ent.normalise(q)
+    if e.foreign:
+        reason = f"other countries ({e.foreign.title()})"
+    elif e.other_year and e.other_year not in (2024, 2025):
+        reason = f"{e.other_year} (the surveys cover 2024 and 2025 only, and Analiza does not forecast)"
+    else:
+        reason = next((label for words, label in OUT_OF_SCOPE_REASONS if any(f" {w}" in f" {text}" for w in words)),
+                      None)
+    head = f"The NISR agricultural surveys do not cover **{reason}**" if reason else \
+        "That question is outside what the NISR agricultural surveys measure"
+    r.say(head + ", so I can't answer it without inventing numbers.")
+    if reason == "farming advice":
+        r.say("For agronomic advice, your local agronomist or RAB (Rwanda Agriculture Board) extension services are "
+              "the right source.")
+    r.say("I can tell you about yields, production, improved seed, fertilizer, irrigation and erosion control, "
+          "extension and cooperatives, women and men farmers, priority districts and what-if scenarios.")
+    crop = (e.crops or ["maize"])[0].lower()
+    place = e.districts[0] if e.districts else None
+    r.suggest(f"How is {crop} grown in {place}?" if place else f"Which districts have the highest {crop} yield?",
+              f"Does fertilizer increase {crop} yield?", "What can you do?")
+
+
+# --- data handlers ------------------------------------------------------------------------------------------------
+
+
+def h_ranking(r: Reply, e: ent.Entities, q: str) -> None:
+    indicator_id = e.indicator_id or "yield_kg_ha"
+    if indicator_id in CROP_INDICATORS:
+        crops = _crop_list(r, e, "the ranking needs one crop")
+    else:
+        crops = e.crops[:2] or [None]
+    definition = INDICATORS[indicator_id]
+    for crop in crops:
+        year, season, note = pick_period(indicator_id, crop, [], e.year, e.season)
+        data = comparison_service.districts(indicator_id, year, season, crop)
+        rows = [d for d in data["districts"] if d["value"] == d["value"]]
+        if e.provinces:
+            rows = [d for d in rows if d["province"] in e.provinces]
+        if not rows:
+            r.say(f"No district has enough surveyed plots to rank {short_name(indicator_id)}"
+                  f"{' for ' + crop.lower() if crop else ''} in {period_label(year, season, indicator_id)}.")
+            continue
+        want_low = e.ascending == definition.higher_is_better
+        ordered = rows[::-1] if want_low else rows
+        top = ordered[:3]
+        word = "lowest" if e.ascending else "highest"
+        if not definition.higher_is_better:
+            word = "highest" if e.ascending else "lowest"
+        subject = short_name(indicator_id) + (f" for **{crop.lower()}**" if crop and indicator_id not in
+                                              HOUSEHOLD and crop != ALL else "")
+        where = f" in {', '.join(e.provinces)} Province" if e.provinces else ""
+        r.say(f"The {word} {subject}{where} ({period_label(year, season, indicator_id)}): "
+              + "; ".join(f"**{d['area']}** {fmt(indicator_id, d['value'])}" for d in top)
+              + (f". National: **{fmt(indicator_id, data['national_value'])}**." if data["national_value"] else "."))
+        best, worst = rows[0], rows[-1]
+        national = data["national_value"]
+        bits = []
+        if national:
+            above = sum(1 for d in rows if d["value"] > national)
+            bits.append(f"{above} of {len(rows)} districts are above the national figure")
+        if worst["value"]:
+            bits.append(f"the gap between {best['area']} ({fmt(indicator_id, best['value'])}) and {worst['area']} "
+                        f"({fmt(indicator_id, worst['value'])}) is {best['value'] / worst['value']:.1f} times"
+                        if definition.unit == "kg/ha" else
+                        f"they range from {fmt(indicator_id, worst['value'])} in {worst['area']} to "
+                        f"{fmt(indicator_id, best['value'])} in {best['area']}")
+        if bits:
+            r.say(bits[0][0].upper() + "; ".join(bits)[1:] + ".")
+        low = [f"{d['area']} ({d['n']})" for d in top if d.get("low_reliability")]
+        if low:
+            r.warn("Few surveyed plots behind: " + ", ".join(low) + ". These averages are less certain.")
+        r.warn(note)
+        r.period = (year, season)
+        map_visual(r, indicator_id, crop, year, season, [d["area"] for d in top])
+        r.visual("ranking", f"{definition.name} {unit_label(indicator_id)}"
+                 f"{' · ' + crop if crop and crop != ALL and indicator_id not in HOUSEHOLD else ''}"
+                 f" · {period_label(year, season, indicator_id)}", data=data, highlight=[d["area"] for d in top])
+    crop = crops[0]
+    ranked = [v for v in r.visuals if v["kind"] == "ranking"]
+    if ranked and (not crop or crop == ALL):
+        first = ranked[0]["highlight"][0]
+        r.suggest(f"{INDICATORS[indicator_id].name} in {first}", "Does fertilizer increase maize yield?",
+                  "Where should support be prioritised for maize?")
+    if crop and crop != ALL:
+        lead = ranked[0]["highlight"][0] if ranked else "Nyagatare"
+        r.suggest(f"How is {crop.lower()} grown in {lead}?", f"Where should support be prioritised for {crop.lower()}?",
+                  f"How has {crop.lower()} yield changed across seasons?")
+
+
+def _crop_block(r: Reply, crop: str, level: str, area: str, e: ent.Entities, with_practices: bool = True) -> dict:
+    """Yield, production, rank and practices of one crop in one place against the national figures."""
+    year, season, note = pick_period("yield_kg_ha", crop, [(level, area)], e.year, e.season)
+    r.warn(note)
+    r.period = (year, season)
+    y = cell("yield_kg_ha", crop, year, season, level, area)
+    if y is None:
+        r.say(f"There are no published **{crop.lower()}** results for {area} in any season (too few surveyed "
+              f"plots), so {area} grows little {crop.lower()} according to the survey.")
+        return {}
+    n = nat("yield_kg_ha", crop, year, season)
+    prod = cell("production_t", crop, year, season, level, area)
+    rank, of = rank_of("yield_kg_ha", crop, year, season, area) if level == "district" else (None, 0)
+    gap = change(y["value"], n["value"] if n else None)
+    text = (f"**{crop}** in **{area}** ({year} Season {season}): **{kg(y['value'])}**"
+            + (f", against {kg(n['value'])} nationally (**{signed(gap)}**)" if n else "")
+            + (f", ranking {rank} of {of} districts" if rank else "")
+            + (f". Estimated production: {prod['value']:,.0f} tonnes" if prod else "") + "."
+            + low_note(y["n"]))
+    r.say(text)
+    rows = []
+    if with_practices:
+        lines = []
+        for indicator_id in PRACTICES:
+            local = cell(indicator_id, crop, year, season, level, area)
+            national = nat(indicator_id, crop, year, season)
+            if local and national:
+                rows.append({"name": CHART_LABEL[indicator_id], "local": round(local["value"], 1),
+                             "national": round(national["value"], 1)})
+                lines.append(f"- {INDICATORS[indicator_id].name}: **{pct(local['value'])}** of plots "
+                             f"(national {pct(national['value'])})")
+        if lines:
+            r.say(f"How {crop.lower()} is grown there:\n" + "\n".join(lines))
+            r.visual("bars", f"How {crop.lower()} is grown · {area} vs Rwanda · {year} Season {season} (% of plots)",
+                     unit="%", series=[{"key": "local", "label": area}, {"key": "national", "label": "Rwanda"}],
+                     rows=rows)
+    return {"year": year, "season": season, "yield": y, "national": n, "gap": gap, "rows": rows}
+
+
+def h_crop_in_district(r: Reply, e: ent.Entities, q: str) -> None:
+    level, area = ("district", e.districts[0]) if e.districts else ("province", e.provinces[0])
+    crops = _crop_list(r, e)
+    if level == "district":
+        district_maps(r, [area])
+    for crop in crops:
+        _crop_block(r, crop, level, area, e, with_practices=len(crops) == 1)
+    crop = crops[0].lower()
+    r.suggest(f"Why is {crop} yield in {area} different from the national average?" if level == "district" else "",
+              f"What if farmers in {area} used improved seed and fertilizer for {crop}?" if level == "district" else "",
+              f"How has {crop} yield changed in {area}?")
+
+
+def h_practices(r: Reply, e: ent.Entities, q: str) -> None:
+    if e.districts or e.provinces:
+        level, area = ("district", e.districts[0]) if e.districts else ("province", e.provinces[0])
+    else:
+        level, area = "national", "Rwanda"
+    if e.crops:
+        if level == "district":
+            district_maps(r, [area])
+        if level == "national":
+            crop = e.crops[0]
+            year, season, note = pick_period("yield_kg_ha", crop, [], e.year, e.season)
+            lines = [f"- {INDICATORS[i].name}: **{pct(c['value'])}** of plots"
+                     for i in PRACTICES if (c := nat(i, crop, year, season))]
+            r.say(f"How **{crop.lower()}** is grown in Rwanda ({year} Season {season}):\n" + "\n".join(lines))
+            r.visual("simple_bars", f"{crop} plots using each practice · Rwanda · {year} Season {season}", unit="%",
+                     rows=[{"name": CHART_LABEL[i], "value": round(c["value"], 1)}
+                           for i in PRACTICES if (c := nat(i, crop, year, season))])
+            r.suggest(f"Which districts use the most fertilizer for {crop.lower()}?",
+                      f"Does improved seed increase {crop.lower()} yield?")
+            return
+        for crop in e.crops[:2]:
+            _crop_block(r, crop, level, area, e)
+        crop = e.crops[0].lower()
+    else:
+        # All crops: practice rates across every crop's plots, plus household support.
+        if level == "district":
+            district_maps(r, [area])
+        year, season, note = pick_period("improved_seed_pct", None, [(level, area)], e.year, e.season)
+        r.warn(note)
+        r.period = (year, season)
+        rows, lines = [], []
+        for indicator_id in PRACTICES + HOUSEHOLD:
+            local = cell(indicator_id, None, year, season, level, area)
+            national = nat(indicator_id, None, year, season)
+            if local and national:
+                rows.append({"name": CHART_LABEL[indicator_id], "local": round(local["value"], 1),
+                             "national": round(national["value"], 1)})
+                lines.append(f"- {INDICATORS[indicator_id].name}: **{pct(local['value'])}** "
+                             f"(national {pct(national['value'])})")
+        r.say(f"Farming practices in **{area}**, all crops ({year} Season {season}; extension and cooperatives from "
+              f"the 2024 household survey):\n" + "\n".join(lines))
+        r.visual("bars", f"Farming practices · {area} vs Rwanda (%)", unit="%",
+                 series=[{"key": "local", "label": area}, {"key": "national", "label": "Rwanda"}], rows=rows)
+        crop = "maize"
+    if level == "district":
+        r.suggest(f"Why is {crop} yield in {area} different from the national average?",
+                  f"What if farmers in {area} used improved seed and fertilizer for {crop}?",
+                  f"Which crops grow best in {area}?")
+
+
+def _places(e: ent.Entities) -> tuple[str, list[str]]:
+    if len(e.districts) >= 2:
+        return "district", e.districts[:3]
+    if len(e.provinces) >= 2:
+        return "province", e.provinces[:3]
+    if e.districts and (e.national or len(e.crops) < 2):
+        return "district", [e.districts[0], "Rwanda"]
+    if e.districts:
+        return "district", e.districts[:1]
+    return "national", ["Rwanda"]
+
+
+def _practice_rows(crop: str, year: int, season: str, places: list[tuple[str, str]]) -> list[dict]:
+    rows = []
+    for indicator_id in PRACTICES:
+        values = [cell(indicator_id, crop, year, season, lvl, a) for lvl, a in places]
+        if all(values):
+            rows.append({"id": indicator_id, "name": INDICATORS[indicator_id].name, "label": CHART_LABEL[indicator_id],
+                         **{f"p{i}": round(v["value"], 1) for i, v in enumerate(values)}})
+    return rows
+
+
+def _compare_places(r: Reply, e: ent.Entities, crop: str, level: str, names: list[str], explain: bool) -> None:
+    places = [("national" if a == "Rwanda" else level, a) for a in names]
+    year, season, note = pick_period("yield_kg_ha", crop, places, e.year, e.season)
+    r.warn(note)
+    r.period = (year, season)
+    values = [cell("yield_kg_ha", crop, year, season, lvl, a) for lvl, a in places]
+    missing = [a for (lvl, a), v in zip(places, values) if v is None]
+    if missing:
+        r.say(f"There are too few surveyed **{crop.lower()}** plots in {', '.join(missing)} in any season to "
+              f"publish a yield, so a fair comparison is not possible.")
+        return
+    lines = []
+    for (lvl, a), v in zip(places, values):
+        rank = rank_of("yield_kg_ha", crop, year, season, a)[0] if lvl == "district" else None
+        lines.append(f"**{a}** {kg(v['value'])}" + (f" (rank {rank})" if rank else "") + low_note(v["n"]))
+    ordered = sorted(zip(names, values), key=lambda x: x[1]["value"], reverse=True)
+    lead, trail = ordered[0], ordered[-1]
+    diff = lead[1]["value"] - trail[1]["value"]
+    r.say(f"**{crop}** yield, {year} Season {season}: " + " vs ".join(lines) + ". "
+          + (f"{lead[0]} is ahead by **{diff:,.0f} kg/ha ({signed(change(lead[1]['value'], trail[1]['value']))})**."
+             if abs(change(lead[1]["value"], trail[1]["value"]) or 0) >= 5 else
+             f"They are almost level ({signed(change(lead[1]['value'], trail[1]['value']))} for {lead[0]}), within "
+             f"what survey sampling can separate."))
+    rows = _practice_rows(crop, year, season, places)
+    r.visual("bars", f"{crop} yield · {year} Season {season} (kg/ha)", unit="kg/ha",
+             series=[{"key": f"p{i}", "label": a} for i, a in enumerate(names)],
+             rows=[{"name": crop, **{f"p{i}": round(v["value"]) for i, v in enumerate(values)}}])
+    if rows:
+        r.visual("bars", f"How {crop.lower()} is grown · % of {crop.lower()} plots", unit="%",
+                 series=[{"key": f"p{i}", "label": a} for i, a in enumerate(names)],
+                 rows=[{**x, "name": x["label"]} for x in rows])
+        lead_i, trail_i = names.index(lead[0]), names.index(trail[0])
+        diffs = sorted(rows, key=lambda x: abs(x[f"p{lead_i}"] - x[f"p{trail_i}"]), reverse=True)
+        lines = [f"- {x['name']}: {lead[0]} **{pct(x[f'p{lead_i}'])}** vs {trail[0]} **{pct(x[f'p{trail_i}'])}**"
+                 for x in diffs]
+        r.say(f"How {crop.lower()} is grown (share of {crop.lower()} plots):\n" + "\n".join(lines))
+        if explain:
+            _explain(r, crop, year, season, lead, trail, diffs, lead_i, trail_i)
+
+
+def _explain(r: Reply, crop, year, season, lead, trail, diffs, lead_i, trail_i) -> None:
+    """Which measured practices line up with the gap, backed by the national input effects and the yield model."""
+    effects = {x["input"]: x for x in comparison_service.inputs(year, season, crop)["effects"]}
+    ind_to_input = {v: k for k, v in INPUT_TO_INDICATOR.items()}
+    helps, against = [], []
+    for x in diffs:
+        a, b = x[f"p{lead_i}"], x[f"p{trail_i}"]
+        if abs(a - b) < 5:
+            continue
+        effect = effects.get(ind_to_input.get(x["id"], ""), {})
+        premium = effect.get("premium_pct")
+        first, second = (a, b) if a > b else (b, a)
+        reason = (f"{x['name'].lower()} ({pct(first)} vs {pct(second)}"
+                  + (f"; nationally, {crop.lower()} plots using it yield {signed(premium)} more" if premium is not None
+                     and premium > 0 else "") + ")")
+        (helps if a > b else against).append(reason)
+    if helps:
+        r.say(f"**What the data points to:** {lead[0]} is ahead on " + "; ".join(helps[:2]) + ".")
+    if against:
+        r.say(f"But {trail[0]} actually leads on " + "; ".join(against[:2]) + ", so that is not what holds it back.")
+    if not helps and not against:
+        r.say("The two places use seed, fertilizer and irrigation at similar rates, so the measured practices do not "
+              "explain the gap.")
+    if trail[0] != "Rwanda" and trail[0] in store.district_provinces():
+        inputs = [ind_to_input[x["id"]] for x in diffs
+                  if x["id"] in ind_to_input and x[f"p{lead_i}"] - x[f"p{trail_i}"] >= 5][:2] \
+            or ["improved_seed", "inorganic_fertilizer"]
+        try:
+            sim = scenario_service.simulate(crop, trail[0], season if season in ("A", "B") else "A", inputs)
+            r.say(f"**Model estimate:** if every {crop.lower()} plot in {trail[0]} used "
+                  f"{' and '.join(INPUT_COLUMNS[i].lower() for i in sim['inputs'])}, the yield model expects about "
+                  f"**{signed(sim['change_pct'])}** higher average yield ({kg(sim['current_yield'])} → "
+                  f"{kg(sim['scenario_yield'])} on the model's own scale).")
+            r.visual("scenario", f"What-if: modelled yield (kg/ha) · {crop} · {trail[0]}", data=sim)
+        except ind.NotFoundError:
+            pass
+    r.say("Soil, altitude and rainfall also matter but are not measured in these surveys, and these are "
+          "associations in survey data, not proven causes.")
+
+
+def h_compare(r: Reply, e: ent.Entities, q: str, explain: bool = False) -> None:
+    # Two or more crops in one place: compare each crop against its own national average (fair across crops).
+    distinct_crops = len(e.crops) - (1 if e.beans_generic else 0)
+    if distinct_crops >= 2 and len(e.districts) + len(e.provinces) <= 1:
+        level, area = ("district", e.districts[0]) if e.districts else \
+            ("province", e.provinces[0]) if e.provinces else ("national", "Rwanda")
+        if level == "district":
+            district_maps(r, [area])
+        rows, lines = [], []
+        for crop in e.crops[:4]:
+            year, season, note = pick_period("yield_kg_ha", crop, [(level, area)], e.year, e.season)
+            v = cell("yield_kg_ha", crop, year, season, level, area)
+            n = nat("yield_kg_ha", crop, year, season)
+            trend = comparison_service.seasons("yield_kg_ha", crop, level, area)["series"]
+            same = [s for s in trend if s["season"] == season]
+            yoy = change(same[-1]["value"], same[0]["value"]) if len(same) >= 2 else None
+            if v:
+                rows.append({"name": crop, "value": change(v["value"], n["value"]) if level != "national" else yoy})
+                lines.append(f"- **{crop}** ({year} Season {season}): {kg(v['value'])}"
+                             + (f", {signed(change(v['value'], n['value']))} vs national" if level != "national" else "")
+                             + (f"; Season {season} 2024→2025 {signed(yoy)}" if yoy is not None else "")
+                             + low_note(v["n"]))
+        r.say(f"Comparing crops in **{area}**. Different crops have very different normal yields (cassava naturally "
+              f"weighs far more per hectare than beans), so each is compared with "
+              f"{'its own national average' if level != 'national' else 'itself a year earlier'}:\n" + "\n".join(lines))
+        r.suggest(*(f"How is {c.lower()} grown in {area}?" if level != "national" else
+                    f"Which districts have the highest {c.lower()} yield?" for c in e.crops[:2]))
+        r.visual("simple_bars", ("Yield vs national average (%) · " if level != "national" else
+                                 "Change in yield, same season 2024→2025 (%) · ") + area, unit="%", rows=rows,
+                 signed=True)
+        return
+    # Two seasons or years for one crop: that is a trend question.
+    if len(e.seasons) >= 2 or (e.year and not (e.districts or e.provinces)):
+        h_trend(r, e, q)
+        return
+    level, names = _places(e)
+    if len(names) < 2:
+        (h_crop_in_district if (e.districts or e.provinces) else h_ranking)(r, e, q)
+        return
+    crops = _crop_list(r, e)
+    if level == "district":
+        district_maps(r, [n for n in names if n != "Rwanda"])
+    for crop in crops[:2]:
+        _compare_places(r, e, crop, level, names, explain)
+    real = [n for n in names if n != "Rwanda"]
+    crop = crops[0].lower()
+    if len(real) >= 2:
+        r.suggest(f"Why is {real[1]} behind {real[0]} in {crop}?" if not explain else
+                  f"Compare women and men farmers' {crop} yields",
+                  f"What if farmers in {real[1]} used improved seed and fertilizer for {crop}?",
+                  f"How has {crop} yield changed in {real[0]}?")
+
+
+def h_why_gap(r: Reply, e: ent.Entities, q: str) -> None:
+    if not e.districts and not e.provinces:
+        crop = _main_crop(r, e)
+        year, season, note = pick_period("yield_kg_ha", crop, [], e.year, e.season)
+        effects = sorted(comparison_service.inputs(year, season, crop)["effects"],
+                         key=lambda x: x["premium_pct"] if x["premium_pct"] == x["premium_pct"] else -999, reverse=True)
+        n = nat("yield_kg_ha", crop, year, season)
+        r.say(f"Nationally, **{crop.lower()}** averaged **{kg(n['value'] if n else None)}** in {year} Season {season}. "
+              "The survey shows which practices go with higher yields:")
+        lines = []
+        for x in effects[:4]:
+            adoption = nat(INPUT_TO_INDICATOR.get(x["input"], ""), crop, year, season) \
+                if x["input"] in INPUT_TO_INDICATOR else None
+            lines.append(f"- {x['input_label']}: plots using it yield **{kg(x['yield_with'])}** vs "
+                         f"{kg(x['yield_without'])} without ({signed(x['premium_pct'])})"
+                         + (f"; used on only {pct(adoption['value'])} of plots" if adoption else ""))
+        r.say("\n".join(lines))
+        r.say("Low use of the inputs with the biggest differences is where the data points. These are associations; "
+              "soil, altitude and rainfall also matter but are not measured here.")
+        r.visual("inputs", f"{crop} yield with vs without each input (kg/ha) · {year} Season {season}",
+                 data=comparison_service.inputs(year, season, crop))
+        r.suggest(f"Where should support be prioritised for {crop.lower()}?",
+                  f"Which districts have the lowest {crop.lower()} yield?")
+        return
+    if len(e.districts) == 1 and not e.provinces:
+        e.national = True
+    h_compare(r, e, q, explain=True)
+
+
+def h_trend(r: Reply, e: ent.Entities, q: str) -> None:
+    indicator_id = e.indicator_id or "yield_kg_ha"
+    crops = _crop_list(r, e) if indicator_id in CROP_INDICATORS or e.crops else [None]
+    level, area = ("district", e.districts[0]) if e.districts else \
+        ("province", e.provinces[0]) if e.provinces else ("national", "Rwanda")
+    if _household(indicator_id):
+        r.say(f"{INDICATORS[indicator_id].name} comes from the 2024 household survey only, so there is no trend "
+              f"over time for it yet.")
+        return
+    if level == "district":
+        district_maps(r, [area])
+    for crop in crops[:2]:
+        data = comparison_service.seasons(indicator_id, crop, level, area)
+        series = [s for s in data["series"] if s["value"] == s["value"]]
+        label = short_name(indicator_id) + (f" for **{crop.lower()}**" if crop else "")
+        if len(series) < 2:
+            r.say(f"Only one period has enough data on {label} in {area}, so there is no trend to show.")
+            continue
+        lines = []
+        for season in ("A", "B", "C"):
+            same = [s for s in series if s["season"] == season]
+            if len(same) >= 2:
+                a, b = same[0], same[-1]
+                lines.append(f"- Season {season}: {fmt(indicator_id, a['value'])} in {a['year']} → "
+                             f"**{fmt(indicator_id, b['value'])}** in {b['year']} "
+                             f"(**{signed(change(b['value'], a['value']))}**)" + low_note(b["n"]))
+        peak = max(series, key=lambda s: s["value"])
+        r.say(f"How {label} changed in **{area}**, comparing each season with the same season a year earlier "
+              f"(seasons differ in rainfall and crops, so A is compared with A):\n" + "\n".join(lines))
+        r.say(f"The highest value was in {peak['period']} ({fmt(indicator_id, peak['value'])}). Two years is a short "
+              f"series, so treat this as a direction, not a long-term trend.")
+        r.visual("trend", f"{INDICATORS[indicator_id].name} {unit_label(indicator_id)}{' · ' + crop if crop else ''}"
+                          f" · {area} · by season", data=data)
+    crop = (crops[0] or "maize").lower()
+    r.suggest(f"Which districts have the highest {crop} yield?", f"Does improved seed increase {crop} yield?")
+
+
+def h_input_effect(r: Reply, e: ent.Entities, q: str) -> None:
+    crops = _crop_list(r, e)
+    for crop in crops[:2]:
+        year, season, note = pick_period("yield_kg_ha", crop, [], e.year, e.season)
+        data = comparison_service.inputs(year, season, crop)
+        effects = [x for x in data["effects"] if x["yield_with"] == x["yield_with"]]
+        if not effects:
+            r.say(f"Not enough {crop.lower()} plots to compare inputs in {year} Season {season}.")
+            continue
+        wanted = [x for x in effects if x["input"] in e.inputs] or effects
+        lines = []
+        for x in wanted:
+            thin = x["n_with"] < LOW_RELIABILITY_N
+            lines.append(f"- **{x['input_label']}**: {kg(x['yield_with'])} with vs {kg(x['yield_without'])} without "
+                         f"(**{signed(x['premium_pct'])}**; {x['n_with']:,} plots use it)"
+                         + (" ⚠ few plots" if thin else ""))
+        first = wanted[0]
+        verdict = "yes" if first["premium_pct"] > 5 else "only slightly" if first["premium_pct"] > 0 else "no"
+        r.say((f"**{'Yes' if verdict == 'yes' else 'Only slightly' if verdict == 'only slightly' else 'Not in this data'}**"
+               f" for {first['input_label'].lower()} on {crop.lower()}. " if e.inputs else "")
+              + f"Nationally, {crop.lower()} plots in {year} Season {season}:\n" + "\n".join(lines))
+        if e.inputs and len(effects) > len(wanted):
+            best = max(effects, key=lambda x: x["premium_pct"])
+            r.say(f"Of all inputs, **{best['input_label'].lower()}** shows the largest difference "
+                  f"({signed(best['premium_pct'])}).")
+        r.visual("inputs", f"{crop} yield with vs without each input (kg/ha) · {year} Season {season}", data=data)
+    r.say("These compare plots that do and don't use an input. Farmers who use inputs may also differ in other ways "
+          "(land, location), so this is an association, not proof.")
+    crop = crops[0].lower()
+    r.suggest(f"What if farmers in Nyagatare used improved seed and fertilizer for {crop}?",
+              f"Which districts use the least fertilizer for {crop}?")
+
+
+def h_scenario(r: Reply, e: ent.Entities, q: str) -> None:
+    crop = _main_crop(r, e)
+    if not e.districts:
+        top = priority_service.priorities(2025, "A", crop)["districts"][:3]
+        raise Clarify(f"The what-if model works district by district. Which district should I simulate for "
+                      f"{crop.lower()}? These have the biggest potential:",
+                      [f"What if farmers in {d['district']} used improved seed and fertilizer for {crop.lower()}?"
+                       for d in top])
+    district = e.districts[0]
+    inputs = e.inputs or ["improved_seed", "inorganic_fertilizer"]
+    if not e.inputs:
+        r.assumptions.append("No input was named, so this simulates **improved seed + inorganic fertilizer**.")
+    season = e.season if e.season in ("A", "B") else "A"
+    district_maps(r, [district])
+    try:
+        sim = scenario_service.simulate(crop, district, season, inputs)
+    except ind.NotFoundError:
+        r.say(f"The model has too few {crop.lower()} plots in {district} in 2025 Season {season} to simulate. "
+              f"Try another season or crop.")
+        return
+    adoption = "; ".join(f"{INPUT_COLUMNS[i].lower()} on {pct(sim['current_adoption_pct'][i])}" for i in sim["inputs"])
+    r.say(f"If every surveyed {crop.lower()} plot in **{district}** used "
+          f"{' and '.join(INPUT_COLUMNS[i].lower() for i in sim['inputs'])}, the model estimates average yield would "
+          f"rise **{signed(sim['change_pct'])}**, from {kg(sim['current_yield'])} to **{kg(sim['scenario_yield'])}** "
+          f"(2025 Season {season}, {sim['n_plots']:,} plots). The starting figure is the model's own estimate for "
+          f"today's plots, so it can differ a little from the survey average.")
+    r.say(f"Today these inputs are used on: {adoption} of plots.")
+    singles = sorted(sim["single_input_effects"], key=lambda s: s["change_pct"], reverse=True)
+    if singles:
+        r.say("Each input on its own: " + "; ".join(f"{INPUT_COLUMNS.get(s['input'], s['input']).lower()} "
+                                                    f"{signed(s['change_pct'])}" for s in singles) + ".")
+    r.say("This is a machine-learning estimate from survey patterns (holdout R² ≈ 0.80), not a guaranteed result.")
+    r.visual("scenario", f"What-if: modelled yield (kg/ha) · {crop} · {district}", data=sim)
+    r.suggest(f"How is {crop.lower()} grown in {district}?", f"Where should support be prioritised for {crop.lower()}?")
+
+
+def h_priorities(r: Reply, e: ent.Entities, q: str) -> None:
+    crops = _crop_list(r, e)
+    for crop in crops[:2]:
+        data = priority_service.priorities(2025, "A", crop)
+        rows = data["districts"]
+        if e.provinces:
+            rows = [d for d in rows if d.get("province") in e.provinces]
+        if not rows:
+            r.say(f"Not enough {crop.lower()} data to rank priority districts.")
+            continue
+        top = rows[:5]
+        r.say(f"Priority districts for **{crop.lower()}** support (2025 Season A, score out of 100): "
+              + "; ".join(f"**{d['district']}** {d['score']:.0f}" for d in top) + ".")
+        first = top[0]
+        r.say(f"{first['district']} ranks first: yield {kg(first['yield_kg_ha'])} against a benchmark of "
+              f"{kg(data['benchmark_yield_kg_ha'])} (the 90th-percentile district), improved seed on "
+              f"{pct(first.get('improved_seed_pct'))} and fertilizer on {pct(first.get('inorganic_fertilizer_pct'))} "
+              f"of plots" + (f", and the model sees about {signed(first['potential_gain_pct'])} potential gain"
+                             if first.get("potential_gain_pct") == first.get("potential_gain_pct") and
+                             first.get("potential_gain_pct") is not None else "") + ".")
+        r.say("The score combines yield gap, modelled potential gain, low seed and fertilizer use and low extension "
+              "access, with equal transparency on the Priorities page where the weights can be changed.")
+        map_visual(r, "yield_kg_ha", crop, 2025, "A", [d["district"] for d in top])
+        r.visual("priorities", f"Priority score (0-100, higher = more need) · {crop} · 2025 Season A", data=data)
+    crop = crops[0].lower()
+    r.suggest(f"Why is {crop} yield low in {rows[0]['district'] if rows else 'Nyamagabe'}?",
+              f"What if farmers in {rows[0]['district'] if rows else 'Nyamagabe'} used improved seed and fertilizer "
+              f"for {crop}?")
+
+
+def h_gender(r: Reply, e: ent.Entities, q: str) -> None:
+    crops = _crop_list(r, e)
+    for crop in crops[:2]:
+        year, season, note = pick_period("yield_kg_ha", crop, [], e.year, e.season)
+        national = comparison_service.gender(year, season, crop, "national")
+        rows = national["rows"]
+        if not rows or rows[0].get("Female") in ("", None):
+            r.say(f"Not enough plots to compare women and men for {crop.lower()}.")
+            continue
+        row = rows[0]
+        r.say(f"Nationally in {year} Season {season}, **{crop.lower()}** plots managed by women yielded "
+              f"**{kg(row['Female'])}** against **{kg(row['Male'])}** for men (**{signed(row['gap_pct'])}**; "
+              f"{int(row['n_Female']):,} and {int(row['n_Male']):,} plots).")
+        districts = comparison_service.gender(year, season, crop, "district")
+        drows = [d for d in districts["rows"] if not d.get("low_reliability")]
+        if e.districts:
+            local = [d for d in districts["rows"] if d["area"] == e.districts[0]]
+            if local:
+                d = local[0]
+                r.say(f"In **{d['area']}**: women {kg(d['Female'])}, men {kg(d['Male'])} ({signed(d['gap_pct'])})"
+                      + (" ⚠ few plots" if d.get("low_reliability") else "") + ".")
+        if drows:
+            behind = sum(1 for d in drows if d["gap_pct"] < 0)
+            r.say(f"Women's plots trail men's in {behind} of {len(drows)} districts with reliable samples; the widest "
+                  f"gap is in {drows[0]['area']} ({signed(drows[0]['gap_pct'])}).")
+            ordered = sorted(drows, key=lambda d: d["gap_pct"])
+            r.visual("deviation", f"Women's {crop.lower()} yield vs men's (% difference, 0 = equal) · {year} Season "
+                     f"{season} · districts with 30+ plots", unit="%", reference="Equal yields",
+                     rows=[{"name": "Rwanda", "value": round(float(row["gap_pct"]), 1), "highlight": True}]
+                     + [{"name": d["area"], "value": round(float(d["gap_pct"]), 1)} for d in ordered])
+        r.say("Differences can reflect land size, access to inputs and extension rather than farming skill.")
+    crop = crops[0].lower()
+    r.suggest("Which districts have the lowest extension access?", f"Does improved seed increase {crop} yield?")
+
+
+def h_best_crops(r: Reply, e: ent.Entities, q: str) -> None:
+    level, area = ("district", e.districts[0]) if e.districts else \
+        ("province", e.provinces[0]) if e.provinces else ("national", "Rwanda")
+    year, season = e.year or 2025, e.season or "A"
+    df = store.indicators()
+    sub = df[(df["indicator_id"] == "yield_kg_ha") & (df["level"] == level) & (df["area"] == area)
+             & (df["year"] == year) & (df["season"] == season) & (df["crop"] != ALL) & df["value"].notna()]
+    if sub.empty:
+        r.say(f"No crop has enough surveyed plots in {area} for {year} Season {season}.")
+        return
+    if level == "district":
+        district_maps(r, [area])
+    rows = []
+    for row in sub.itertuples():
+        n = nat("yield_kg_ha", row.crop, year, season)
+        prod = cell("production_t", row.crop, year, season, level, area)
+        rows.append({"crop": row.crop, "value": row.value, "n": int(row.n),
+                     "vs": change(row.value, n["value"]) if n else None, "prod": prod["value"] if prod else None})
+    if level == "national":
+        by_prod = sorted([x for x in rows if x["prod"]], key=lambda x: x["prod"], reverse=True)
+        r.say(f"Rwanda's biggest crops by production in {year} Season {season}: "
+              + "; ".join(f"**{x['crop']}** {x['prod']:,.0f} t ({kg(x['value'])})" for x in by_prod[:5]) + ".")
+        r.say("Yields in kg/ha can't be compared fairly across crops (a cassava field weighs far more than a bean "
+              "field), so this ranks crops by total production.")
+        r.visual("simple_bars", f"Production by crop (tonnes) · Rwanda · {year} Season {season}", unit="t",
+                 rows=[{"name": x["crop"], "value": round(x["prod"])} for x in by_prod[:10]])
+    else:
+        strong = sorted([x for x in rows if x["vs"] is not None and x["n"] >= LOW_RELIABILITY_N],
+                        key=lambda x: x["vs"], reverse=True)
+        by_prod = sorted([x for x in rows if x["prod"]], key=lambda x: x["prod"], reverse=True)
+        r.say(f"Crops where **{area}** does best compared with the rest of Rwanda ({year} Season {season}): "
+              + "; ".join(f"**{x['crop']}** {kg(x['value'])} ({signed(x['vs'])} vs national)" for x in strong[:4])
+              + ".")
+        if by_prod:
+            r.say("By total production, the main crops are " + ", ".join(f"{x['crop'].lower()} "
+                                                                          f"({x['prod']:,.0f} t)" for x in by_prod[:3])
+                  + ".")
+        r.say("Crops are compared with their own national average, because raw kg/ha differ hugely between crops. "
+              "Crops with fewer than 30 surveyed plots are left out of the ranking.")
+        r.visual("simple_bars", f"Yield vs national average by crop · {area} · {year} Season {season} (%)", unit="%",
+                 rows=[{"name": x["crop"], "value": x["vs"]} for x in strong[:10]], signed=True)
+        if strong:
+            r.suggest(f"How is {strong[0]['crop'].lower()} grown in {area}?")
+    r.suggest(f"Tell me about {area}" if level != "national" else "Which crops grow best in Musanze?")
+
+
+def h_profile(r: Reply, e: ent.Entities, q: str) -> None:
+    if not e.districts:
+        e.districts = []
+        province = e.provinces[0]
+        year, season = e.year or 2025, e.season or "A"
+        r.say(f"**{province} Province** ({year} Season {season}):")
+        lines = []
+        for crop in ("Maize", "Bush bean", "Climbing bean", "Irish potato", "Cassava", "Cooking banana"):
+            v = cell("yield_kg_ha", crop, year, season, "province", province)
+            n = nat("yield_kg_ha", crop, year, season)
+            if v and n:
+                lines.append(f"- {crop}: {kg(v['value'])} ({signed(change(v['value'], n['value']))} vs national)")
+        r.say("\n".join(lines))
+        districts = sorted(d for d, p in store.district_provinces().items() if p == province)
+        r.say("Districts: " + ", ".join(districts) + ".")
+        r.suggest(f"Which districts in {province} have the highest maize yield?", f"Tell me about {districts[0]}")
+        return
+    district = e.districts[0]
+    year, season, note = pick_period("yield_kg_ha", "Maize", [("district", district)], e.year, e.season)
+    data = geography_service.profile(district, year, season)
+    r.period = (year, season)
+    district_maps(r, [district])
+    above = [x for x in data["indicators"] if x["difference"] is not None and
+             (x["difference"] > 0) == x["higher_is_better"] and x["difference"] != 0]
+    below = [x for x in data["indicators"] if x["difference"] is not None and
+             (x["difference"] > 0) != x["higher_is_better"] and x["difference"] != 0]
+    r.say(f"**{district}** ({data['province']} Province), {year} Season {season}.")
+    if above:
+        r.say("Better than the national average on: " + ", ".join(
+            f"{x['name'].lower()}{' (maize)' if x.get('crop') else ''}" for x in above[:4]) + ".")
+    if below:
+        r.say("Behind the national average on: " + ", ".join(
+            f"{x['name'].lower()}{' (maize)' if x.get('crop') else ''}" for x in below[:4]) + ".")
+    crops = [c for c in data["crop_yields"] if c["vs_national_pct"] == c["vs_national_pct"] and
+             c["n"] >= LOW_RELIABILITY_N]
+    if crops:
+        best = max(crops, key=lambda c: c["vs_national_pct"])
+        worst = min(crops, key=lambda c: c["vs_national_pct"])
+        r.say(f"Strongest crop compared with Rwanda: **{best['crop'].lower()}** {kg(best['value'])} "
+              f"({signed(best['vs_national_pct'])}); weakest: {worst['crop'].lower()} ({signed(worst['vs_national_pct'])}).")
+    r.visual("profile", f"Crop yields (kg/ha) · {district} vs Rwanda · {year} Season {season}", data=data)
+    r.suggest(f"Which crops grow best in {district}?", f"How is maize grown in {district}?",
+              "Where should support be prioritised for maize?")
+
+
+def h_overview(r: Reply, e: ent.Entities, q: str) -> None:
+    year, season = e.year or 2025, e.season or "A"
+    data = overview_service.overview(year, season)
+    kpis = [k for k in data["kpis"] if k["value"] is not None]
+    r.say(f"**Rwanda's agriculture, {year} Season {season}** (NISR surveys: {data['coverage']['plot_crop_records']:,} "
+          f"plot-crop records and {data['coverage']['households']:,} households in 30 districts).")
+    r.say("\n".join(f"- {k['name']}: **{pct(k['value'])}**" + (f" ({k['change']:+.1f} points on a year earlier)"
+                                                                 if k.get("change") is not None else "")
+                    for k in kpis))
+    crops = sorted(data["crops"], key=lambda c: c["production_t"] or 0, reverse=True)
+    r.say("Main crops: " + "; ".join(f"{c['crop'].lower()} {kg(c['yield_kg_ha'])}"
+                                     + (f" ({signed(c['yield_change_pct'])} on a year earlier)"
+                                        if c.get("yield_change_pct") is not None else "") for c in crops[:5]) + ".")
+    r.visual("overview", None, data=data)
+    r.suggest("Which districts have the highest maize yield?", "Which crops grow best in Huye?",
+              "Where should support be prioritised for beans?")
+
+
+HANDLERS = {
+    "greeting": h_greeting, "thanks": h_thanks, "goodbye": h_goodbye, "help": h_help, "about_data": h_about_data,
+    "out_of_scope": h_out_of_scope, "ranking": h_ranking, "crop_in_district": h_crop_in_district,
+    "practices": h_practices, "compare": h_compare, "why_gap": h_why_gap, "trend": h_trend,
+    "input_effect": h_input_effect, "scenario": h_scenario, "priorities": h_priorities, "gender": h_gender,
+    "best_crops": h_best_crops, "profile": h_profile, "overview": h_overview,
+}
+
+
+# --- entry point --------------------------------------------------------------------------------------------------
+
+
+def answer(question: str, history: list[dict] | None = None, context: dict | None = None) -> dict:
+    question = (question or "").strip()[:500]
+    e = ent.extract(question)
+    intent, confidence, alternatives = _resolve(question, e, context)
+    r = Reply()
+
+    try:
+        HANDLERS[intent](r, e, question)
+    except Clarify as c:
+        r = Reply()
+        r.say(c.text)
+        r.suggest(*c.options)
+    except ind.NotFoundError as exc:
+        r = Reply()
+        r.say(f"I couldn't find data for that ({exc}). Try another crop, district or season.")
+        r.suggest(*SUGGESTIONS[:3])
+    except Exception:
+        logger.exception("Ask failed for %r (intent %s)", question, intent)
+        r = Reply()
+        r.say("Sorry, I couldn't work that one out. Could you rephrase it, naming a crop and a district? For example: "
+              "*beans in Musanze*.")
+        r.suggest(*SUGGESTIONS[:3])
+
+    if not r.parts:
+        r.say("I couldn't find data for that combination. Try another crop, district or season.")
+    year, season = r.period or (e.year or 2025, e.season or "A")
+    understood = {
         "intent": intent,
-        "indicator_id": indicator_id or "yield_kg_ha",
-        "crop": crop,
-        "district": district,
-        "districts": districts,
+        "intent_label": INTENTS.get(intent, intent),
+        "confidence": round(confidence, 2),
+        "alternatives": alternatives,
+        "crops": e.crops,
+        "districts": e.districts,
+        "provinces": e.provinces,
+        "indicator_id": e.indicator_id,
+        "indicator": INDICATORS[e.indicator_id].name if e.indicator_id else None,
+        "inputs": e.inputs,
         "year": year,
         "season": season,
-        "inputs": inputs,
-        "ascending": _has(text, ["lowest", "worst", "least", "poorest", "bottom"]),
+        "corrections": e.corrections,
+        "assumptions": r.assumptions,
     }
-
-
-def _run(p: dict) -> tuple[str, dict | None]:
-    """Run one query step; return a rough draft (the answer when no LLM is available) and the retrieved data."""
-    intent, year, season = p["intent"], p["year"], p["season"]
-    crop = p["crop"] or "Maize"
-
-    if intent == "out_of_scope":
-        data = None
-        text = _scope_message(p.get("unknown"))
-    elif intent == "compare":
-        areas = p.get("districts") or ([p["district"]] if p.get("district") else [])
-        data = _compare_data(areas, crop, year, season)
-        kept = [r for r in data["districts"] if r["yield_kg_ha"] is not None]
-        missing = [r["district"] for r in data["districts"] if r["yield_kg_ha"] is None]
-        note = (" That is the latest season in which every district named has surveyed plots of this crop."
-                if data.get("period_note") else "")
-        if len(kept) >= 2:
-            first, second = kept[0], kept[1]
-            gap = first["yield_kg_ha"] - second["yield_kg_ha"]
-            pct = round((first["yield_kg_ha"] / second["yield_kg_ha"] - 1) * 100, 1) if second["yield_kg_ha"] else None
-            text = (f"{data['crop']} in {data['year']} Season {data['season']}: {first['district']} "
-                    f"{first['yield_kg_ha']:,.0f} kg/ha against {second['district']} "
-                    f"{second['yield_kg_ha']:,.0f} kg/ha ({gap:+,.0f} kg/ha"
-                    + (f", {pct:+.1f}%)." if pct is not None else ").") + note)
-        elif kept and missing:
-            text = (f"{data['crop']} in {data['year']} Season {data['season']}: {kept[0]['district']} "
-                    f"{kept[0]['yield_kg_ha']:,.0f} kg/ha. There are no surveyed {data['crop'].lower()} plots in "
-                    f"{', '.join(missing)} for that season, so there is nothing to compare against there.")
-        else:
-            text = (f"No surveyed {data['crop'].lower()} plots for {', '.join(r['district'] for r in data['districts'])} "
-                    f"in {data['year']} Season {data['season']}, so I cannot compare them.")
-    elif intent == "chat":
-        data = overview_service.overview(year, season)
-        text = ("I'm Analiza's data assistant. Ask me about crop yields, inputs such as improved seed, fertilizer and "
-                "irrigation, district comparisons, trends across seasons, women farmers, priority districts or "
-                "what-if scenarios, and I'll answer from NISR survey data.")
-    elif intent == "overview":
-        data = overview_service.overview(year, season)
-        kpis = "; ".join(f"{k['name'].lower()} {k['value']:,.1f}%" for k in data["kpis"] if k["value"] is not None)
-        crops = "; ".join(f"{c['crop'].lower()} {c['yield_kg_ha']:,.0f} kg/ha" for c in data["crops"])
-        cov = data["coverage"]
-        text = (f"Rwanda's agriculture at a glance ({data['year']} Season {data['season']}, NISR surveys covering "
-                f"{cov['plot_crop_records']:,} plot-crop records and {cov['households']:,} households in {cov['districts']} districts).\n"
-                f"- Farm practices: {kpis}.\n"
-                f"- Main crop yields: {crops}.\n"
-                f"Ask about a crop, a district or an input (seed, fertilizer, irrigation) to go deeper.")
-    elif intent == "scenario":
-        district = p["district"] or "Nyagatare"
-        inputs = p["inputs"] or ["improved_seed", "inorganic_fertilizer"]
-        scen_year = scenario_service.options()["year"]
-        data = scenario_service.simulate(crop, district, season if season in ("A", "B") else "A", inputs)
-        text = (f"If every surveyed {crop.lower()} plot in {data['district']} adopted "
-                f"{', '.join(i.replace('_', ' ') for i in data['inputs'])}, the model estimates average yield would move from "
-                f"{data['current_yield']:,.0f} to {data['scenario_yield']:,.0f} kg/ha ({data['change_pct']:+.1f}%), "
-                f"based on {scen_year} Season {data['season']} data.")
-    elif intent == "priorities":
-        data = priority_service.priorities(year, season, crop)
-        top = [d["district"] for d in data["districts"][:5]]
-        text = f"For {crop.lower()} in {year} Season {season}, the highest-priority districts are {', '.join(top)}."
-    elif intent == "gender":
-        data = comparison_service.gender(year, season, crop, "national")
-        rows = data["rows"]
-        if rows and "gap_pct" in rows[0]:
-            r = rows[0]
-            text = (f"Female-managed {crop.lower()} plots averaged {r['Female']:,.0f} kg/ha vs {r['Male']:,.0f} kg/ha for men "
-                    f"({r['gap_pct']:+.1f}%) in {year} Season {season}.")
-        else:
-            text = f"Not enough plots to compare women and men for {crop.lower()} in {year} Season {season}."
-    elif intent == "inputs":
-        data = comparison_service.inputs(year, season, crop)
-        target = p["inputs"][0]
-        effect = next((e for e in data["effects"] if e["input"] == target), None)
-        text = (f"{crop} plots using {effect['input_label'].lower()} yielded {effect['yield_with']:,.0f} kg/ha vs "
-                f"{effect['yield_without']:,.0f} kg/ha without ({effect['premium_pct']:+.1f}%) in {year} Season {season}."
-                if effect else f"Not enough data on that input for {crop.lower()} in {year} Season {season}.")
-    elif intent == "trend":
-        level, area = ("district", p["district"]) if p["district"] else ("national", "Rwanda")
-        data = comparison_service.seasons(p["indicator_id"], crop, level, area)
-        series = data["series"]
-        name = data["indicator"]["name"].lower()
-        label = f"{name} for {data['crop'].lower()}" if data["crop"] != ind.ALL_CROPS else name
-        text = (f"{label.capitalize()} in {area}: " + ", ".join(f"{s['period']}: {s['value']:,.1f}" for s in series)
-                + f" ({data['indicator']['unit']}).") if series else "No data for that combination."
-    elif intent == "profile":
-        data = geography_service.profile(p["district"], year, season)
-        better = [r["name"] for r in data["indicators"] if r["difference"] and r["difference"] > 0][:3]
-        text = (f"{data['district']} ({data['province']}), {year} Season {season}. Above the national average on: "
-                f"{', '.join(better) if better else 'none of the headline indicators'}.")
-    else:
-        data = comparison_service.districts(p["indicator_id"], year, season, p["crop"])
-        rows = data["districts"][::-1] if p["ascending"] else data["districts"]
-        top = rows[:3]
-        word = "lowest" if p["ascending"] else "highest"
-        unit = data["indicator"]["unit"]
-        subject = data["indicator"]["name"].lower()
-        if data["crop"] != ind.ALL_CROPS:
-            subject += f" for {data['crop'].lower()}"
-        period = "2024 household survey" if data["year"] is None else f"{year} Season {season}"
-        text = (f"The {word} {subject} ({period}): "
-                + "; ".join(f"{r['area']} {r['value']:,.1f} {unit}" for r in top)
-                + (f". National: {data['national_value']:,.1f} {unit}." if data["national_value"] is not None else "."))
-
-    return text, data
-
-
-# --- derived analysis ---------------------------------------------------------------------------------------------
-# Everything a writer needs to explain what the numbers mean, computed here so the model never has to guess.
-
-
-def _num(value) -> float | None:
-    try:
-        number = float(value)
-    except (TypeError, ValueError):
-        return None
-    return None if number != number else number
-
-
-def _n(value, digits: int = 0) -> str:
-    return "n/a" if value is None else f"{value:,.{digits}f}"
-
-
-def _sign(value, digits: int = 1) -> str:
-    return "n/a" if value is None else f"{value:+.{digits}f}%"
-
-
-def _change_pct(current, base) -> float | None:
-    if current is None or not base:
-        return None
-    return round((current / base - 1) * 100, 1)
-
-
-def _analyse_overview(data: dict) -> dict:
-    crops = sorted([c for c in data.get("crops") or [] if _num(c.get("yield_kg_ha")) is not None],
-                   key=lambda c: _num(c["yield_kg_ha"]), reverse=True)
-    kpis = {k["indicator_id"]: k for k in data.get("kpis") or [] if k.get("indicator_id")}
-    findings = []
-    if crops:
-        best, worst = crops[0], crops[-1]
-        findings.append(f"{best['crop']} has the highest national yield at {_n(_num(best['yield_kg_ha']))} kg/ha; "
-                        f"{worst['crop']} the lowest at {_n(_num(worst['yield_kg_ha']))} kg/ha.")
-    for key in ("inorganic_fertilizer_pct", "improved_seed_pct", "irrigation_pct"):
-        kpi = kpis.get(key)
-        if kpi and _num(kpi.get("value")) is not None:
-            change = _num(kpi.get("change"))
-            suffix = f" ({_sign(change)} on the same season a year earlier)" if change is not None else ""
-            findings.append(f"{kpi['name']}: {_n(_num(kpi['value']), 1)}% of plots{suffix}.")
-    return {
-        "figures": {"crop_yields": [{"crop": c["crop"], "yield_kg_ha": _num(c["yield_kg_ha"])} for c in crops],
-                    "practices": {k: _num(v.get("value")) for k, v in kpis.items()}},
-        "findings": findings,
-    }
-
-
-def _analyse_districts(p: dict, data: dict) -> dict:
-    rows = [r for r in data.get("districts") or [] if _num(r.get("value")) is not None]
-    if not rows:
-        return {}
-    definition = data.get("indicator") or {}
-    unit = definition.get("unit", "")
-    subject = definition.get("name", "value").lower()
-    if data.get("crop") and data["crop"] != ind.ALL_CROPS:
-        subject += f" for {data['crop'].lower()}"
-    want_high = definition.get("higher_is_better", True)
-
-    best, worst = rows[0], rows[-1]
-    best_v, worst_v = _num(best["value"]), _num(worst["value"])
-    national = _num(data.get("national_value"))
-    spread = round(best_v - worst_v, 2) if best_v is not None and worst_v is not None else None
-    figures = {
-        "districts": len(rows),
-        "higher_is_better": want_high,
-        "wants": "lowest" if p.get("ascending") else "highest",
-        "best": {"district": best.get("area"), "value": best_v, "rank": best.get("rank")},
-        "worst": {"district": worst.get("area"), "value": worst_v, "rank": worst.get("rank")},
-        "national": national,
-        "spread": spread,
-        "spread_pct_of_worst": round(spread / worst_v * 100, 1) if spread is not None and worst_v else None,
-        "best_vs_national_pct": _change_pct(best_v, national),
-        "worst_vs_national_pct": _change_pct(worst_v, national),
-        "above_national": sum(1 for r in rows if national is not None and _num(r["value"]) > national),
-        "below_national": sum(1 for r in rows if national is not None and _num(r["value"]) < national),
-        "top5": [{"district": r["area"], "value": _num(r["value"])} for r in rows[:5]],
-        "bottom5": [{"district": r["area"], "value": _num(r["value"])} for r in rows[-5:][::-1]],
-        "low_reliability": [r["area"] for r in rows if r.get("low_reliability")],
-    }
-
-    findings = []
-    high, low = ("highest", "lowest") if want_high else ("lowest", "highest")
-    if p.get("ascending"):
-        findings.append(f"The {low} {subject} is in {worst.get('area')} at {_n(worst_v, 1)} {unit}; "
-                        f"the {high} is {best.get('area')} at {_n(best_v, 1)} {unit}.")
-    else:
-        findings.append(f"{best.get('area')} has the {high} {subject} at {_n(best_v, 1)} {unit}; "
-                        f"{worst.get('area')} has the {low} at {_n(worst_v, 1)} {unit}.")
-    if spread is not None and worst_v:
-        findings.append(f"That is a gap of {_n(spread, 1)} {unit}: the leading district is about "
-                        f"{best_v / worst_v:.1f} times the trailing one.")
-    if national is not None:
-        findings.append(f"{figures['above_national']} of {len(rows)} districts are above the national average of "
-                        f"{_n(national, 1)} {unit}.")
-    if figures["low_reliability"]:
-        findings.append("These districts rest on fewer than 30 survey plots, so their averages are noisy: "
-                        + ", ".join(figures["low_reliability"][:5]) + ".")
-    return {"figures": figures, "findings": findings}
-
-
-def _analyse_trend(data: dict) -> dict:
-    series = [s for s in data.get("series") or [] if _num(s.get("value")) is not None]
-    if not series:
-        return {}
-    definition = data.get("indicator") or {}
-    unit = definition.get("unit", "")
-    subject = definition.get("name", "value").lower()
-    if data.get("crop") and data["crop"] != ind.ALL_CROPS:
-        subject += f" for {data['crop'].lower()}"
-    if data.get("area") and data.get("level") == "district":
-        subject += f" in {data['area']}"
-
-    first, last = series[0], series[-1]
-    first_v, last_v = _num(first["value"]), _num(last["value"])
-    change = round(last_v - first_v, 2)
-    change_pct = _change_pct(last_v, first_v)
-    peak = max(series, key=lambda s: _num(s["value"]))
-    trough = min(series, key=lambda s: _num(s["value"]))
-    latest = series[-2] if len(series) > 1 else None
-    figures = {
-        "periods": [s["period"] for s in series],
-        "first": {"period": first["period"], "value": first_v},
-        "last": {"period": last["period"], "value": last_v},
-        "change": change,
-        "change_pct": change_pct,
-        "latest_change_pct": _change_pct(last_v, _num(latest["value"])) if latest else None,
-        "peak": {"period": peak["period"], "value": _num(peak["value"])},
-        "trough": {"period": trough["period"], "value": _num(trough["value"])},
-        "series": [{"period": s["period"], "value": _num(s["value"])} for s in series],
-    }
-
-    verb = "rose" if change > 0 else "fell" if change < 0 else "was flat"
-    findings = [f"{subject.capitalize()} {verb} from {_n(first_v, 1)} {unit} in {first['period']} to "
-                f"{_n(last_v, 1)} {unit} in {last['period']} ({_sign(change_pct)}), a change of {_n(change, 1)} {unit}."]
-    if latest:
-        findings.append(f"The latest move, {latest['period']} to {last['period']}, was {_sign(figures['latest_change_pct'])}.")
-    findings.append(f"The highest point was {peak['period']} ({_n(_num(peak['value']), 1)} {unit}) and the lowest "
-                    f"{trough['period']} ({_n(_num(trough['value']), 1)} {unit}), across {len(series)} periods.")
-    noisy = [s["period"] for s in series if s.get("low_reliability")]
-    if noisy:
-        findings.append("Thin samples (fewer than 30 plots) in: " + ", ".join(noisy) + ".")
-    return {"figures": figures, "findings": findings}
-
-
-def _analyse_inputs(p: dict, data: dict) -> dict:
-    effects = [e for e in data.get("effects") or [] if _num(e.get("yield_with")) is not None]
-    if not effects:
-        return {}
-    rows = [{
-        "input": e.get("input"),
-        "label": e.get("input_label") or str(e.get("input", "")).replace("_", " "),
-        "yield_with": _num(e.get("yield_with")),
-        "yield_without": _num(e.get("yield_without")),
-        "premium_pct": _num(e.get("premium_pct")),
-        "n_with": _num(e.get("n_with")),
-        "n_without": _num(e.get("n_without")),
-    } for e in effects]
-    ranked = sorted(rows, key=lambda r: r["premium_pct"] if r["premium_pct"] is not None else -999, reverse=True)
-    target = (p.get("inputs") or [None])[0]
-    focus = next((r for r in rows if r["input"] == target), ranked[0])
-    crop = data.get("crop", "crop")
-    figures = {
-        "crop": crop,
-        "requested_input": target,
-        "focus": focus,
-        "effects": ranked,
-        "best": ranked[0],
-        "worst": ranked[-1],
-        "positive_effects": sum(1 for r in rows if (r["premium_pct"] or 0) > 0),
-    }
-
-    findings = [f"{focus['label']}: plots using it averaged {_n(focus['yield_with'])} kg/ha of {crop.lower()} against "
-                f"{_n(focus['yield_without'])} kg/ha without it ({_sign(focus['premium_pct'])})."]
-    findings.append("All inputs for this crop, best to worst: "
-                    + ", ".join(f"{r['label'].lower()} {_sign(r['premium_pct'])}" for r in ranked) + ".")
-    if len(ranked) > 1:
-        findings.append(f"{ranked[0]['label']} shows the biggest difference ({_sign(ranked[0]['premium_pct'])}), "
-                        f"{ranked[-1]['label']} the smallest ({_sign(ranked[-1]['premium_pct'])}).")
-    findings.append(f"{figures['positive_effects']} of {len(rows)} inputs are associated with higher yield; "
-                    "these are comparisons of plots, not proof that the input caused the difference.")
-    thin = [r["label"].lower() for r in rows if (r["n_with"] or 0) < 30]
-    if thin:
-        findings.append("Few plots use " + ", ".join(thin) + ", so those numbers are shaky.")
-    return {"figures": figures, "findings": findings}
-
-
-def _analyse_gender(p: dict, data: dict) -> dict:
-    rows = [r for r in data.get("rows") or [] if _num(r.get("Female")) is not None and _num(r.get("Male")) is not None]
-    if not rows:
-        return {}
-    crop = data.get("crop", "crop")
-    national = next((r for r in rows if str(r.get("area", "")).lower() in ("rwanda", "national")), None)
-    widest, narrowest = rows[0], rows[-1]  # already sorted from largest female disadvantage upwards
-    figures = {
-        "crop": crop,
-        "national": None if national is None else {
-            "female": _num(national.get("Female")), "male": _num(national.get("Male")),
-            "gap_pct": _num(national.get("gap_pct"))},
-        "widest_gap": {"area": widest.get("area"), "gap_pct": _num(widest.get("gap_pct"))},
-        "smallest_gap": {"area": narrowest.get("area"), "gap_pct": _num(narrowest.get("gap_pct"))},
-        "areas_with_female_below_male": sum(1 for r in rows if (_num(r.get("gap_pct")) or 0) < 0),
-        "areas": len(rows),
-        "mean_gap_pct": round(sum(_num(r.get("gap_pct")) or 0 for r in rows) / len(rows), 1),
-    }
-
-    findings = []
-    if national:
-        findings.append(f"Nationally, female-managed {crop.lower()} plots averaged "
-                        f"{_n(_num(national.get('Female')))} kg/ha against {_n(_num(national.get('Male')))} kg/ha for "
-                        f"male-managed plots ({_sign(_num(national.get('gap_pct')))}).")
-    if len(rows) > 1:
-        findings.append(f"Female-managed plots trail male-managed ones in {figures['areas_with_female_below_male']} of "
-                        f"{figures['areas']} areas; the average gap is {_sign(figures['mean_gap_pct'])}.")
-        findings.append(f"The widest gap is in {widest.get('area')} ({_sign(_num(widest.get('gap_pct')))}) and the "
-                        f"narrowest in {narrowest.get('area')} ({_sign(_num(narrowest.get('gap_pct')))}).")
-    elif national:
-        n_female, n_male = _num(national.get("n_Female")), _num(national.get("n_Male"))
-        if n_female and n_male:
-            findings.append(f"The comparison rests on {_n(n_female)} female-managed and {_n(n_male)} male-managed "
-                            "plot observations.")
-    return {"figures": figures, "findings": findings}
-
-
-def _analyse_scenario(data: dict) -> dict:
-    current, scenario = _num(data.get("current_yield")), _num(data.get("scenario_yield"))
-    if current is None or scenario is None:
-        return {}
-    change_pct = _num(data.get("change_pct"))
-    singles = [s for s in data.get("single_input_effects") or [] if _num(s.get("change_pct")) is not None]
-    singles = sorted(singles, key=lambda s: _num(s["change_pct"]), reverse=True)
-    labels = {i["id"]: i["label"] for i in scenario_service.options()["inputs"]}
-    adoption = {str(k): _num(v) for k, v in (data.get("current_adoption_pct") or {}).items()}
-    figures = {
-        "crop": data.get("crop"),
-        "district": data.get("district"),
-        "inputs": data.get("inputs"),
-        "current": current,
-        "scenario": scenario,
-        "lift_kg_ha": round(scenario - current, 1),
-        "change_pct": change_pct,
-        "adoption_pct": adoption,
-        "n_plots": data.get("n_plots"),
-        "single_input_effects": [{"input": s.get("input"), "change_pct": _num(s.get("change_pct"))} for s in singles],
-    }
-
-    findings = [f"Modelled average {str(data.get('crop')).lower()} yield in {data.get('district')} moves from "
-                f"{_n(current)} to {_n(scenario)} kg/ha ({_sign(change_pct)}), a lift of about "
-                f"{_n(figures['lift_kg_ha'])} kg/ha."]
-    if adoption:
-        findings.append("Today " + ", ".join(f"{labels.get(k, k).lower()} is used on {_n(v)}% of the surveyed plots"
-                                             for k, v in adoption.items()) + ".")
-    if singles:
-        findings.append("On its own, " + ", ".join(f"{labels.get(s.get('input'), s.get('input')).lower()} would give "
-                                                   f"{_sign(_num(s.get('change_pct')))}" for s in singles) + ".")
-    findings.append("This is a model estimate from survey associations, not a guaranteed outcome.")
-    return {"figures": figures, "findings": findings}
-
-
-def _analyse_priorities(data: dict) -> dict:
-    rows = [r for r in data.get("districts") or [] if _num(r.get("yield_kg_ha")) is not None]
-    if not rows:
-        return {}
-    crop = data.get("crop", "crop")
-    benchmark = _num(data.get("benchmark_yield_kg_ha"))
-    top = rows[:5]
-    total_gain = sum(_num(r.get("additional_production_t")) or 0 for r in rows)
-    figures = {
-        "crop": crop,
-        "benchmark_yield_kg_ha": benchmark,
-        "top": [{"district": r.get("district"), "score": _num(r.get("score")), "yield_kg_ha": _num(r.get("yield_kg_ha")),
-                 "potential_gain_pct": _num(r.get("potential_gain_pct")),
-                 "improved_seed_pct": _num(r.get("improved_seed_pct")),
-                 "inorganic_fertilizer_pct": _num(r.get("inorganic_fertilizer_pct")),
-                 "extension_access_pct": _num(r.get("extension_access_pct")),
-                 "additional_production_t": _num(r.get("additional_production_t"))} for r in top],
-        "districts_scored": len(rows),
-        "total_additional_production_t": round(total_gain),
-    }
-
-    first = top[0]
-    findings = [f"{first.get('district')} ranks first for {str(crop).lower()} with a priority score of "
-                f"{_n(_num(first.get('score')), 1)} out of 100."]
-    if benchmark:
-        gap = _change_pct(_num(first.get("yield_kg_ha")), benchmark)
-        findings.append(f"Its yield of {_n(_num(first.get('yield_kg_ha')))} kg/ha is {_sign(gap)} against the "
-                        f"{_n(benchmark)} kg/ha benchmark (the 90th-percentile district).")
-    findings.append("Top five: " + ", ".join(f"{r.get('district')} ({_n(_num(r.get('score')), 1)})" for r in top) + ".")
-    seed = sum(_num(r.get("improved_seed_pct")) or 0 for r in top) / len(top)
-    fert = sum(_num(r.get("inorganic_fertilizer_pct")) or 0 for r in top) / len(top)
-    findings.append(f"On average these five districts use improved seed on {_n(seed, 1)}% of plots and inorganic "
-                    f"fertilizer on {_n(fert, 1)}%, which is where the model sees room to grow.")
-    if total_gain:
-        findings.append(f"Closing that gap across all districts would add roughly {_n(total_gain)} tonnes of "
-                        f"{str(crop).lower()} per season at current planted area.")
-    return {"figures": figures, "findings": findings}
-
-
-def _analyse_profile(data: dict) -> dict:
-    rows = data.get("indicators") or []
-    district = data.get("district")
-    if not rows:
-        return {}
-    scored = [r for r in rows if _num(r.get("value")) is not None]
-    above = [r for r in scored if (_num(r.get("difference")) or 0) > 0]
-    below = [r for r in scored if (_num(r.get("difference")) or 0) < 0]
-    ranked = [r for r in scored if r.get("rank")]
-    strongest = min(ranked, key=lambda r: r["rank"]) if ranked else None
-    weakest = max(ranked, key=lambda r: r["rank"]) if ranked else None
-    crops = sorted([c for c in data.get("crop_yields") or [] if _num(c.get("vs_national_pct")) is not None],
-                   key=lambda c: _num(c["vs_national_pct"]), reverse=True)
-    figures = {
-        "district": district,
-        "province": data.get("province"),
-        "above_national": [{"name": r["name"], "value": _num(r["value"]), "difference": _num(r.get("difference"))}
-                           for r in above],
-        "below_national": [{"name": r["name"], "value": _num(r["value"]), "difference": _num(r.get("difference"))}
-                           for r in below],
-        "strongest": None if not strongest else {"name": strongest["name"], "rank": strongest.get("rank"),
-                                                 "of": strongest.get("of")},
-        "weakest": None if not weakest else {"name": weakest["name"], "rank": weakest.get("rank"), "of": weakest.get("of")},
-        "crops": [{"crop": c["crop"], "yield_kg_ha": _num(c["value"]),
-                   "vs_national_pct": _num(c["vs_national_pct"])} for c in crops],
-    }
-
-    findings = []
-    better = [r["name"].lower() for r in above[:4]]
-    worse = [r["name"].lower() for r in below[:4]]
-    findings.append(f"{district} is above the national average on {', '.join(better) if better else 'nothing'}"
-                    + (f" and below on {', '.join(worse)}." if worse else "."))
-    if strongest and weakest:
-        findings.append(f"Its strongest indicator is {strongest['name'].lower()} (rank {strongest['rank']} of "
-                        f"{strongest.get('of')}); the weakest is {weakest['name'].lower()} (rank {weakest['rank']}).")
-    if crops:
-        best, worst = crops[0], crops[-1]
-        findings.append(f"Its best crop relative to the national average is {best['crop'].lower()} at "
-                        f"{_n(_num(best['value']))} kg/ha ({_sign(_num(best.get('vs_national_pct')))}); the weakest is "
-                        f"{worst['crop'].lower()} ({_sign(_num(worst.get('vs_national_pct')))}).")
-    return {"figures": figures, "findings": findings}
-
-
-def _analyse_compare(p: dict, data: dict) -> dict:
-    rows = [r for r in data.get("districts") or [] if _num(r.get("yield_kg_ha")) is not None]
-    if len(rows) < 2:
-        return {}
-    crop = str(data.get("crop") or "crop")
-    first, second = rows[0], rows[1]
-    va, vb = _num(first["yield_kg_ha"]), _num(second["yield_kg_ha"])
-    gap = round(va - vb, 1)
-    gap_pct = _change_pct(va, vb)
-    lead, trail = (first, second) if va >= vb else (second, first)
-
-    practices = []
-    for item in data.get("practice_series") or []:
-        left, right = _num(item["values"][0]), _num(item["values"][1])
-        if left is None or right is None:
-            continue
-        practices.append({"name": item["name"], "unit": item["unit"], "first": left, "second": right,
-                          "diff": round(left - right, 1),
-                          "leader": first["district"] if left >= right else second["district"]})
-
-    figures = {
-        "crop": crop,
-        "year": data.get("year"),
-        "season": data.get("season"),
-        "districts": [{"district": r["district"], "yield_kg_ha": _num(r["yield_kg_ha"]), "rank": r.get("rank"),
-                       "of": r.get("of"), "vs_national_pct": _num(r.get("vs_national_pct"))} for r in rows],
-        "yield_gap": abs(gap),
-        "yield_gap_pct": gap_pct,
-        "leader": lead["district"],
-        "trailing": trail["district"],
-        "practices": practices,
-        "leads": {first["district"]: sum(1 for x in practices if x["leader"] == first["district"]),
-                  second["district"]: sum(1 for x in practices if x["leader"] == second["district"])},
-    }
-
-    findings = [f"{lead['district']} yields {_n(_num(lead['yield_kg_ha']))} kg/ha of {crop.lower()} against "
-                f"{_n(_num(trail['yield_kg_ha']))} kg/ha in {trail['district']} ({_sign(gap_pct)}, a difference of "
-                f"{_n(abs(gap))} kg/ha) in {data.get('year')} Season {data.get('season')}."]
-    if first.get("rank") and second.get("rank"):
-        findings.append(f"They rank {first['rank']} and {second['rank']} of {first.get('of')} districts for this crop.")
-    if practices:
-        widest = max(practices, key=lambda x: abs(x["diff"]))
-        findings.append(f"{first['district']} leads on {figures['leads'][first['district']]} of {len(practices)} "
-                        f"practices, {second['district']} on {figures['leads'][second['district']]}.")
-        findings.append(f"The widest practice gap is {widest['name'].lower()}: {_n(widest['first'], 1)}% in "
-                        f"{first['district']} against {_n(widest['second'], 1)}% in {second['district']}.")
-    national = _num(first.get("national_yield"))
-    if national and first.get("vs_national_pct") is not None and second.get("vs_national_pct") is not None:
-        findings.append(f"Against the national average of {_n(national)} kg/ha, {first['district']} is "
-                        f"{_sign(_num(first.get('vs_national_pct')))} and {second['district']} "
-                        f"{_sign(_num(second.get('vs_national_pct')))}.")
-    return {"figures": figures, "findings": findings}
-
-
-def _analyse(p: dict, data: dict | None) -> dict:
-    if not data:
-        return {}
-    try:
-        if p["intent"] in ("chat", "overview"):
-            return _analyse_overview(data)
-        if p["intent"] == "districts":
-            return _analyse_districts(p, data)
-        if p["intent"] == "compare":
-            return _analyse_compare(p, data)
-        if p["intent"] == "trend":
-            return _analyse_trend(data)
-        if p["intent"] == "inputs":
-            return _analyse_inputs(p, data)
-        if p["intent"] == "gender":
-            return _analyse_gender(p, data)
-        if p["intent"] == "scenario":
-            return _analyse_scenario(data)
-        if p["intent"] == "priorities":
-            return _analyse_priorities(data)
-        if p["intent"] == "profile":
-            return _analyse_profile(data)
-    except (KeyError, TypeError, ValueError, ZeroDivisionError):
-        logger.warning("Could not derive analysis for %s", p.get("intent"), exc_info=True)
-    return {}
-
-
-# --- planning -----------------------------------------------------------------------------------------------------
-
-
-def _label(p: dict) -> str:
-    definition = INDICATORS.get(p.get("indicator_id") or "")
-    parts = [p["intent"], definition.name if definition else None, p.get("crop"), p.get("district")]
-    return " · ".join(str(x) for x in parts if x)
-
-
-def _public(p: dict) -> dict:
-    return {k: p.get(k) for k in ("intent", "indicator_id", "crop", "district", "districts", "year", "season", "inputs",
-                                  "ascending")}
-
-
-def _plan_prompt() -> str:
-    year, season = ind.latest_period()
-    indicators = "\n".join(
-        f"- {i.id}: {i.name} ({i.unit}){' [per crop]' if i.crop_specific else ''}" for i in INDICATORS.values())
-    return f"""You plan the data work for Analiza, an agricultural statistics assistant built on NISR surveys
-(Seasonal Agricultural Survey 2024-2025, seasons A/B/C; Agriculture Household Survey 2024).
-Read the conversation and the LATEST question, then return ONE JSON object:
-{{"focus": "one sentence restating exactly what the user wants answered, in their words",
- "steps": [{{"label": "what this step finds out",
-            "intent": one of {INTENTS},
-            "indicator_id": indicator id or null,
-            "crop": crop name from the list or null,
-            "district": district name from the list or null,
-            "districts": [district names] when the user compares several places,
-            "year": 2024 or 2025 or null,
-            "season": "A", "B", "C" or null,
-            "inputs": list from ["improved_seed","inorganic_fertilizer","organic_fertilizer","irrigated"],
-            "ascending": true when the user wants the lowest/worst values}}],
- "answer_plan": ["the point the answer must make, in order"]}}
-
-How many steps:
-- ONE step when the question asks for one thing ("which districts...", "does seed raise yield").
-- TWO or THREE steps only when the question really has several parts or one measure cannot answer it
-  ("compare maize and beans", "why is Huye behind", "yield trend and does seed explain it"). Each extra step must
-  add a different measure, crop, district or period. Never repeat the same query twice.
-- Never invent a place or a crop. If the user names one outside the lists below, use out_of_scope.
-
-Intents:
-- overview: Rwanda's agriculture as a whole ("tell me about Rwanda", "give me a summary")
-- districts: rank or compare districts on an indicator ("which districts...", "where is ... highest/lowest")
-- trend: change across seasons/years, nationally or for one district
-- inputs: whether/how much an input (seed, fertilizer, irrigation) raises yield
-- gender: female vs male farmers
-- scenario: what-if adoption of inputs in a district (model simulation)
-- priorities: where support or investment should go
-- compare: the user names two or more districts and wants them side by side ("compare Musanze and Nyagatare")
-- profile: anything about one district in general
-- chat: greetings or questions about Analiza/methods that need no numbers
-- out_of_scope: the question needs something these surveys do not measure (prices, costs, weather, forecasts,
-  machinery, other countries, years after 2025). Put what is missing in "label".
-
-Rules:
-- focus must state the actual question, not the topic.
-- Resolve follow-ups from the conversation ("and in Huye?" keeps the previous crop and intent).
-- Map crop synonyms: beans -> Bush bean, potato -> Irish potato, rice -> Paddy rice, banana -> Cooking banana.
-- Default period when not stated: {year} Season {season}.
-- answer_plan lists 1-4 points; the first must be the direct answer.
-
-Crops: {", ".join(store.manifest()["crops"])}
-Districts: {", ".join(sorted(store.district_provinces()))}
-Indicators:
-{indicators}"""
-
-
-def _validate(raw: dict, fallback: dict) -> dict:
-    crops = {c.lower(): c for c in store.manifest()["crops"]}
-    districts = {d.lower(): d for d in store.district_provinces()}
-    year, season = ind.latest_period()
-    p = dict(fallback)
-    if raw.get("intent") in INTENTS:
-        p["intent"] = raw["intent"]
-    if raw.get("indicator_id") in INDICATORS:
-        p["indicator_id"] = raw["indicator_id"]
-    crop_raw = str(raw.get("crop") or "").strip()
-    p["crop"] = (crops.get(crop_raw.lower()) or CROP_SYNONYMS.get(crop_raw.lower())
-                 or (fallback["crop"] if crop_raw else None))
-    if crop_raw and p["crop"] is None:
-        p["intent"], p["unknown"] = "out_of_scope", crop_raw
-
-    named = [str(x).strip() for x in raw.get("districts") or [] if str(x).strip()]
-    if raw.get("district"):
-        named.insert(0, str(raw["district"]).strip())
-    resolved: list[str] = []
-    for name in named:
-        match = districts.get(name.lower())
-        if match is None:
-            p["intent"], p["unknown"] = "out_of_scope", name
-            continue
-        if match not in resolved:
-            resolved.append(match)
-    p["districts"] = resolved
-    p["district"] = resolved[0] if resolved else None
-    p["year"] = raw["year"] if raw.get("year") in (2024, 2025) else year
-    p["season"] = raw["season"] if raw.get("season") in ("A", "B", "C") else season
-    p["inputs"] = [i for i in raw.get("inputs") or [] if i in INPUT_INDICATORS]
-    p["ascending"] = bool(raw.get("ascending"))
-    if p["intent"] == "inputs":
-        p["inputs"] = p["inputs"] or ["improved_seed"]
-        p["indicator_id"] = INPUT_INDICATORS[p["inputs"][0]]
-    if p["intent"] == "compare" and len(p["districts"]) < 2:
-        p["intent"] = "profile" if p["districts"] else "districts"
-    if p["intent"] == "profile" and not p["district"]:
-        p["intent"] = "districts"
-    return p
-
-
-def _plan_from(raw: dict, fallback: dict) -> dict:
-    steps: list[dict] = []
-    seen: set[tuple] = set()
-    for item in raw.get("steps") or []:
-        if not isinstance(item, dict) or len(steps) >= MAX_STEPS:
-            continue
-        step = _validate(item, fallback)
-        key = (step["intent"], step["indicator_id"], step["crop"], step["district"], step["year"], step["season"],
-               tuple(step["inputs"]))
-        if key in seen:
-            continue
-        seen.add(key)
-        step["label"] = str(item.get("label") or _label(step))[:160]
-        steps.append(step)
-    side_by_side = [s for s in steps if s["intent"] in ("profile", "districts") and len(s.get("districts") or []) == 1]
-    if len(side_by_side) >= 2:
-        merged = {**side_by_side[0], "intent": "compare",
-                  "districts": [s["districts"][0] for s in side_by_side],
-                  "district": side_by_side[0]["districts"][0],
-                  "label": "Side-by-side comparison of " + ", ".join(s["districts"][0] for s in side_by_side)}
-        steps = [merged] + [s for s in steps if s not in side_by_side]
-    if not steps:
-        steps = [{**fallback, "label": _label(fallback)}]
-    focus = str(raw.get("focus") or "").strip()[:400]
-    answer_plan = [str(x).strip()[:200] for x in raw.get("answer_plan") or [] if str(x).strip()][:4]
-    return {"focus": focus, "steps": steps, "answer_plan": answer_plan}
-
-
-# --- writer input -------------------------------------------------------------------------------------------------
-
-
-def _facts(p: dict, data: dict | None) -> dict | None:
-    """Compact version of the retrieved data for the writer model."""
-    if data is None:
-        return None
-    if p["intent"] in ("chat", "overview"):
-        return {"latest_period": f"{data['year']} Season {data['season']}", "kpis": data["kpis"], "crops": data["crops"]}
-    if p["intent"] == "districts":
-        return {k: data[k] for k in ("indicator", "crop", "year", "season", "national_value")} | {
-            "districts": [{"district": r["area"], "value": r["value"], "rank": r["rank"]} for r in data["districts"]]}
-    if p["intent"] == "priorities":
-        keep = ("district", "rank", "score", "yield_kg_ha", "improved_seed_pct", "inorganic_fertilizer_pct",
-                "extension_access_pct", "potential_gain_pct", "additional_production_t")
-        return {"crop": data["crop"], "period": f"{data['year']} Season {data['season']}", "method": data["method"],
-                "benchmark_yield_kg_ha": data["benchmark_yield_kg_ha"],
-                "top_districts": [{k: d[k] for k in keep} for d in data["districts"][:10]]}
-    if p["intent"] == "profile":
-        return {k: data[k] for k in ("district", "province", "year", "season", "indicators", "crop_yields")}
-    return data
-
-
-def _trim(value, keep: int):
-    if isinstance(value, dict):
-        return {k: _trim(v, keep) for k, v in value.items()}
-    if isinstance(value, list):
-        return [_trim(v, keep) for v in (value[:keep] if keep else [])]
-    return value
-
-
-def _payload(obj: dict, limit: int = 24000) -> str:
-    """Serialise the writer input, shrinking rows instead of cutting the JSON mid-string."""
-    text = json.dumps(obj, default=str)
-    for keep in (8, 4, 0):
-        if len(text) <= limit:
-            return text
-        for item in obj["results"]:
-            item["data"] = _trim(item.get("data"), keep)
-        text = json.dumps(obj, default=str)
-    for item in obj["results"]:
-        item.pop("data", None)
-        item.pop("draft", None)
-    text = json.dumps(obj, default=str)
-    if len(text) > limit:
-        obj["results"] = obj["results"][:1]
-        obj["results"][0].pop("analysis", None)
-        text = json.dumps(obj, default=str)
-    return text
-
-
-def _writer_input(question: str, plan: dict, results: list[dict]) -> dict:
-    year, season = ind.latest_period()
-    return {
-        "latest_period": f"{year} Season {season}",
-        "focus": plan.get("focus") or question,
-        "answer_plan": plan.get("answer_plan") or [],
-        "results": [{
-            "step": i + 1,
-            "purpose": r["step"].get("label"),
-            "query": _public(r["step"]),
-            "analysis": r["analysis"],
-            "data": _facts(r["step"], r["data"]),
-            "draft": r["draft"],
-        } for i, r in enumerate(results)],
-    }
-
-
-WRITER_PROMPT = """You are Analiza's agricultural data analyst. You receive LATEST QUESTION, FOCUS (what the user
-wants answered), PLAN and up to three RESULTS. Each result holds the QUERY that was run, DATA retrieved from NISR
-surveys, an ANALYSIS block of comparisons already computed for you (ranks, gaps, changes, ratios, adoption rates)
-and a rough DRAFT.
-
-How to answer:
-1. First sentence: answer FOCUS directly with the number, ranking or yes/no the user asked for.
-2. Answer every part of the question, in the order it was asked. If it names two crops, two districts or a yield
-   and an input, cover both.
-3. Use ANALYSIS to explain what the numbers mean (how big the gap is, who is behind, what changed and by how much).
-   Do not just restate a list of figures.
-4. Every number must come from DATA or ANALYSIS. Never invent, extrapolate or estimate a number that is not there;
-   if something is missing, say what is missing.
-5. Answer the LATEST QUESTION, not an earlier one from the conversation. Never answer a topic that was not asked.
-6. State the period (year and season) and name the crop or district the numbers refer to.
-7. COMPARISONS: when RESULTS cover two or more districts, answer for BOTH named places side by side - each one's
-   number, then the difference both in absolute terms and in %. Never answer only the first place, and never list
-   other districts instead.
-8. If the question needs something DATA and ANALYSIS do not contain (prices, costs, weather, forecasts, machinery,
-   other countries, years after 2025, a measure we do not publish), refuse in one or two sentences: say plainly
-   that the surveys do not cover it and name what you can answer instead. A refusal carries NO statistics, no other
-   crops and no other findings.
-
-Style: clear, friendly, plain English (reply in Kinyarwanda or French if the user writes in it); 3-6 short
-sentences or "- " bullets; kg/ha to whole numbers, percentages to one decimal; end with one practical sentence for
-a planner when it follows from the data. Input differences and model scenarios are associations, not proven causal
-effects. No headings, no tables, no markdown other than "- " bullets and **bold**."""
-
-
-def _fallback(results: list[dict]) -> str:
-    """Answer without an LLM: the rule-based draft plus the one computed comparison that adds new numbers."""
-    parts = []
-    for r in results:
-        draft = (r.get("draft") or "").strip()
-        if r["step"].get("intent") in ("chat", "out_of_scope"):
-            parts.append(draft)
-            continue
-        known = set(_NUMBER.findall(draft))
-        findings = (r.get("analysis") or {}).get("findings") or []
-        scored = [(len(set(_NUMBER.findall(f)) - known), f) for f in findings if f]
-        fresh = max(scored, key=lambda s: s[0])[1] if scored and max(s[0] for s in scored) > 0 else ""
-        parts.append(f"{draft} {fresh}".strip() if fresh else draft)
-    return "\n\n".join(p for p in parts if p)
-
-
-def answer(question: str, history: list[dict] | None = None) -> dict:
-    history = [m for m in (history or []) if m.get("role") in ("user", "assistant") and m.get("content")][-8:]
-
-    refusal = _scope_refusal(question)
-    if refusal:
-        year, season = ind.latest_period()
-        return {"question": question,
-                "parsed": {"intent": "out_of_scope", "indicator_id": None, "crop": None, "district": None,
-                           "districts": [], "year": year, "season": season, "inputs": [], "ascending": False},
-                "steps": [], "focus": question, "answer": refusal, "data": None, "analysis": {}, "ai": False}
-
-    rule = parse(question)
-    plan = {"focus": question.strip(), "steps": [{**rule, "label": _label(rule)}], "answer_plan": []}
-    ai = False
-
-    if llm_service.enabled():
-        try:
-            raw = llm_service.chat_json([{"role": "system", "content": _plan_prompt()}, *history,
-                                         {"role": "user", "content": question}])
-            plan = _plan_from(raw, rule)
-            ai = True
-        except llm_service.LLMError:
-            pass
-
-    results: list[dict] = []
-    for i, step in enumerate(plan["steps"]):
-        try:
-            draft, data = _run(step)
-            analysis = _analyse(step, data)
-        except ind.NotFoundError as exc:
-            draft, data, analysis = f"I couldn't find data for that: {exc}.", None, {}
-            if i == 0:
-                step = {**step, "intent": "chat"}
-        except Exception:  # a failed side step must not break the answer
-            if i == 0:
-                raise
-            logger.warning("Ask step failed: %s", step, exc_info=True)
-            continue
-        results.append({"step": step, "draft": draft, "data": data, "analysis": analysis})
-
-    plan["steps"] = [r["step"] for r in results] or plan["steps"]
-    text = _fallback(results)
-
-    if ai:
-        payload = _payload(_writer_input(question, plan, results))
-        try:
-            written = llm_service.chat(
-                [{"role": "system", "content": WRITER_PROMPT}, *history,
-                 {"role": "user", "content": f"LATEST QUESTION: {question}\n\nANALYSIS_DATA:\n{payload}"}],
-                temperature=0.3,
-            )
-            text = written.strip() or text
-        except llm_service.LLMError:
-            ai = False
-
-    first = results[0] if results else {"data": None, "analysis": {}}
     return {
         "question": question,
-        "parsed": plan["steps"][0],
-        "steps": [{**_public(r["step"]), "label": r["step"].get("label")} for r in results],
-        "focus": plan.get("focus") or question,
-        "answer": text.strip(),
-        "data": None if plan["steps"][0]["intent"] == "chat" else first["data"],
-        "analysis": first["analysis"],
-        "ai": ai,
+        "answer": "\n\n".join(r.parts),
+        "understood": understood,
+        "visuals": r.visuals,
+        "warnings": r.warnings,
+        "suggestions": r.suggestions[:3],
+        "engine": "Analiza NLP (scikit-learn)",
+        # Backwards-compatible summary used by older clients and tests.
+        "parsed": {"intent": intent, "crop": e.crops[0] if e.crops else None,
+                   "district": e.districts[0] if e.districts else None, "districts": e.districts,
+                   "indicator_id": e.indicator_id, "year": year, "season": season},
     }
