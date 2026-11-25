@@ -136,7 +136,6 @@ frontend/     React + TypeScript (Vite), Leaflet maps, Recharts
 
 1. Willy Norbert Irabaruta
 2. Niyonshimira Jean Marie
-3. Byiringiro Urbain Bobola
 
 
 Data: National Institute of Statistics of Rwanda (NISR). Please cite "NISR Seasonal Agricultural Survey 2024-2025
