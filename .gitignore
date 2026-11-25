@@ -5,6 +5,9 @@ __pycache__/
 .pytest_cache/
 .env
 *.log
+.freebuff
+.cloud-attachments
+
 
 # NISR microdata: do not redistribute raw survey files, link to the NISR portal instead
 backend/datasets/raw/

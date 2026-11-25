@@ -185,9 +185,31 @@ export interface ScenarioResult {
 export interface AskResponse {
   question: string
   answer: string
-  parsed: { intent: string; indicator_id: string; crop: string | null; district: string | null; year: number; season: Season }
+  parsed: {
+    intent: string; indicator_id: string | null; crop: string | null; district: string | null
+    districts?: string[]; year: number; season: Season
+  }
   data: unknown
   ai: boolean
+}
+
+export interface AskCompare {
+  crop: string
+  year: number
+  season: Season
+  districts: {
+    district: string
+    province: string
+    yield_kg_ha: number | null
+    national_yield: number | null
+    vs_national_pct: number | null
+    rank: number | null
+    of: number
+    n: number | null
+    low_reliability: boolean
+    practices: Record<string, number | null>
+  }[]
+  practice_series: { id: string; name: string; unit: string; values: (number | null)[] }[]
 }
 
 export interface AskStatus {

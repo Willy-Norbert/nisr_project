@@ -6,7 +6,7 @@ import { GroupedBars, RankingBars, SimpleBars, TrendChart, C } from '../componen
 import { Icon } from '../components/Icons'
 import type { IconName } from '../components/Icons'
 import { api } from '../lib/api'
-import type { AskResponse, AskStatus, DistrictComparison, DistrictProfile, InputEffect, Overview, Priorities, ScenarioResult, SeasonSeries } from '../lib/api'
+import type { AskCompare, AskResponse, AskStatus, DistrictComparison, DistrictProfile, InputEffect, Overview, Priorities, ScenarioResult, SeasonSeries } from '../lib/api'
 import { INPUT_LABELS, num, signed, valueWithUnit } from '../lib/format'
 import { useApi } from '../lib/useApi'
 
@@ -35,9 +35,10 @@ const EXAMPLES = [
 ]
 
 const INTENT_LABEL: Record<string, string> = {
-  districts: 'District ranking', trend: 'Trend over seasons', inputs: 'Input effect', gender: 'Gender comparison',
+  districts: 'District ranking', compare: 'District comparison', trend: 'Trend over seasons', inputs: 'Input effect',
+  gender: 'Gender comparison',
   scenario: 'Model scenario', priorities: 'Priority ranking', profile: 'District profile', chat: 'Conversation',
-  overview: 'National overview',
+  overview: 'National overview', out_of_scope: 'Outside our data',
 }
 
 export default function Explore() {
@@ -288,9 +289,14 @@ function RichText({ text }: { text: string }) {
 
 function BotMessage({ res, onAsk }: { res: AskResponse; onAsk: (q: string) => void }) {
   const p = res.parsed
-  const followUps = p.district
-    ? [`How has maize yield changed in ${p.district}?`, `What if farmers in ${p.district} used improved seed and fertilizer?`]
-    : p.crop ? [`Where should support be prioritised for ${p.crop.toLowerCase()}?`, `Does fertilizer increase ${p.crop.toLowerCase()} yield?`] : []
+  const maps = p.districts?.length ? p.districts : p.district ? [p.district] : []
+  const followUps = p.intent === 'out_of_scope'
+    ? EXAMPLES.slice(0, 3)
+    : p.intent === 'compare' && maps.length === 2
+      ? [`How has maize yield changed in ${maps[0]}?`, `What if farmers in ${maps[1]} used improved seed and fertilizer?`]
+      : p.district
+        ? [`How has maize yield changed in ${p.district}?`, `What if farmers in ${p.district} used improved seed and fertilizer?`]
+        : p.crop ? [`Where should support be prioritised for ${p.crop.toLowerCase()}?`, `Does fertilizer increase ${p.crop.toLowerCase()} yield?`] : []
   return (
     <div className="msg-bot">
       <span className="msg-avatar"><img src="/logo.png" alt="" /></span>
@@ -301,19 +307,30 @@ function BotMessage({ res, onAsk }: { res: AskResponse; onAsk: (q: string) => vo
             <div className="msg-meta">
               <span className="badge">{INTENT_LABEL[p.intent] ?? p.intent}</span>
               {p.crop && <span className="badge badge--muted">{p.crop}</span>}
-              {p.district && <span className="badge badge--muted">{p.district}</span>}
-              <span className="badge badge--muted">{p.year} Season {p.season}</span>
+              {maps.map((d) => <span key={d} className="badge badge--muted">{d}</span>)}
+              {p.intent !== 'out_of_scope' &&
+                <span className="badge badge--muted">{p.year} Season {p.season}</span>}
               {res.ai && <span className="badge badge--muted"><Icon name="sparkle" size={11} /> AI-written</span>}
             </div>
           )}
         </div>
-        {p.district && (
-          <div className="msg-visual card">
-            <div className="card-head"><h3>{p.district} District</h3>
-              <Link className="view-all" to={`/districts/${encodeURIComponent(p.district)}`}>Open district page <Icon name="chevronRight" size={14} /></Link></div>
-            <DistrictFocusMap district={p.district} height={280} />
+        {maps.length === 2 ? (
+          <div className="msg-visual msg-maps">
+            {maps.map((d) => (
+              <div key={d} className="card">
+                <div className="card-head"><h3>{d} District</h3>
+                  <Link className="view-all" to={`/districts/${encodeURIComponent(d)}`}>Open <Icon name="chevronRight" size={14} /></Link></div>
+                <DistrictFocusMap district={d} height={220} />
+              </div>
+            ))}
           </div>
-        )}
+        ) : maps.length === 1 ? (
+          <div className="msg-visual card">
+            <div className="card-head"><h3>{maps[0]} District</h3>
+              <Link className="view-all" to={`/districts/${encodeURIComponent(maps[0])}`}>Open district page <Icon name="chevronRight" size={14} /></Link></div>
+            <DistrictFocusMap district={maps[0]} height={280} />
+          </div>
+        ) : null}
         {res.data != null && <div className="msg-visual card card-pad"><Visual res={res} /></div>}
         {followUps.length > 0 && (
           <div className="chips">{followUps.map((q) => <button key={q} className="chip" onClick={() => onAsk(q)}>{q}</button>)}</div>
@@ -341,6 +358,39 @@ function Visual({ res }: { res: AskResponse }) {
         <h4 style={{ fontSize: 14, marginBottom: 4 }}>Main crop yields, {d.year} Season {d.season} (kg/ha)</h4>
         <SimpleBars unit="kg/ha" data={d.crops.map((c) => ({ name: c.crop, value: c.yield_kg_ha }))} />
         <Link className="view-all" to="/dashboard">Explore every district <Icon name="chevronRight" size={14} /></Link>
+      </>
+    )
+  }
+  if (intent === 'compare') {
+    const d = res.data as AskCompare
+    const two = d.districts.slice(0, 2)
+    if (two.length < 2) return <p className="empty">Not enough plot data to compare those districts.</p>
+    const labels = [two[0].district, two[1].district]
+    const yieldRows = two[0].yield_kg_ha != null && two[1].yield_kg_ha != null
+      ? [{ name: d.crop, first: two[0].yield_kg_ha, second: two[1].yield_kg_ha }] : []
+    const practiceRows = d.practice_series
+      .filter((s) => s.values[0] != null && s.values[1] != null)
+      .map((s) => ({ name: s.name, first: s.values[0] as number, second: s.values[1] as number }))
+    return (
+      <>
+        {yieldRows.length > 0 && (
+          <>
+            <h4 style={{ fontSize: 14, marginBottom: 4 }}>{d.crop} yield, {d.year} Season {d.season} (kg/ha)</h4>
+            <GroupedBars height={220} unit="kg/ha" keys={['first', 'second']} labels={labels}
+              colors={[C.blue, C.gold]} data={yieldRows} />
+          </>
+        )}
+        {practiceRows.length > 0 && (
+          <>
+            <h4 style={{ fontSize: 14, margin: '18px 0 4px' }}>Farm practices (% of plots or households)</h4>
+            <GroupedBars height={300} unit="%" keys={['first', 'second']} labels={labels}
+              colors={[C.blue, C.gold]} data={practiceRows} />
+          </>
+        )}
+        <p className="small muted">
+          {labels[0]}: rank {two[0].rank ?? '–'} of {two[0].of} · {labels[1]}: rank {two[1].rank ?? '–'} of {two[1].of}.
+          National average {num(two[0].national_yield)} kg/ha.
+        </p>
       </>
     )
   }
