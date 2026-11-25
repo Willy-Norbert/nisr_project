@@ -1,5 +1,5 @@
 import type { Insight } from '../lib/api'
-import { C, GroupedBars, RankingBars, ScatterPlot, SimpleBars } from './charts'
+import { C, DeviationBars, GroupedBars, RankingBars, ScatterPlot, SimpleBars } from './charts'
 
 type Row = Record<string, number | string>
 
@@ -30,11 +30,19 @@ export default function InsightVisual({ insight, compact = false }: { insight: I
         <SimpleBars height={h} unit="%" digits={1} color={C.gold}
           data={ev.slice(0, compact ? 6 : 10).map((r) => ({ name: String(r.district), value: Number(r.change_pct) }))} />
       )
-    case 'gender-gap':
+    case 'gender-gap': {
+      // Gap from equal yields (0 = women and men harvest the same); the national figure is the gold bar.
+      const rows = ev.map((r) => ({ name: String(r.area), value: Number(r.gap_pct), highlight: Boolean(r.national) }))
+      const data = compact ? [rows[0], ...rows.slice(1, 4), ...rows.slice(-3)] : rows
       return (
-        <GroupedBars height={h} unit="kg/ha" keys={['Female', 'Male']} labels={['Female farmers', 'Male farmers']}
-          colors={[C.gold, C.blue]} data={ev.slice(0, 1).map((r) => ({ name: 'Maize, Rwanda', Female: r.Female, Male: r.Male }))} />
+        <>
+          <DeviationBars unit="%" reference="Equal yields" data={data} />
+          <p className="small muted" style={{ marginTop: 4 }}>
+            Women's maize yield vs men's (% difference). Below zero: women's plots yield less. Gold bar: Rwanda.
+          </p>
+        </>
       )
+    }
     case 'extension-link':
       return (
         <ScatterPlot height={h} xLabel="Households with extension access" yLabel="Plots with inorganic fertilizer"

@@ -104,14 +104,23 @@ def _gender_gap(year: int, season: str) -> dict | None:
         return None
     r = data["rows"][0]
     direction = "lower" if r["gap_pct"] < 0 else "higher"
+    # Evidence for a deviation chart: national gap first, then every district with 30+ plots per group.
+    districts = comparison_service.gender(year, season, "Maize", "district")["rows"]
+    reliable = sorted((d for d in districts if d.get("gap_pct") not in ("", None) and not d.get("low_reliability")),
+                      key=lambda d: d["gap_pct"])
+    evidence = [{**r, "area": "Rwanda", "national": True}] + [
+        {"area": d["area"], "Female": d["Female"], "Male": d["Male"], "gap_pct": d["gap_pct"], "national": False}
+        for d in reliable]
+    behind = sum(1 for d in reliable if d["gap_pct"] < 0)
     return {
         "id": "gender-gap",
         "topic": "inclusion",
         "title": f"Female-managed maize plots yield {abs(r['gap_pct']):.0f}% {direction} than male-managed plots",
         "summary": f"Small-scale female farmers averaged {_fmt(r['Female'])} kg/ha of maize vs {_fmt(r['Male'])} kg/ha for male farmers "
-        f"in {year} Season {season}.",
-        "chart": "bar",
-        "evidence": data["rows"],
+        f"in {year} Season {season}. Women's plots trail men's in {behind} of {len(reliable)} districts with reliable "
+        f"samples (30+ plots).",
+        "chart": "deviation",
+        "evidence": evidence,
         "action": "Target extension, credit and input packages at women farmers to close the productivity gap.",
     }
 
