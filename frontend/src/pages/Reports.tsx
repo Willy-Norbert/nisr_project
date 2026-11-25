@@ -76,7 +76,7 @@ export default function Reports() {
       <PageHero crumb="Reports" title="Reports & downloads"
         lead="Generate an evidence summary for a planning meeting: key indicators, crop yields, priority districts and findings, ready to share." />
       <section className="section section--alt">
-        <div className="container grid" style={{ gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 1fr)' }}>
+        <div className="container grid reports-grid">
           <div className="card">
             <div className="card-head"><h3>Build your report</h3></div>
             <div className="card-body stack" style={{ gap: 18 }}>

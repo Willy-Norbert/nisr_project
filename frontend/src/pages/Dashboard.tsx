@@ -92,7 +92,7 @@ export default function Dashboard() {
             </Note>
           )}
 
-          <div className="grid" style={{ gridTemplateColumns: 'minmax(0, 1.5fr) minmax(0, 1fr)' }}>
+          <div className="grid dashboard-grid">
             <div className="card" style={{ overflow: 'hidden' }}>
               <div className="card-head">
                 <h3>{def?.name ?? 'Indicator'}{def && !household && effectiveCrop !== ALL ? ` · ${effectiveCrop}` : ''}</h3>

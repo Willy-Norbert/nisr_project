@@ -71,7 +71,7 @@ export default function Priorities() {
             )}
           </div>
 
-          <div className="grid" style={{ gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.4fr)' }}>
+          <div className="grid priorities-grid">
             <div className="card">
               <div className="card-head"><h3>Score weights</h3><button className="btn btn-outline btn-sm" onClick={() => setWeights(DEFAULT_WEIGHTS)}>Reset</button></div>
               <div className="card-body stack" style={{ gap: 16 }}>

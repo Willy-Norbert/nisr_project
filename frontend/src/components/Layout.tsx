@@ -20,15 +20,24 @@ export default function Layout() {
     window.scrollTo(0, 0)
   }, [pathname])
 
+  useEffect(() => {
+    if (!open) return
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [open])
+
   return (
     <div className="app">
       <header className="header">
         <div className="container">
           <Link to="/" aria-label="Analiza home" className="logo-link"><Logo /></Link>
-          <button className="nav-toggle" onClick={() => setOpen((o) => !o)} aria-label="Toggle menu">
+          <button className="nav-toggle" onClick={() => setOpen((o) => !o)} aria-label="Toggle menu" aria-expanded={open} aria-controls="primary-navigation">
             <Icon name="layers" />
           </button>
-          <nav className={`nav${open ? ' open' : ''}`}>
+          <nav id="primary-navigation" className={`nav${open ? ' open' : ''}`}>
             <NavLink to="/" end className="nav-link" aria-label="Home">
               <Icon name="home" size={16} />
               <span>Home</span>

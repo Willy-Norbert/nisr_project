@@ -40,7 +40,7 @@ export default function Simulator() {
       <section className="section section--alt" style={{ paddingTop: 28 }}>
         <div className="container">
           {options.error && <ErrorBox message={options.error} />}
-          <div className="grid" style={{ gridTemplateColumns: 'minmax(0, 0.9fr) minmax(0, 1.4fr)' }}>
+          <div className="grid simulator-grid">
             <div className="card">
               <div className="card-head"><h3>1. Choose a crop and place</h3></div>
               <div className="card-body stack" style={{ gap: 14 }}>
