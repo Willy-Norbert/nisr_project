@@ -26,7 +26,7 @@ const TOPICS: { label: string; icon: IconName; q: string }[] = [
 ]
 
 const CAPABILITIES = [
-  'Understands English, Kinyarwanda and French, and fixes typos like “mesanze”',
+  'Understands English, and fixes typos like “mesanze”',
   'Answers from official NISR surveys with maps and charts',
   'Remembers the topic, so “and in Huye?” just works',
 ]
