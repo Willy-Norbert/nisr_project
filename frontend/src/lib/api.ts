@@ -182,39 +182,43 @@ export interface ScenarioResult {
   note: string
 }
 
+export interface AskVisual {
+  kind: 'choropleth' | 'district_maps' | 'ranking' | 'bars' | 'simple_bars' | 'trend' | 'inputs' | 'gender' | 'scenario'
+    | 'priorities' | 'profile' | 'overview'
+  title: string | null
+  [key: string]: unknown
+}
+
+export interface AskUnderstood {
+  intent: string
+  intent_label: string
+  confidence: number
+  crops: string[]
+  districts: string[]
+  provinces: string[]
+  indicator_id: string | null
+  indicator: string | null
+  inputs: string[]
+  year: number
+  season: Season
+  corrections: { typed: string; understood: string; kind: 'typo' | 'translation' }[]
+  assumptions: string[]
+}
+
 export interface AskResponse {
   question: string
   answer: string
-  parsed: {
-    intent: string; indicator_id: string | null; crop: string | null; district: string | null
-    districts?: string[]; year: number; season: Season
-  }
-  data: unknown
-  ai: boolean
-}
-
-export interface AskCompare {
-  crop: string
-  year: number
-  season: Season
-  districts: {
-    district: string
-    province: string
-    yield_kg_ha: number | null
-    national_yield: number | null
-    vs_national_pct: number | null
-    rank: number | null
-    of: number
-    n: number | null
-    low_reliability: boolean
-    practices: Record<string, number | null>
-  }[]
-  practice_series: { id: string; name: string; unit: string; values: (number | null)[] }[]
+  understood: AskUnderstood
+  visuals: AskVisual[]
+  warnings: string[]
+  suggestions: string[]
+  engine: string
 }
 
 export interface AskStatus {
-  ai_enabled: boolean
-  model: string | null
+  engine: string
+  external_ai: boolean
+  classifier: { algorithm?: string; test_accuracy?: number; training_examples?: number; intents?: number }
 }
 
 export interface GeoFeatureProps {

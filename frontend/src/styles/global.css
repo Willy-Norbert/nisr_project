@@ -3367,3 +3367,14 @@ main { flex: 1; }
     grid-template-columns: 1fr;
   }
 }
+
+/* Ask page: assumptions and data-quality notes under an answer */
+.msg-notes { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border); display: grid; gap: 4px; }
+.msg-notes p { margin: 0; line-height: 1.5; }
+.msg-notes svg { vertical-align: -1px; margin-right: 4px; }
+.chat-app.dark-theme .msg-answer { background: #13233a; color: #e2e8f0; box-shadow: none; }
+.chat-app.dark-theme .msg-answer strong { color: #ffffff; }
+.chat-app.dark-theme .msg-answer .muted { color: #94a3b8; }
+.chat-app.dark-theme .msg-notes { border-top-color: rgba(255, 255, 255, 0.15); }
+.chat-app.dark-theme .msg-notes p[style] { color: #fcd34d !important; }
+.chat-app.dark-theme .msg-visual .muted, .chat-app.dark-theme .msg-visual .map-card { color: #5d6d7e; }

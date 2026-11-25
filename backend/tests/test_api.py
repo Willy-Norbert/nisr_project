@@ -80,21 +80,51 @@ def test_scenario():
 @pytest.mark.parametrize(
     "question,intent",
     [
-        ("Which districts have the highest maize yield?", "districts"),
+        ("Which districts have the highest maize yield?", "ranking"),
         ("How has bean yield changed across seasons?", "trend"),
-        ("Does improved seed increase maize yield?", "inputs"),
+        ("Does improved seed increase maize yield?", "input_effect"),
         ("What if farmers in Nyagatare used improved seed and fertilizer for maize?", "scenario"),
         ("Where should support be prioritised for Irish potato?", "priorities"),
         ("Compare women and men farmers' maize yields", "gender"),
         ("Show me Musanze district", "profile"),
-        ("Which districts have the lowest extension access?", "districts"),
+        ("Which districts have the lowest extension access?", "ranking"),
+        ("mesanze beans", "crop_in_district"),
+        ("how is maize planted in musanze", "practices"),
+        ("compare how maize is planted in musanze and nyagatare", "compare"),
+        ("why is musanze behind nyagatare in maize?", "why_gap"),
+        ("which crops grow best in Huye?", "best_crops"),
+        ("tell me about Rwanda", "overview"),
+        ("muraho", "greeting"),
+        ("what can you do?", "help"),
+        ("what is the price of maize?", "out_of_scope"),
+        ("maize yield in Kenya", "out_of_scope"),
     ],
 )
 def test_ask(question, intent):
     response = client.post(API + "/ask", json={"question": question})
     assert response.status_code == 200, response.text
     body = response.json()
-    assert body["parsed"]["intent"] == intent and body["answer"]
+    assert body["understood"]["intent"] == intent, body["understood"]
+    assert body["answer"] and body["parsed"]["intent"] == intent
+
+
+def test_ask_typos_and_visuals():
+    body = client.post(API + "/ask", json={"question": "mesanze beans"}).json()
+    assert body["understood"]["districts"] == ["Musanze"]
+    assert {"typed": "mesanze", "understood": "Musanze", "kind": "typo"} in body["understood"]["corrections"]
+    assert any(v["kind"] == "district_maps" for v in body["visuals"])
+
+
+def test_ask_follow_up_keeps_topic():
+    first = client.post(API + "/ask", json={"question": "maize in Musanze"}).json()
+    follow = client.post(API + "/ask", json={"question": "and in Huye?", "context": first["understood"]}).json()
+    assert follow["understood"]["intent"] == "crop_in_district"
+    assert follow["understood"]["districts"] == ["Huye"] and follow["understood"]["crops"] == ["Maize"]
+
+
+def test_ask_numbers_come_from_data():
+    body = client.post(API + "/ask", json={"question": "maize in Nyagatare 2025 season A"}).json()
+    assert "3,074 kg/ha" in body["answer"]
 
 
 @pytest.mark.parametrize("fmt,media", [("pdf", "application/pdf"), ("csv", "text/csv")])
